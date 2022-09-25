@@ -23,7 +23,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/" render={() => <div>Home</div>} />
-          <Route exact component={Dashboard} path="/articles" />
+          <Route exact component={Dashboard} path="/dashboard" />
         </Switch>
       </Router>
     </div>
