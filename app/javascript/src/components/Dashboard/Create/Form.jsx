@@ -1,6 +1,5 @@
 import React from "react";
 
-import { logger } from "@rails/actioncable";
 import { Formik, Form } from "formik";
 import { Button } from "neetoui";
 import { Input, Textarea } from "neetoui/formik";
@@ -12,7 +11,8 @@ const ArticleForm = () => {
     try {
       await articlesApi.create(values);
     } catch (err) {
-      logger.error(err);
+      // eslint-disable-next-line no-console
+      console.log(err);
     }
   };
 
