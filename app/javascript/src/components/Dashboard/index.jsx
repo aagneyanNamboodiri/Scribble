@@ -33,7 +33,7 @@ const Dashboard = () => {
         <SideMenu />
         <Container>
           <Header
-            actionBlock={<Button label="Primary Action" />}
+            actionBlock={<Button label="Create new article" to="/create" />}
             searchProps={{
               onChange: function noRefCheck() {},
               value: "",
