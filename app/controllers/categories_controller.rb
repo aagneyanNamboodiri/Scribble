@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
-  before_action :load_category!, except: %i[index]
+  before_action :load_category!, except: %i[index create]
 
   def index
     @categories = Category.all
@@ -10,17 +10,17 @@ class CategoriesController < ApplicationController
   def create
     category = Category.new(category_params)
     category.save!
-    respond_with_success("Category was successfully created")
+    respond_with_success("Category " + t("successfully_created"))
   end
 
   def destroy
     @category.destroy!
-    respond_with_success("Category was successfully deleted!")
+    respond_with_success("Category " + t("successfully_destroyed"))
   end
 
   def update
     @category.update!(category_params)
-    respond_with_success("Category was successfully updated!")
+    respond_with_success("Category " + t("successfully_updated"))
   end
 
   private

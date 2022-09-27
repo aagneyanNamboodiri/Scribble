@@ -30,4 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  successfully_created: " was successfully created!"
+  successfully_destroyed: " was successfully deleted!"
+  successfully_updated: " was successfully updated!"
+  task:
+    slug:
+      immutable: "is immutable!"
