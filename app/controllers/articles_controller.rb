@@ -2,8 +2,7 @@
 
 class ArticlesController < ApplicationController
   def index
-    articles = Article.all
-    render status: :ok, json: { articles: articles }
+    @articles = Article.all
   end
 
   def create
@@ -13,8 +12,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article = Article.find_by!(slug: params[:slug])
-    respond_with_json({ article: article })
+    @article = Article.find_by!(slug: params[:slug])
   end
 
   private
