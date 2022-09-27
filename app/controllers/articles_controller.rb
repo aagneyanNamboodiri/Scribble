@@ -12,6 +12,11 @@ class ArticlesController < ApplicationController
     respond_with_success("Article was successfully created")
   end
 
+  def show
+    article = Article.find_by!(slug: params[:slug])
+    respond_with_json({ article: article })
+  end
+
   private
 
     def article_params
