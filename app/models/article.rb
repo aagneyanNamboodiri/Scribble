@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
+  enum status: { published: "published", draft: "draft" }
   MAX_TITLE_LENGTH = 200
   MAX_BODY_LENGTH = 5000
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
-  validates :title, presence: true, length: { maximum: MAX_BODY_LENGTH }
+  validates :body, presence: true, length: { maximum: MAX_BODY_LENGTH }
   validates :slug, uniqueness: true
   validate :slug_not_changed
 
   before_create :set_slug
   belongs_to :assigned_category, class_name: "Category"
+  belongs_to :user
 
   private
 
