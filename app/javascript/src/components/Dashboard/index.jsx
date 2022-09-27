@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Button, Typography, Table } from "neetoui";
+import { Button, Typography, Table, PageLoader } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
 
 import articlesApi from "apis/articles";
@@ -11,20 +11,32 @@ import SideMenu from "./SideMenu";
 
 const Dashboard = () => {
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const fetchTasks = async () => {
+  const fetchArticles = async () => {
     try {
+      setLoading(true);
       const {
         data: { articles },
       } = await articlesApi.list();
       setArticles(articles);
     } catch (error) {
       logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
-    fetchTasks();
+    fetchArticles();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -33,7 +45,7 @@ const Dashboard = () => {
         <SideMenu />
         <Container>
           <Header
-            actionBlock={<Button label="Primary Action" />}
+            actionBlock={<Button label="Create new article" to="/create" />}
             searchProps={{
               onChange: function noRefCheck() {},
               value: "",

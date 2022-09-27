@@ -6,6 +6,7 @@ import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 
 import Dashboard from "./components/Dashboard";
+import Create from "./components/Dashboard/Create";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -22,8 +23,9 @@ const App = () => {
     <div>
       <Router>
         <Switch>
-          <Route exact path="/" render={() => <div>Home</div>} />
+          <Route exact component={Dashboard} path="/" />
           <Route exact component={Dashboard} path="/dashboard" />
+          <Route exact component={Create} path="/create" />
         </Switch>
       </Router>
     </div>
