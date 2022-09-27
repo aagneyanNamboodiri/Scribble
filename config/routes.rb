@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   resources :articles, except: %i[new edit], param: :slug, defaults: { format: "json" }
-  resources :categories, only: %i[index create], defaults: { format: "json" }
+  resources :categories, except: %i[show new edit], defaults: { format: "json" }
 
   root "home#index"
   get "*path", to: "home#index", via: :all
