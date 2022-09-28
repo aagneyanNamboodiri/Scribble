@@ -9,13 +9,17 @@ class CategoriesController < ApplicationController
   def create
     category = Category.new(category_params)
     category.save!
-    respond_with_success("Category " + t("successfully_created"))
+    respond_with_success(t("successfully_created", entity: "Category"))
   end
 
   def destroy
+    articles_with_deletion_category = Article.where(assigned_category_id: params[:id])
+    if Category.count == 1
+      Category.create!(params[:new_cat])
+    end
+
     if params[:new] != nil
       new_category = Category.find(params[:new])
-      articles_with_deletion_category = Article.where(assigned_category_id: params[:id])
       articles_with_deletion_category.each do |article|
         article.assigned_category_id = new_category.id
         article.save!
@@ -23,12 +27,12 @@ class CategoriesController < ApplicationController
     end
 
     @category.destroy!
-    respond_with_success("Category " + t("successfully_destroyed"))
+    respond_with_success(t("successfully_destroyed", entity: "Category")
   end
 
   def update
     @category.update!(category_params)
-    respond_with_success("Category " + t("successfully_updated"))
+    respond_with_success(t("successfully_updated", entity: "Category"))
   end
 
   private

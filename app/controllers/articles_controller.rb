@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
 
   def create
     @user.articles.create!(article_params)
-    respond_with_success("Article " + t("successfully_created"))
+    respond_with_success(t("successfully_created", entity: "Article"))
   end
 
   def show
@@ -17,12 +17,12 @@ class ArticlesController < ApplicationController
 
   def update
     @article.update!(article_params)
-    respond_with_success("Article " + t("successfully_updated"))
+    respond_with_success(t("successfully_updated", entity: "Article"))
   end
 
   def destroy
     @article.destroy!
-    respond_with_success("Article " + t("successfully_destroyed"))
+    respond_with_success(t("successfully_destroyed", entity: "Article"))
   end
 
   private
