@@ -10,7 +10,7 @@ class Article < ApplicationRecord
   validate :slug_not_changed
 
   before_create :set_slug
-  belongs_to :assigned_category, class_name: "Category"
+  belongs_to :assigned_category, class_name: "Category", counter_cache: true
   belongs_to :user
 
   private

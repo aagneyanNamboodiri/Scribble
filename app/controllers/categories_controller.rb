@@ -27,7 +27,7 @@ class CategoriesController < ApplicationController
     end
 
     @category.destroy!
-    respond_with_success(t("successfully_destroyed", entity: "Category")
+    respond_with_success(t("successfully_destroyed", entity: "Category"))
   end
 
   def update
