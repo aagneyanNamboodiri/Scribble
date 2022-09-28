@@ -2,7 +2,6 @@
 
 class CategoriesController < ApplicationController
   before_action :load_category!, except: %i[index create]
-
   def index
     @categories = Category.all
   end
@@ -14,6 +13,12 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
+    @new_category = Category.find(params[:new ])
+    articles_with_category = Article.where(assigned_category_id: params[:id])
+    articles_with_category.each do |article_with_category|
+      article_with_category.assigned_category_id = @new_category.id
+      article_with_category.save!
+    end
     @category.destroy!
     respond_with_success("Category " + t("successfully_destroyed"))
   end
