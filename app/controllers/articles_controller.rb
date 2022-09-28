@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
 
   def create
     @user.articles.create!(article_params)
-    respond_with_success("Article was successfully created")
+    respond_with_success("Article " + t("successfully_created"))
   end
 
   def show
@@ -17,12 +17,12 @@ class ArticlesController < ApplicationController
 
   def update
     @article.update!(article_params)
-    respond_with_success("Task was successfully updated!")
+    respond_with_success("Article " + t("successfully_updated"))
   end
 
   def destroy
     @article.destroy!
-    respond_with_success("Article was successfully deleted!")
+    respond_with_success("Article " + t("successfully_destroyed"))
   end
 
   private
