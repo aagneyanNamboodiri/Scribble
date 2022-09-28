@@ -13,6 +13,14 @@ class Article < ApplicationRecord
   belongs_to :assigned_category, class_name: "Category", counter_cache: true
   belongs_to :user
 
+  def self.switch_article_category (from_category, to_category)
+    articles_with_from_category = Article.where(assigned_category_id: from_category)
+    articles_with_from_category.each do |article|
+      article.assigned_category_id = to_category
+      article.save!
+    end
+  end
+
   private
 
     def set_slug

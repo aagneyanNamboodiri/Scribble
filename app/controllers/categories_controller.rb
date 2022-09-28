@@ -13,19 +13,7 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    articles_with_deletion_category = Article.where(assigned_category_id: params[:id])
-    if Category.count == 1
-      Category.create!(params[:new_cat])
-    end
-
-    if params[:new] != nil
-      new_category = Category.find(params[:new])
-      articles_with_deletion_category.each do |article|
-        article.assigned_category_id = new_category.id
-        article.save!
-      end
-    end
-
+    Article.switch_article_category(params[:id], params[:new])
     @category.destroy!
     respond_with_success(t("successfully_destroyed", entity: "Category"))
   end
