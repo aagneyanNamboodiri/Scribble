@@ -4,21 +4,37 @@ import { Plus, Search } from "neetoicons";
 import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
-const SideMenu = ({ articles, categories }) => {
+const SideMenu = ({
+  articles,
+  categories,
+  setArticleCategory,
+  articleCategory,
+  setArticleStatus,
+  articleStatus,
+}) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
 
   return (
     <MenuBar showMenu title="Articles">
-      <MenuBar.Block active count={articles.length} label="All" />
       <MenuBar.Block
-        count={articles.filter(article => article.status === "draft").length}
-        label="Drafts"
+        active={articleStatus === "all"}
+        count={articles.length}
+        label="All"
+        onClick={() => setArticleStatus("all")}
       />
       <MenuBar.Block
+        active={articleStatus === "draft"}
+        count={articles.filter(article => article.status === "draft").length}
+        label="Drafts"
+        onClick={() => setArticleStatus("draft")}
+      />
+      <MenuBar.Block
+        active={articleStatus === "published"}
         label="Published"
         count={
           articles.filter(article => article.status === "published").length
         }
+        onClick={() => setArticleStatus("published")}
       />
       <MenuBar.SubTitle
         iconProps={[
@@ -47,9 +63,11 @@ const SideMenu = ({ articles, categories }) => {
       />
       {categories.map(category => (
         <MenuBar.Block
+          active={articleCategory === category.id}
           count={category.articles_count || 0}
           key={category.id}
           label={category.name}
+          onClick={() => setArticleCategory(category.id)}
         />
       ))}
     </MenuBar>

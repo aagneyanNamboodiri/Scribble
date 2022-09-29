@@ -8,5 +8,6 @@ json.articles @articles do |article|
     :body,
     :created_at,
     :user_id,
-    :status
+    :status,
+    :assigned_category_id
 end

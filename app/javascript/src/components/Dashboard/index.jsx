@@ -14,6 +14,26 @@ const Dashboard = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [articleCategory, setArticleCategory] = useState(0);
+  const [articleStatus, setArticleStatus] = useState("all");
+
+  const filterRowData = () => {
+    if (articleCategory === 0 && articleStatus === "all") return articles;
+
+    if (articleCategory !== 0 && articleStatus === "all") {
+      return articles.filter(
+        article => article.assigned_category_id === articleCategory
+      );
+    }
+
+    if (articleCategory === 0 && articleStatus !== "all") {
+      return articles.filter(article => article.status === articleStatus);
+    }
+
+    return articles
+      .filter(article => article.assigned_category_id === articleCategory)
+      .filter(article => article.status === articleStatus);
+  };
 
   const fetchArticles = async () => {
     try {
@@ -58,7 +78,14 @@ const Dashboard = () => {
     <>
       <Navbar />
       <div className="flex">
-        <SideMenu articles={articles} categories={categories} />
+        <SideMenu
+          articleCategory={articleCategory}
+          articleStatus={articleStatus}
+          articles={articles}
+          categories={categories}
+          setArticleCategory={setArticleCategory}
+          setArticleStatus={setArticleStatus}
+        />
         <Container>
           <Header
             actionBlock={<Button label="Create new article" to="/create" />}
@@ -73,7 +100,9 @@ const Dashboard = () => {
           </Typography>
           <p>Articles : {JSON.stringify(articles)}</p>;
           <p>Categories : {JSON.stringify(categories)}</p>
-          <Table columnData={COLUMN_DATA} rowData={articles} />
+          <p>Category ID : {articleCategory}</p>
+          <p>Status : {articleStatus}</p>
+          <Table columnData={COLUMN_DATA} rowData={filterRowData()} />
         </Container>
       </div>
     </>
