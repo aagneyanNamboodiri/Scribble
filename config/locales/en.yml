@@ -30,9 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  successfully_created: " was successfully created!"
-  successfully_destroyed: " was successfully deleted!"
-  successfully_updated: " was successfully updated!"
+  successfully_created: "%{entity} was successfully created!"
+  successfully_destroyed: "%{entity} was successfully deleted!"
+  successfully_updated: "%{entity} was successfully updated!"
   task:
     slug:
       immutable: "is immutable!"

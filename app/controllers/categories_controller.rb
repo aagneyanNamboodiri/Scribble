@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
+  include CategorySwitchable
   before_action :load_category!, except: %i[index create]
   def index
     @categories = Category.all
@@ -9,26 +10,18 @@ class CategoriesController < ApplicationController
   def create
     category = Category.new(category_params)
     category.save!
-    respond_with_success("Category " + t("successfully_created"))
+    respond_with_success(t("successfully_created", entity: "Category"))
   end
 
   def destroy
-    if params[:new] != nil
-      new_category = Category.find(params[:new])
-      articles_with_deletion_category = Article.where(assigned_category_id: params[:id])
-      articles_with_deletion_category.each do |article|
-        article.assigned_category_id = new_category.id
-        article.save!
-      end
-    end
-
+    switch_article_category(params[:id], params[:new_category])
     @category.destroy!
-    respond_with_success("Category " + t("successfully_destroyed"))
+    respond_with_success(t("successfully_destroyed", entity: "Category"))
   end
 
   def update
     @category.update!(category_params)
-    respond_with_success("Category " + t("successfully_updated"))
+    respond_with_success(t("successfully_updated", entity: "Category"))
   end
 
   private
