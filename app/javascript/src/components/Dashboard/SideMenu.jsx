@@ -1,13 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { Plus, Search } from "neetoicons";
+import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
-const SideMenu = () => (
-  <MenuBar showMenu title="Articles">
-    <MenuBar.Block active count={13} label="All" />
-    <MenuBar.Block count={2} label="Drafts" />
-    <MenuBar.Block count={7} label="Published" />
-  </MenuBar>
-);
+const SideMenu = ({
+  articles,
+  categories,
+  setArticleCategory,
+  articleCategory,
+  setArticleStatus,
+  articleStatus,
+}) => {
+  const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
+
+  return (
+    <MenuBar showMenu title="Articles">
+      <MenuBar.Block
+        active={articleStatus === "all"}
+        count={articles.length}
+        label="All"
+        onClick={() => setArticleStatus("all")}
+      />
+      <MenuBar.Block
+        active={articleStatus === "draft"}
+        count={articles.filter(article => article.status === "draft").length}
+        label="Drafts"
+        onClick={() => setArticleStatus("draft")}
+      />
+      <MenuBar.Block
+        active={articleStatus === "published"}
+        label="Published"
+        count={
+          articles.filter(article => article.status === "published").length
+        }
+        onClick={() => setArticleStatus("published")}
+      />
+      <MenuBar.SubTitle
+        iconProps={[
+          {
+            icon: Search,
+            onClick: () =>
+              setIsSearchCollapsed(isSearchCollapsed => !isSearchCollapsed),
+          },
+          {
+            icon: Plus,
+          },
+        ]}
+      >
+        <Typography
+          component="h4"
+          style="h5"
+          textTransform="uppercase"
+          weight="bold"
+        >
+          Categories
+        </Typography>
+      </MenuBar.SubTitle>
+      <MenuBar.Search
+        collapse={isSearchCollapsed}
+        onCollapse={() => setIsSearchCollapsed(true)}
+      />
+      {categories.map(category => (
+        <MenuBar.Block
+          active={articleCategory === category.id}
+          count={category.articles_count || 0}
+          key={category.id}
+          label={category.name}
+          onClick={() => setArticleCategory(category.id)}
+        />
+      ))}
+    </MenuBar>
+  );
+};
 
 export default SideMenu;
