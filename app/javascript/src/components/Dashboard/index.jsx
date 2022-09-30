@@ -6,6 +6,7 @@ import { Header, Container } from "neetoui/layouts";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
+import ColumnDropdown from "./ColumnDropdown";
 import { COLUMN_DATA } from "./constants";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
@@ -88,7 +89,12 @@ const Dashboard = () => {
         />
         <Container>
           <Header
-            actionBlock={<Button label="Create new article" to="/create" />}
+            actionBlock={
+              <>
+                <ColumnDropdown categories={categories} />
+                <Button label="Create new article" to="/create" />
+              </>
+            }
             searchProps={{
               onChange: function noRefCheck() {},
               value: "",

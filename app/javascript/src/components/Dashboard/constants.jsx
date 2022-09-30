@@ -3,13 +3,15 @@ import React from "react";
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
 
+import { formatTime } from "./utils";
+
 export const COLUMN_DATA = [
   {
     dataIndex: "title",
     key: "title",
     title: "Title",
     render: title => (
-      <Typography className="text-indigo-500" type="body3">
+      <Typography className="text-indigo-500" style="body2">
         {title}
       </Typography>
     ),
@@ -18,6 +20,9 @@ export const COLUMN_DATA = [
     dataIndex: "created_at",
     key: "created_at",
     title: "Date",
+    render: created_at => (
+      <Typography style="body2">{formatTime(created_at)}</Typography>
+    ),
   },
   {
     dataIndex: "user_name",
