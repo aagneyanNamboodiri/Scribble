@@ -14,19 +14,19 @@ const Dashboard = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [articleCategory, setArticleCategory] = useState(0);
+  const [articleCategory, setArticleCategory] = useState("");
   const [articleStatus, setArticleStatus] = useState("all");
 
   const filterRowData = () => {
-    if (articleCategory === 0 && articleStatus === "all") return articles;
+    if (articleCategory === "" && articleStatus === "all") return articles;
 
-    if (articleCategory !== 0 && articleStatus === "all") {
+    if (articleCategory !== "" && articleStatus === "all") {
       return articles.filter(
         article => article.assigned_category_id === articleCategory
       );
     }
 
-    if (articleCategory === 0 && articleStatus !== "all") {
+    if (articleCategory === "" && articleStatus !== "all") {
       return articles.filter(article => article.status === articleStatus);
     }
 
