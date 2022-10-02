@@ -7,7 +7,7 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import ColumnDropdown from "./ColumnDropdown";
-import { COLUMN_DATA } from "./constants";
+import { COLUMN_DATA, initialColumnsList } from "./constants";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 
@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [articleCategory, setArticleCategory] = useState("");
   const [articleStatus, setArticleStatus] = useState("all");
+  const [columnList, setColumnList] = useState(initialColumnsList);
 
   const filterRowData = () => {
     if (articleCategory === "" && articleStatus === "all") return articles;
@@ -36,6 +37,8 @@ const Dashboard = () => {
       .filter(article => article.status === articleStatus);
   };
 
+  const filterColumnData = () =>
+    COLUMN_DATA.filter(column => columnList[column.key] === true);
   const fetchArticles = async () => {
     try {
       setLoading(true);
@@ -91,7 +94,10 @@ const Dashboard = () => {
           <Header
             actionBlock={
               <>
-                <ColumnDropdown categories={categories} />
+                <ColumnDropdown
+                  columnList={columnList}
+                  setColumnList={setColumnList}
+                />
                 <Button label="Create new article" to="/create" />
               </>
             }
@@ -108,7 +114,8 @@ const Dashboard = () => {
           <p>Categories : {JSON.stringify(categories)}</p>
           <p>Category ID : {articleCategory}</p>
           <p>Status : {articleStatus}</p>
-          <Table columnData={COLUMN_DATA} rowData={filterRowData()} />
+          <p>Columns: {JSON.stringify(columnList)}</p>
+          <Table columnData={filterColumnData()} rowData={filterRowData()} />
         </Container>
       </div>
     </>

@@ -2,9 +2,16 @@ import React from "react";
 
 import { Dropdown, Checkbox } from "neetoui";
 
-const ColumnDropdown = () => {
+const ColumnDropdown = ({ columnList, setColumnList }) => {
   const { Menu, MenuItem } = Dropdown;
-  const columnList = ["Title", "Date", "Author", "Status", "Category"];
+  const columns = Object.keys(columnList);
+
+  const handleChange = item => {
+    setColumnList(prev => ({
+      ...prev,
+      [item]: !prev[item],
+    }));
+  };
 
   return (
     <Dropdown
@@ -14,14 +21,14 @@ const ColumnDropdown = () => {
       closeOnSelect={false}
     >
       <Menu className="space-y-2">
-        {columnList.map((item, idx) => (
+        {columns.map((item, idx) => (
           <MenuItem.Button key={item}>
             <Checkbox
-              checked={false}
+              checked={columnList[item]}
               id="Column Dropdown"
               key={idx}
               label={item}
-              onChange={function noRefCheck() {}}
+              onChange={() => handleChange(item)}
             />
           </MenuItem.Button>
         ))}

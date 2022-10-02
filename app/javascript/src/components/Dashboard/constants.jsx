@@ -8,7 +8,7 @@ import { formatTime } from "./utils";
 export const COLUMN_DATA = [
   {
     dataIndex: "title",
-    key: "title",
+    key: "Title",
     title: "Title",
     render: title => (
       <Typography className="text-indigo-500" style="body2">
@@ -18,7 +18,7 @@ export const COLUMN_DATA = [
   },
   {
     dataIndex: "created_at",
-    key: "created_at",
+    key: "Date",
     title: "Date",
     render: created_at => (
       <Typography style="body2">{formatTime(created_at)}</Typography>
@@ -26,17 +26,17 @@ export const COLUMN_DATA = [
   },
   {
     dataIndex: "user_name",
-    key: "author",
+    key: "Author",
     title: "Author",
   },
   {
     dataIndex: "category_name",
-    key: "category",
+    key: "Category",
     title: "Category",
   },
   {
     dataIndex: "status",
-    key: "status",
+    key: "Status",
     title: "Status",
   },
   {
@@ -49,3 +49,8 @@ export const COLUMN_DATA = [
     ),
   },
 ];
+
+export const initialColumnsList = COLUMN_DATA.map(column => column.key).reduce(
+  (accumulator, value) => ({ ...accumulator, [value]: true }),
+  {}
+);
