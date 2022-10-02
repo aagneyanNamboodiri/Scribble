@@ -63,11 +63,11 @@ const SideMenu = ({
       />
       {categories.map(category => (
         <MenuBar.Block
-          active={articleCategory === category.id}
+          active={articleCategory === category.name}
           count={category.articles_count || 0}
           key={category.id}
           label={category.name}
-          onClick={() => setArticleCategory(category.id)}
+          onClick={() => setArticleCategory(category.name)}
         />
       ))}
     </MenuBar>

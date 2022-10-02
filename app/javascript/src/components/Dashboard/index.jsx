@@ -24,7 +24,7 @@ const Dashboard = () => {
 
     if (articleCategory !== "" && articleStatus === "all") {
       return articles.filter(
-        article => article.assigned_category_id === articleCategory
+        article => article.category_name === articleCategory
       );
     }
 
@@ -33,7 +33,7 @@ const Dashboard = () => {
     }
 
     return articles
-      .filter(article => article.assigned_category_id === articleCategory)
+      .filter(article => article.category_name === articleCategory)
       .filter(article => article.status === articleStatus);
   };
 

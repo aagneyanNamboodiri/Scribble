@@ -21,17 +21,23 @@ const ColumnDropdown = ({ columnList, setColumnList }) => {
       closeOnSelect={false}
     >
       <Menu className="space-y-2">
-        {columns.map((item, idx) => (
-          <MenuItem.Button key={item}>
-            <Checkbox
-              checked={columnList[item]}
-              id="Column Dropdown"
-              key={idx}
-              label={item}
-              onChange={() => handleChange(item)}
-            />
-          </MenuItem.Button>
-        ))}
+        {columns.map((item, idx) => {
+          if (idx === columns.length - 1) {
+            return null;
+          }
+
+          return (
+            <MenuItem.Button key={item}>
+              <Checkbox
+                checked={columnList[item]}
+                id="Column Dropdown"
+                key={idx}
+                label={item}
+                onChange={() => handleChange(item)}
+              />
+            </MenuItem.Button>
+          );
+        })}
       </Menu>
     </Dropdown>
   );
