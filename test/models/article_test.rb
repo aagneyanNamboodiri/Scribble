@@ -43,5 +43,9 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_updating_title_doesnt_change_slug
+    before_slug = @article.slug
+    @article.title = "Changed title"
+    @article.save!
+    assert_equal before_slug, @article.slug
   end
 end
