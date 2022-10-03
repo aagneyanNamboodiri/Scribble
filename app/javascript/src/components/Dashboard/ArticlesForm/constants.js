@@ -15,7 +15,7 @@ export const buildArticlesFormValidationSchema = categoryList => {
       .nullable()
       .shape({
         label: yup.string().oneOf(categoryList.map(category => category.label)),
-        value: yup.string().oneOf(categoryList.map(category => category.value)),
+        value: yup.number().oneOf(categoryList.map(category => category.value)),
       })
       .required("Please select a category"),
   });

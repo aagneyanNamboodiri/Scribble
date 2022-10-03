@@ -22,6 +22,7 @@ const ArticleForm = ({ categories }) => {
       const modifiedValues = await {
         ...values,
         assigned_category_id: values.category.value,
+        status,
       };
       await articlesApi.create(modifiedValues);
       history.push("/articles");
