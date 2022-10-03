@@ -6,7 +6,7 @@ import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 
 import Dashboard from "./components/Dashboard";
-import Create from "./components/Dashboard/Create";
+import Create from "./components/Dashboard/ArticlesForm";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
