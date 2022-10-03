@@ -40,11 +40,17 @@ export const COLUMN_DATA = [
     title: "Status",
   },
   {
+    dataIndex: "slug",
     key: "deleteAndEdit",
-    render: () => (
+    render: slug => (
       <div className="flex space-x-2">
         <Button icon={() => <Delete size="18" />} size="smal" style="text" />
-        <Button icon={() => <Edit size="18" />} size="small" style="text" />
+        <Button
+          icon={() => <Edit size="18" />}
+          size="small"
+          style="text"
+          to={`/articles/edit/${slug}`}
+        />
       </div>
     ),
   },

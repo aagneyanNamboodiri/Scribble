@@ -24,7 +24,7 @@ const ArticleForm = ({ categories }) => {
         assigned_category_id: values.category.value,
       };
       await articlesApi.create(modifiedValues);
-      history.push("/dashboard");
+      history.push("/articles");
     } catch (err) {
       logger.log(err);
     }
@@ -46,7 +46,7 @@ const ArticleForm = ({ categories }) => {
             <Input
               label="Article Title"
               name="title"
-              placeholder="Title of your article"
+              placeholder="Title of your artice"
               type="text"
             />
             <Select
@@ -63,7 +63,6 @@ const ArticleForm = ({ categories }) => {
             name="body"
             placeholder="What do you wish to write"
             rows="15"
-            // onChange={e => setBody(e.target.value)}
           />
           <div className="mr-4 space-x-2">
             <ActionDropdown

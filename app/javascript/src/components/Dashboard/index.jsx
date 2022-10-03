@@ -98,7 +98,7 @@ const Dashboard = () => {
                   columnList={columnList}
                   setColumnList={setColumnList}
                 />
-                <Button label="Create new article" to="/create" />
+                <Button label="Create new article" to="/articles/create" />
               </>
             }
             searchProps={{
