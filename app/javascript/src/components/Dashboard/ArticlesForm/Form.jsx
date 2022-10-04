@@ -9,10 +9,11 @@ import articlesApi from "apis/articles";
 
 import {
   buildArticlesFormValidationSchema,
+  buildInitialValuesForEditArticle,
   INITIAL_ARTICLES_FORM_VALUES,
 } from "./constants";
 
-const ArticleForm = ({ categories }) => {
+const ArticleForm = ({ isEdit, articleData, categories }) => {
   const history = useHistory();
   const { Menu, MenuItem } = ActionDropdown;
   const statusList = ["Save Draft", "Publish"];
@@ -37,8 +38,12 @@ const ArticleForm = ({ categories }) => {
 
   return (
     <Formik
-      initialValues={INITIAL_ARTICLES_FORM_VALUES}
       validationSchema={buildArticlesFormValidationSchema(categoryList)}
+      initialValues={
+        isEdit
+          ? buildInitialValuesForEditArticle(articleData)
+          : INITIAL_ARTICLES_FORM_VALUES
+      }
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, handleSubmit }) => (
@@ -93,7 +98,7 @@ const ArticleForm = ({ categories }) => {
               size="large"
               style="text"
               type="reset"
-              onClick={() => history.push("/dashboard")}
+              onClick={() => history.push("/articles")}
             />
           </div>
         </Form>

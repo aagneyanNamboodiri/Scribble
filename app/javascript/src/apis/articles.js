@@ -7,6 +7,8 @@ const create = payload =>
     article: payload,
   });
 
-const articlesApi = { list, create };
+const show = slug => axios.get(`/articles/${slug}`);
+
+const articlesApi = { list, create, show };
 
 export default articlesApi;

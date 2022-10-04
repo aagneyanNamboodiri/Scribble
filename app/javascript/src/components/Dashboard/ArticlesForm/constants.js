@@ -22,3 +22,16 @@ export const buildArticlesFormValidationSchema = categoryList => {
 
   return validationSchema;
 };
+
+export const buildInitialValuesForEditArticle = articleData => {
+  const initialValues = {
+    title: articleData.title,
+    body: articleData.body,
+    category: {
+      value: articleData.assigned_category.id,
+      label: articleData.assigned_category.name,
+    },
+  };
+
+  return initialValues;
+};
