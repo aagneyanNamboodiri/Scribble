@@ -12,8 +12,6 @@ import DeleteAlert from "./DeleteAlert";
 import SideMenu from "./SideMenu";
 import { filterRowData, filterColumnData } from "./utils";
 
-import Navbar from "../Navbar";
-
 const Dashboard = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -68,53 +66,50 @@ const Dashboard = () => {
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="flex">
-        <SideMenu
-          articleCategory={articleCategory}
-          articleStatus={articleStatus}
-          articles={articles}
-          categories={categories}
-          setArticleCategory={setArticleCategory}
-          setArticleStatus={setArticleStatus}
+    <div className="flex">
+      <SideMenu
+        articleCategory={articleCategory}
+        articleStatus={articleStatus}
+        articles={articles}
+        categories={categories}
+        setArticleCategory={setArticleCategory}
+        setArticleStatus={setArticleStatus}
+      />
+      <Container>
+        <Header
+          actionBlock={
+            <>
+              <ColumnDropdown
+                columnList={columnList}
+                setColumnList={setColumnList}
+              />
+              <Button label="Create new article" to="/articles/create" />
+            </>
+          }
+          searchProps={{
+            onChange: function noRefCheck() {},
+            value: "",
+            placeholder: "Search artcile titles",
+          }}
         />
-        <Container>
-          <Header
-            actionBlock={
-              <>
-                <ColumnDropdown
-                  columnList={columnList}
-                  setColumnList={setColumnList}
-                />
-                <Button label="Create new article" to="/articles/create" />
-              </>
-            }
-            searchProps={{
-              onChange: function noRefCheck() {},
-              value: "",
-              placeholder: "Search artcile titles",
-            }}
+        <Typography className="font-semibold" style="h3">
+          {articles.length === 1
+            ? `${articles.length} Article`
+            : `${articles.length} Articles`}
+        </Typography>
+        <Table
+          columnData={filterColumnData(handleDelete, columnList)}
+          rowData={filterRowData(articles, articleCategory, articleStatus)}
+        />
+        {showDeleteAlert && (
+          <DeleteAlert
+            refetch={fetchArticles}
+            slug={slugToDelete}
+            onClose={() => setShowDeleteAlert(false)}
           />
-          <Typography className="font-semibold" style="h3">
-            {articles.length === 1
-              ? `${articles.length} Article`
-              : `${articles.length} Articles`}
-          </Typography>
-          <Table
-            columnData={filterColumnData(handleDelete, columnList)}
-            rowData={filterRowData(articles, articleCategory, articleStatus)}
-          />
-          {showDeleteAlert && (
-            <DeleteAlert
-              refetch={fetchArticles}
-              slug={slugToDelete}
-              onClose={() => setShowDeleteAlert(false)}
-            />
-          )}
-        </Container>
-      </div>
-    </>
+        )}
+      </Container>
+    </div>
   );
 };
 
