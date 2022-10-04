@@ -7,11 +7,11 @@ import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 
+import { INITIAL_ARTICLES_FORM_VALUES } from "./constants";
 import {
   buildArticlesFormValidationSchema,
   buildInitialValuesForEditArticle,
-  INITIAL_ARTICLES_FORM_VALUES,
-} from "./constants";
+} from "./utils";
 
 const ArticleForm = ({ isEdit, articleData, categories }) => {
   const history = useHistory();
