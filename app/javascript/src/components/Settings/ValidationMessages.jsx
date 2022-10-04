@@ -8,19 +8,21 @@ import { alphabetRegex, numericalRegex } from "./constants";
 const ValidationMessages = ({ password }) => (
   <>
     <div className="flex">
-      {password.length >= 6 ? <Check size="15" /> : <Close size="15" />}
-      <Typography style="body3">
-        Password should be atleast 6 characters long
-      </Typography>
+      {password.length >= 6 ? (
+        <Check color="#00BA88" size="16" />
+      ) : (
+        <Close color="#F56A58" size="16" />
+      )}
+      <Typography style="body3">Have atleast 6 characters long</Typography>
     </div>
     <div className="flex">
       {numericalRegex.test(password) && alphabetRegex.test(password) ? (
-        <Check size="15" />
+        <Check color="#00BA88" size="16" />
       ) : (
-        <Close size="15" />
+        <Close color="#F56A58" size="16" />
       )}
       <Typography style="body3">
-        Password should contain atleast 1 number and 1 alphabet
+        Include atleast 1 number and 1 alphabet
       </Typography>
     </div>
   </>
