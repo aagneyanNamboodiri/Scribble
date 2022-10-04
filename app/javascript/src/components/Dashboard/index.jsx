@@ -7,9 +7,11 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import ColumnDropdown from "./ColumnDropdown";
-import { COLUMN_DATA, initialColumnsList } from "./constants";
+import { initialColumnsList } from "./constants";
+import DeleteAlert from "./DeleteAlert";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
+import { buildColumns } from "./utils";
 
 const Dashboard = () => {
   const [articles, setArticles] = useState([]);
@@ -18,6 +20,8 @@ const Dashboard = () => {
   const [articleCategory, setArticleCategory] = useState("");
   const [articleStatus, setArticleStatus] = useState("all");
   const [columnList, setColumnList] = useState(initialColumnsList);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [slugToDelete, setSlugToDelete] = useState("");
 
   const filterRowData = () => {
     if (articleCategory === "" && articleStatus === "all") return articles;
@@ -38,7 +42,14 @@ const Dashboard = () => {
   };
 
   const filterColumnData = () =>
-    COLUMN_DATA.filter(column => columnList[column.key] === true);
+    buildColumns(handleDelete).filter(
+      column => columnList[column.key] === true
+    );
+
+  const handleDelete = slug => {
+    setSlugToDelete(slug);
+    setShowDeleteAlert(true);
+  };
   const fetchArticles = async () => {
     try {
       setLoading(true);
@@ -116,6 +127,13 @@ const Dashboard = () => {
           <p>Status : {articleStatus}</p>
           <p>Columns: {JSON.stringify(columnList)}</p>
           <Table columnData={filterColumnData()} rowData={filterRowData()} />
+          {showDeleteAlert && (
+            <DeleteAlert
+              refetch={fetchArticles}
+              slug={slugToDelete}
+              onClose={() => setShowDeleteAlert(false)}
+            />
+          )}
         </Container>
       </div>
     </>

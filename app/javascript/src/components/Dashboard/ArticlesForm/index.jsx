@@ -37,7 +37,9 @@ const Create = () => {
   const fetchData = async () => {
     setLoading(true);
     await fetchCategories();
-    await fetchArticle();
+    if (slug) {
+      await fetchArticle();
+    }
     setLoading(false);
   };
 
