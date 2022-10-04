@@ -7,9 +7,11 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import ColumnDropdown from "./ColumnDropdown";
-import { COLUMN_DATA, initialColumnsList } from "./constants";
+import { initialColumnsList } from "./constants";
+import DeleteAlert from "./DeleteAlert";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
+import { filterRowData, filterColumnData } from "./utils";
 
 const Dashboard = () => {
   const [articles, setArticles] = useState([]);
@@ -18,27 +20,13 @@ const Dashboard = () => {
   const [articleCategory, setArticleCategory] = useState("");
   const [articleStatus, setArticleStatus] = useState("all");
   const [columnList, setColumnList] = useState(initialColumnsList);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [slugToDelete, setSlugToDelete] = useState("");
 
-  const filterRowData = () => {
-    if (articleCategory === "" && articleStatus === "all") return articles;
-
-    if (articleCategory !== "" && articleStatus === "all") {
-      return articles.filter(
-        article => article.category_name === articleCategory
-      );
-    }
-
-    if (articleCategory === "" && articleStatus !== "all") {
-      return articles.filter(article => article.status === articleStatus);
-    }
-
-    return articles
-      .filter(article => article.category_name === articleCategory)
-      .filter(article => article.status === articleStatus);
+  const handleDelete = slug => {
+    setSlugToDelete(slug);
+    setShowDeleteAlert(true);
   };
-
-  const filterColumnData = () =>
-    COLUMN_DATA.filter(column => columnList[column.key] === true);
   const fetchArticles = async () => {
     try {
       setLoading(true);
@@ -98,7 +86,7 @@ const Dashboard = () => {
                   columnList={columnList}
                   setColumnList={setColumnList}
                 />
-                <Button label="Create new article" to="/create" />
+                <Button label="Create new article" to="/articles/create" />
               </>
             }
             searchProps={{
@@ -108,14 +96,21 @@ const Dashboard = () => {
             }}
           />
           <Typography className="font-semibold" style="h3">
-            {articles.length} Articles
+            {articles.length === 1
+              ? `${articles.length} Article`
+              : `${articles.length} Articles`}
           </Typography>
-          <p>Articles : {JSON.stringify(articles)}</p>;
-          <p>Categories : {JSON.stringify(categories)}</p>
-          <p>Category ID : {articleCategory}</p>
-          <p>Status : {articleStatus}</p>
-          <p>Columns: {JSON.stringify(columnList)}</p>
-          <Table columnData={filterColumnData()} rowData={filterRowData()} />
+          <Table
+            columnData={filterColumnData(handleDelete, columnList)}
+            rowData={filterRowData(articles, articleCategory, articleStatus)}
+          />
+          {showDeleteAlert && (
+            <DeleteAlert
+              refetch={fetchArticles}
+              slug={slugToDelete}
+              onClose={() => setShowDeleteAlert(false)}
+            />
+          )}
         </Container>
       </div>
     </>

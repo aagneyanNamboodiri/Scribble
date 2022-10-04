@@ -7,12 +7,13 @@ import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 
+import { INITIAL_ARTICLES_FORM_VALUES } from "./constants";
 import {
   buildArticlesFormValidationSchema,
-  INITIAL_ARTICLES_FORM_VALUES,
-} from "./constants";
+  buildInitialValuesForEditArticle,
+} from "./utils";
 
-const ArticleForm = ({ categories }) => {
+const ArticleForm = ({ slug, isEdit, articleData, categories }) => {
   const history = useHistory();
   const { Menu, MenuItem } = ActionDropdown;
   const statusList = ["Save Draft", "Publish"];
@@ -22,9 +23,15 @@ const ArticleForm = ({ categories }) => {
       const modifiedValues = await {
         ...values,
         assigned_category_id: values.category.value,
+        status,
       };
-      await articlesApi.create(modifiedValues);
-      history.push("/dashboard");
+      isEdit
+        ? await articlesApi.update({
+            slug,
+            payload: { ...modifiedValues },
+          })
+        : await articlesApi.create(modifiedValues);
+      history.push("/articles");
     } catch (err) {
       logger.log(err);
     }
@@ -36,8 +43,12 @@ const ArticleForm = ({ categories }) => {
 
   return (
     <Formik
-      initialValues={INITIAL_ARTICLES_FORM_VALUES}
       validationSchema={buildArticlesFormValidationSchema(categoryList)}
+      initialValues={
+        isEdit
+          ? buildInitialValuesForEditArticle(articleData)
+          : INITIAL_ARTICLES_FORM_VALUES
+      }
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, handleSubmit }) => (
@@ -46,7 +57,7 @@ const ArticleForm = ({ categories }) => {
             <Input
               label="Article Title"
               name="title"
-              placeholder="Title of your article"
+              placeholder="Title of your artice"
               type="text"
             />
             <Select
@@ -63,7 +74,6 @@ const ArticleForm = ({ categories }) => {
             name="body"
             placeholder="What do you wish to write"
             rows="15"
-            // onChange={e => setBody(e.target.value)}
           />
           <div className="mr-4 space-x-2">
             <ActionDropdown
@@ -93,7 +103,7 @@ const ArticleForm = ({ categories }) => {
               size="large"
               style="text"
               type="reset"
-              onClick={() => history.push("/dashboard")}
+              onClick={() => history.push("/articles")}
             />
           </div>
         </Form>

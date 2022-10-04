@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
+import { useParams } from "react-router-dom";
 
+import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import ArticleForm from "./Form";
@@ -9,24 +11,40 @@ import ArticleForm from "./Form";
 import Navbar from "../Navbar";
 
 const Create = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [fetchedArticle, setFetchedArticle] = useState({});
+  const { slug } = useParams(slug);
 
   const fetchCategories = async () => {
     try {
-      setLoading(true);
       const {
         data: { categories },
       } = await categoriesApi.list();
       setCategories(categories);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
+  const fetchArticle = async () => {
+    try {
+      const data = await articlesApi.show(slug);
+      setFetchedArticle(data);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+  const fetchData = async () => {
+    setLoading(true);
+    await fetchCategories();
+    if (slug) {
+      await fetchArticle();
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    fetchCategories();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -41,7 +59,12 @@ const Create = () => {
     <>
       <Navbar />
       <div className="justify-center">
-        <ArticleForm categories={categories} />
+        <ArticleForm
+          articleData={fetchedArticle.data}
+          categories={categories}
+          isEdit={!!slug}
+          slug={slug}
+        />
       </div>
     </>
   );
