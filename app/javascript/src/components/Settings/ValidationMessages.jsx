@@ -3,6 +3,8 @@ import React from "react";
 import { Check, Close } from "neetoicons";
 import { Typography } from "neetoui";
 
+import { alphabetRegex, numericalRegex } from "./constants";
+
 const ValidationMessages = ({ password }) => (
   <>
     <div className="flex">
@@ -12,7 +14,7 @@ const ValidationMessages = ({ password }) => (
       </Typography>
     </div>
     <div className="flex">
-      {/[0-9]/.test(password) && /[a-zA-Z]/.test(password) ? (
+      {numericalRegex.test(password) && alphabetRegex.test(password) ? (
         <Check size="15" />
       ) : (
         <Close size="15" />
