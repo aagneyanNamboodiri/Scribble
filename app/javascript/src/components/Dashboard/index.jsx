@@ -119,13 +119,10 @@ const Dashboard = () => {
             }}
           />
           <Typography className="font-semibold" style="h3">
-            {articles.length} Articles
+            {articles.length === 1
+              ? `${articles.length} Article`
+              : `${articles.length} Articles`}
           </Typography>
-          <p>Articles : {JSON.stringify(articles)}</p>;
-          <p>Categories : {JSON.stringify(categories)}</p>
-          <p>Category ID : {articleCategory}</p>
-          <p>Status : {articleStatus}</p>
-          <p>Columns: {JSON.stringify(columnList)}</p>
           <Table columnData={filterColumnData()} rowData={filterRowData()} />
           {showDeleteAlert && (
             <DeleteAlert
