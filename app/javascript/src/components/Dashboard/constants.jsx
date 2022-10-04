@@ -3,6 +3,8 @@ import React from "react";
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
 
+import articlesApi from "apis/articles";
+
 import { formatTime } from "./utils";
 
 export const COLUMN_DATA = [
@@ -44,7 +46,12 @@ export const COLUMN_DATA = [
     key: "deleteAndEdit",
     render: slug => (
       <div className="flex space-x-2">
-        <Button icon={() => <Delete size="18" />} size="smal" style="text" />
+        <Button
+          icon={() => <Delete size="18" />}
+          size="smal"
+          style="text"
+          onClick={() => articlesApi.destroy(slug)}
+        />
         <Button
           icon={() => <Edit size="18" />}
           size="small"
