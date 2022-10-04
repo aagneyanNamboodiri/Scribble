@@ -61,6 +61,7 @@ const Create = () => {
           articleData={fetchedArticle.data}
           categories={categories}
           isEdit={!!slug}
+          slug={slug}
         />
       </div>
     </>

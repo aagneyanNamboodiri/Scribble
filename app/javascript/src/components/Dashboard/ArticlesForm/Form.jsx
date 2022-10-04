@@ -13,7 +13,7 @@ import {
   buildInitialValuesForEditArticle,
 } from "./utils";
 
-const ArticleForm = ({ isEdit, articleData, categories }) => {
+const ArticleForm = ({ slug, isEdit, articleData, categories }) => {
   const history = useHistory();
   const { Menu, MenuItem } = ActionDropdown;
   const statusList = ["Save Draft", "Publish"];
@@ -25,7 +25,12 @@ const ArticleForm = ({ isEdit, articleData, categories }) => {
         assigned_category_id: values.category.value,
         status,
       };
-      await articlesApi.create(modifiedValues);
+      isEdit
+        ? await articlesApi.update({
+            slug,
+            payload: { ...modifiedValues },
+          })
+        : await articlesApi.create(modifiedValues);
       history.push("/articles");
     } catch (err) {
       logger.log(err);

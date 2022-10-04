@@ -9,6 +9,11 @@ const create = payload =>
 
 const show = slug => axios.get(`/articles/${slug}`);
 
-const articlesApi = { list, create, show };
+const update = ({ slug, payload }) =>
+  axios.put(`/articles/${slug}`, {
+    article: payload,
+  });
+
+const articlesApi = { list, create, show, update };
 
 export default articlesApi;
