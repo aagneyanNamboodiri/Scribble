@@ -8,7 +8,7 @@ import categoriesApi from "apis/categories";
 
 import ArticleForm from "./Form";
 
-import Navbar from "../Navbar";
+import Navbar from "../../Navbar";
 
 const Create = () => {
   const [loading, setLoading] = useState(true);

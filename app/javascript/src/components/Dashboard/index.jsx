@@ -9,9 +9,10 @@ import categoriesApi from "apis/categories";
 import ColumnDropdown from "./ColumnDropdown";
 import { initialColumnsList } from "./constants";
 import DeleteAlert from "./DeleteAlert";
-import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 import { filterRowData, filterColumnData } from "./utils";
+
+import Navbar from "../Navbar";
 
 const Dashboard = () => {
   const [articles, setArticles] = useState([]);
