@@ -8,6 +8,7 @@ import { initializeLogger } from "common/logger";
 
 import Dashboard from "./components/Dashboard";
 import ArticleForm from "./components/Dashboard/ArticlesForm";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,7 @@ const App = () => {
     <div>
       <Router>
         <ToastContainer />
+        <Navbar />
         <Switch>
           <Route exact component={Dashboard} path="/" />
           <Route exact component={Dashboard} path="/articles" />

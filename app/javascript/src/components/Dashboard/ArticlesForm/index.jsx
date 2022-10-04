@@ -8,8 +8,6 @@ import categoriesApi from "apis/categories";
 
 import ArticleForm from "./Form";
 
-import Navbar from "../Navbar";
-
 const Create = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
@@ -56,17 +54,14 @@ const Create = () => {
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="justify-center">
-        <ArticleForm
-          articleData={fetchedArticle.data}
-          categories={categories}
-          isEdit={!!slug}
-          slug={slug}
-        />
-      </div>
-    </>
+    <div className="justify-center">
+      <ArticleForm
+        articleData={fetchedArticle.data}
+        categories={categories}
+        isEdit={!!slug}
+        slug={slug}
+      />
+    </div>
   );
 };
 
