@@ -69,3 +69,24 @@ export const buildColumns = handleDelete => {
 
   return columnData;
 };
+
+export const filterRowData = (articles, articleCategory, articleStatus) => {
+  if (articleCategory === "" && articleStatus === "all") return articles;
+
+  if (articleCategory !== "" && articleStatus === "all") {
+    return articles.filter(
+      article => article.category_name === articleCategory
+    );
+  }
+
+  if (articleCategory === "" && articleStatus !== "all") {
+    return articles.filter(article => article.status === articleStatus);
+  }
+
+  return articles
+    .filter(article => article.category_name === articleCategory)
+    .filter(article => article.status === articleStatus);
+};
+
+export const filterColumnData = (handleDelete, columnList) =>
+  buildColumns(handleDelete).filter(column => columnList[column.key] === true);

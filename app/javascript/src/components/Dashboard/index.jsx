@@ -11,7 +11,7 @@ import { initialColumnsList } from "./constants";
 import DeleteAlert from "./DeleteAlert";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
-import { buildColumns } from "./utils";
+import { filterRowData, filterColumnData } from "./utils";
 
 const Dashboard = () => {
   const [articles, setArticles] = useState([]);
@@ -22,29 +22,6 @@ const Dashboard = () => {
   const [columnList, setColumnList] = useState(initialColumnsList);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [slugToDelete, setSlugToDelete] = useState("");
-
-  const filterRowData = () => {
-    if (articleCategory === "" && articleStatus === "all") return articles;
-
-    if (articleCategory !== "" && articleStatus === "all") {
-      return articles.filter(
-        article => article.category_name === articleCategory
-      );
-    }
-
-    if (articleCategory === "" && articleStatus !== "all") {
-      return articles.filter(article => article.status === articleStatus);
-    }
-
-    return articles
-      .filter(article => article.category_name === articleCategory)
-      .filter(article => article.status === articleStatus);
-  };
-
-  const filterColumnData = () =>
-    buildColumns(handleDelete).filter(
-      column => columnList[column.key] === true
-    );
 
   const handleDelete = slug => {
     setSlugToDelete(slug);
@@ -123,7 +100,10 @@ const Dashboard = () => {
               ? `${articles.length} Article`
               : `${articles.length} Articles`}
           </Typography>
-          <Table columnData={filterColumnData()} rowData={filterRowData()} />
+          <Table
+            columnData={filterColumnData(handleDelete, columnList)}
+            rowData={filterRowData(articles, articleCategory, articleStatus)}
+          />
           {showDeleteAlert && (
             <DeleteAlert
               refetch={fetchArticles}

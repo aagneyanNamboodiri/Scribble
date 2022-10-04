@@ -4,4 +4,5 @@ export const initialColumnsList = {
   Date: true,
   Status: true,
   Title: true,
+  deleteAndEdit: true,
 };
