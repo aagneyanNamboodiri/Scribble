@@ -9,6 +9,7 @@ import { initializeLogger } from "common/logger";
 import Dashboard from "./components/Dashboard";
 import ArticleForm from "./components/Dashboard/ArticlesForm";
 import Navbar from "./components/Navbar";
+import Settings from "./components/Settings";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,7 @@ const App = () => {
           <Route exact component={Dashboard} path="/articles" />
           <Route exact component={ArticleForm} path="/articles/create" />
           <Route exact component={ArticleForm} path="/articles/edit/:slug" />
+          <Route component={Settings} path="/settings" />
         </Switch>
       </Router>
     </div>
