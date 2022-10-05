@@ -7,6 +7,9 @@ import ValidationMessages from "./ValidationMessages";
 const General = () => {
   const [checked, setChecked] = useState(false);
   const [password, setPassword] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
+
+  //TODO : Clicking cancel button should revert the state back to what was fetched from DB
 
   return (
     <div className="flex w-full justify-center py-4">
@@ -41,9 +44,17 @@ const General = () => {
             onChange={e => setPassword(e.target.value)}
           />
         )}
-        {password.length >= 1 && <ValidationMessages password={password} />}
+        {checked && password.length >= 1 && (
+          <ValidationMessages
+            password={password}
+            setIsPasswordValid={setIsPasswordValid}
+          />
+        )}
         <div className="flex space-x-2">
-          <Button label="Save Changes" />
+          <Button
+            disabled={!(isPasswordValid[0] * isPasswordValid[1] > 0)}
+            label="Save Changes"
+          />
           <Button label="Cancel" style="text" />
         </div>
       </div>
