@@ -55,7 +55,10 @@ const Categories = () => {
             <div className=" flex w-full justify-between py-3">
               <div className="flex space-x-2">
                 {isCreating ? (
-                  <Create setIsCreating={setIsCreating} />
+                  <Create
+                    refetch={fetchCategories}
+                    setIsCreating={setIsCreating}
+                  />
                 ) : (
                   <>
                     <Plus
