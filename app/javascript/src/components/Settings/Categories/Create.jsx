@@ -29,8 +29,18 @@ const Create = ({ setIsCreating, refetch }) => {
     >
       <Form>
         <div className="flex">
-          <FormikInput name="name" placeholder="Category Name" type="text" />
-          <Button icon={() => <Check size={18} />} style="text" type="submit" />
+          <FormikInput
+            name="name"
+            placeholder="Category Name"
+            type="text"
+            suffix={
+              <Button
+                icon={() => <Check size={17} />}
+                style="text"
+                type="submit"
+              />
+            }
+          />
         </div>
       </Form>
     </Formik>
