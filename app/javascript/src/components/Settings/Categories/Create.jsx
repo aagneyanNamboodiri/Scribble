@@ -2,7 +2,7 @@ import React from "react";
 
 import { Formik, Form } from "formik";
 import Logger from "js-logger";
-import { Check } from "neetoicons";
+import { Check, Close } from "neetoicons";
 import { Button } from "neetoui";
 import { Input as FormikInput } from "neetoui/formik";
 
@@ -28,20 +28,26 @@ const Create = ({ setIsCreating, refetch }) => {
       onSubmit={handleSubmit}
     >
       <Form>
-        <div className="flex">
-          <FormikInput
-            name="name"
-            placeholder="Category Name"
-            type="text"
-            suffix={
+        <FormikInput
+          name="name"
+          placeholder="Category Name"
+          type="text"
+          suffix={
+            <div className="flex">
               <Button
                 icon={() => <Check size={17} />}
                 style="text"
                 type="submit"
               />
-            }
-          />
-        </div>
+              <Button
+                icon={() => <Close size={17} />}
+                style="text"
+                type="cancel"
+                onClick={() => setIsCreating(false)}
+              />
+            </div>
+          }
+        />
       </Form>
     </Formik>
   );
