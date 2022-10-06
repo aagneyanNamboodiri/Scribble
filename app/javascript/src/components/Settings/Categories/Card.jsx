@@ -3,17 +3,17 @@ import React, { useState } from "react";
 import { Reorder, Delete, Edit } from "neetoicons";
 import { Button, Typography } from "neetoui";
 
-import DeleteAlert from "./DeleteAlert";
+import DeleteModal from "./DeleteModal";
 import Create from "./Form";
 
-const Card = ({ category, refetch }) => {
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+const Card = ({ category, refetch, categoryList }) => {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState({});
   const [isEditing, setIsEditing] = useState(false);
 
   const handleDelete = () => {
     setCategoryToDelete(category);
-    setShowDeleteAlert(true);
+    setShowDeleteModal(true);
   };
 
   return isEditing ? (
@@ -46,11 +46,12 @@ const Card = ({ category, refetch }) => {
           onClick={() => setIsEditing(true)}
         />
       </div>
-      {showDeleteAlert && (
-        <DeleteAlert
+      {showDeleteModal && (
+        <DeleteModal
           category={categoryToDelete}
+          categoryList={categoryList}
           refetch={refetch}
-          onClose={() => setShowDeleteAlert(false)}
+          onClose={() => setShowDeleteModal(false)}
         />
       )}
     </div>

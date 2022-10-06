@@ -76,6 +76,7 @@ const Categories = () => {
             {categories.map(category => (
               <Card
                 category={category}
+                categoryList={categories}
                 key={category.id}
                 refetch={fetchCategories}
               />

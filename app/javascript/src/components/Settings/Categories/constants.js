@@ -11,3 +11,11 @@ export const buildInitialValue = category => {
 export const validationSchema = yup.object().shape({
   name: yup.string().required("Category name is required"),
 });
+
+export const buildCategoryValues = (categories, deletedCategory) =>
+  categories
+    .map(category => ({
+      value: category.id,
+      label: category.name,
+    }))
+    .filter(category => category.value !== deletedCategory);
