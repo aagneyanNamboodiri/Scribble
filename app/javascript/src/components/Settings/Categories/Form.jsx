@@ -8,22 +8,24 @@ import { Input as FormikInput } from "neetoui/formik";
 
 import categoriesApi from "apis/categories";
 
-import { INITIAL_VALUE, validationSchema } from "./constants";
+import { buildInitialValue, validationSchema } from "./constants";
 
-const Create = ({ objective, setObjective, refetch }) => {
+const Create = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
   const handleSubmit = async name => {
     try {
-      if (objective === "Create") await categoriesApi.create(name);
+      Object.keys(category).length === 0
+        ? await categoriesApi.create(name)
+        : await categoriesApi.update(category.id, name);
     } catch (err) {
       Logger.log(err);
     }
     refetch();
-    setObjective(false);
+    setIsCreatingOrEditing(false);
   };
 
   return (
     <Formik
-      initialValues={INITIAL_VALUE}
+      initialValues={buildInitialValue(category)}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
@@ -43,7 +45,7 @@ const Create = ({ objective, setObjective, refetch }) => {
                 icon={() => <Close size={17} />}
                 style="text"
                 type="cancel"
-                onClick={() => setObjective(false)}
+                onClick={() => setIsCreatingOrEditing(false)}
               />
             </div>
           }

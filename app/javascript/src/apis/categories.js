@@ -10,6 +10,11 @@ const create = payload =>
 const destroy = (id, new_category = -1) =>
   axios.delete(`/categories/${id}?new_category=${new_category}`);
 
-const categoriesApi = { list, create, destroy };
+const update = (id, payload) =>
+  axios.put(`/categories/${id}`, {
+    category: payload,
+  });
+
+const categoriesApi = { list, create, destroy, update };
 
 export default categoriesApi;

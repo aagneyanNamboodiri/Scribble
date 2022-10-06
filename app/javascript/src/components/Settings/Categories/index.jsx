@@ -56,9 +56,8 @@ const Categories = () => {
               <div className="flex space-x-2">
                 {isCreating ? (
                   <Create
-                    objective="Create"
                     refetch={fetchCategories}
-                    setIsCreating={setIsCreating}
+                    setIsCreatingOrEditing={setIsCreating}
                   />
                 ) : (
                   <>

@@ -1,7 +1,11 @@
 import * as yup from "yup";
 
-export const INITIAL_VALUE = {
-  name: "",
+export const buildInitialValue = category => {
+  const initialValue = {
+    name: Object.keys(category).length === 0 ? "" : category.name,
+  };
+
+  return initialValue;
 };
 
 export const validationSchema = yup.object().shape({

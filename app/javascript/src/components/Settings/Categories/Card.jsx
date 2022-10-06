@@ -19,7 +19,11 @@ const Card = ({ category, refetch }) => {
   return isEditing ? (
     <div className="border-t flex space-x-2 pt-2">
       <Reorder size="20" />
-      <Create objective="Edit" refetch={refetch} setIsCreating={setIsEditing} />
+      <Create
+        category={category}
+        refetch={refetch}
+        setIsCreatingOrEditing={setIsEditing}
+      />
     </div>
   ) : (
     <div className="border-t flex w-full justify-between pt-3">
