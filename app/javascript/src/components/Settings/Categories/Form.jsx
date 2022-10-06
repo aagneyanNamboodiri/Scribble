@@ -10,15 +10,15 @@ import categoriesApi from "apis/categories";
 
 import { INITIAL_VALUE, validationSchema } from "./constants";
 
-const Create = ({ setIsCreating, refetch }) => {
+const Create = ({ objective, setObjective, refetch }) => {
   const handleSubmit = async name => {
     try {
-      await categoriesApi.create(name);
+      if (objective === "Create") await categoriesApi.create(name);
     } catch (err) {
       Logger.log(err);
     }
     refetch();
-    setIsCreating(false);
+    setObjective(false);
   };
 
   return (
@@ -43,7 +43,7 @@ const Create = ({ setIsCreating, refetch }) => {
                 icon={() => <Close size={17} />}
                 style="text"
                 type="cancel"
-                onClick={() => setIsCreating(false)}
+                onClick={() => setObjective(false)}
               />
             </div>
           }

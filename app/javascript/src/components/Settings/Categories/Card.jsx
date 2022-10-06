@@ -4,16 +4,24 @@ import { Reorder, Delete, Edit } from "neetoicons";
 import { Button, Typography } from "neetoui";
 
 import DeleteAlert from "./DeleteAlert";
+import Create from "./Form";
 
 const Card = ({ category, refetch }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+
   const handleDelete = () => {
     setCategoryToDelete(category);
     setShowDeleteAlert(true);
   };
 
-  return (
+  return isEditing ? (
+    <div className="border-t flex space-x-2 pt-2">
+      <Reorder size="20" />
+      <Create objective="Edit" refetch={refetch} setIsCreating={setIsEditing} />
+    </div>
+  ) : (
     <div className="border-t flex w-full justify-between pt-3">
       <div className="flex space-x-2">
         <Reorder size="20" />
@@ -31,7 +39,7 @@ const Card = ({ category, refetch }) => {
           icon={() => <Edit size="18" />}
           size="small"
           style="text"
-          onClick={() => refetch()}
+          onClick={() => setIsEditing(true)}
         />
       </div>
       {showDeleteAlert && (

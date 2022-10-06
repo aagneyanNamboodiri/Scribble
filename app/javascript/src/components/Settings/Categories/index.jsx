@@ -6,7 +6,7 @@ import { Typography, PageLoader } from "neetoui";
 import categoriesApi from "apis/categories";
 
 import Card from "./Card";
-import Create from "./Create";
+import Create from "./Form";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -56,6 +56,7 @@ const Categories = () => {
               <div className="flex space-x-2">
                 {isCreating ? (
                   <Create
+                    objective="Create"
                     refetch={fetchCategories}
                     setIsCreating={setIsCreating}
                   />
