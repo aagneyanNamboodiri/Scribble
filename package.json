@@ -36,6 +36,8 @@
     "prop-types": "^15.8.1",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "5.2.0",
     "react-router-nav-prompt": "0.4.1",

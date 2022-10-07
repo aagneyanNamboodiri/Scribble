@@ -10,6 +10,7 @@ const General = () => {
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
 
   //TODO : Clicking cancel button should revert the state back to what was fetched from DB
+  //TODO : If password was set to blank and saved, password field checkbox should be unchecked
 
   return (
     <div className="flex w-full justify-center py-4">

@@ -14,7 +14,9 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    switch_article_category(params[:id], params[:new_category])
+    if params[:new_category] != -1
+      switch_article_category(params[:id], params[:new_category])
+    end
     @category.destroy!
     respond_with_success(t("successfully_destroyed", entity: "Category"))
   end

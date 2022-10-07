@@ -2,8 +2,8 @@
 
 Rails.application.routes.draw do
   constraints(lambda { |req| req.format == :json }) do
-    resources :articles, except: %i[new edit], param: :slug
-    resources :categories, except: %i[show new edit]
+    resources :articles, except: %i[new edit], param: :slug # , defaults: { format: 'json' }
+    resources :categories, except: %i[show new edit] # , defaults: { format: 'json' }
   end
 
   root "home#index"
