@@ -49,12 +49,10 @@ const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
             <div className="flex border-2 border-solid border-red-600 bg-red-100 p-3">
               <CloseCircle color="#e53e3e" size={18} />
               <Typography lineHeight="normal" style="body1">
-                This category has{" "}
-                {`${category.articles_count} ${
+                {`This category has ${category.articles_count} ${
                   category.articles_count > 1 ? "articles" : "article"
-                }`}{" "}
-                under it. Before this category is deleted, these articles need
-                to be moved to another category.
+                } under it. Before this category is deleted, these
+                articles need to be moved to another category.`}
                 {categoryList.length === 1 && (
                   <Typography>
                     These articles will be moved to a new category called
