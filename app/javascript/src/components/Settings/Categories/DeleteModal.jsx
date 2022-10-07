@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { CloseCircle } from "neetoicons";
 import { Modal, Typography, Button, Select } from "neetoui";
@@ -10,12 +10,13 @@ import { buildCategoryValues } from "./constants";
 
 const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
   const [deleting, setDeleting] = useState(false);
-  const [toCategory, setToCategory] = useState(0);
+  const [toCategory, setToCategory] = useState(-1);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
-  const handleDelete = async () => {
+  const handleDelete = async newCategory => {
     try {
       setDeleting(true);
-      await categoriesApi.destroy(category.id);
+      await categoriesApi.destroy(category.id, newCategory);
       onClose();
       refetch();
     } catch (error) {
@@ -23,6 +24,12 @@ const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
       setDeleting(false);
     }
   };
+  useEffect(() => {
+    if (categoryList.length === 1) {
+      setToCategory(-2);
+      setIsSubmitDisabled(false);
+    }
+  }, [categoryList]);
 
   return (
     <Modal isOpen onClose={onClose}>
@@ -50,20 +57,29 @@ const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
                 to be moved to another category.
               </Typography>
             </div>
-            <Select
-              isClearable
-              isSearchable
-              required
-              label="Select a category to move these articles to*"
-              name="ValueList"
-              options={buildCategoryValues(categoryList, category.id)}
-              onChange={e => setToCategory(e.value)}
-            />
+            {categoryList.length > 1 && (
+              <Select
+                isClearable
+                isSearchable
+                required
+                label="Select a category to move these articles to*"
+                name="ValueList"
+                options={buildCategoryValues(categoryList, category.id)}
+                onChange={e => {
+                  setToCategory(e.value);
+                  setIsSubmitDisabled(false);
+                }}
+              />
+            )}
           </>
         )}
       </Modal.Body>
       <Modal.Footer className="space-x-2">
-        <Button label="Continue" onClick={onClose} />
+        <Button
+          disabled={category.articles_count > 0 && isSubmitDisabled}
+          label="Continue"
+          onClick={() => handleDelete(toCategory)}
+        />
         <Button label="Cancel" style="text" onClick={onClose} />
       </Modal.Footer>
     </Modal>
