@@ -55,6 +55,12 @@ const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
                 }`}{" "}
                 under it. Before this category is deleted, these articles need
                 to be moved to another category.
+                {categoryList.length === 1 && (
+                  <Typography>
+                    These articles will be moved to a new category called
+                    <span className="font-bold"> General</span>
+                  </Typography>
+                )}
               </Typography>
             </div>
             {categoryList.length > 1 && (
