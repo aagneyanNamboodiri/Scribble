@@ -27,6 +27,12 @@ class CategoriesController < ApplicationController
   end
 
   def reorder
+    movement_direction = reorder_positions[:positions].to_i
+    moves = movement_direction.abs()
+    while moves > 0
+      movement_direction < 0 ? @category.move_lower : @category.move_higher
+      moves -= 1
+    end
   end
 
   private
@@ -37,5 +43,9 @@ class CategoriesController < ApplicationController
 
     def category_params
       params.require(:category).permit(:name)
+    end
+
+    def reorder_positions
+      params.require(:reorder).permit(:positions)
     end
 end
