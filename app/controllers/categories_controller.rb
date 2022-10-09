@@ -26,6 +26,9 @@ class CategoriesController < ApplicationController
     respond_with_success(t("successfully_updated", entity: "Category"))
   end
 
+  def reorder
+  end
+
   private
 
     def load_category!
