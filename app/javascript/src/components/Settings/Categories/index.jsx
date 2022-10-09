@@ -16,12 +16,26 @@ const Categories = () => {
 
   const handleOnDragEnd = result => {
     if (!result.destination) return;
-    //console.log(result);
+    handleReorder(
+      result.draggableId,
+      result.source.index - result.destination.index
+    );
     const items = Array.from(categories);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
     setCategories(items);
+  };
+
+  const handleReorder = async (id, positions) => {
+    setLoading(true);
+    try {
+      await categoriesApi.reorder(id, { positions });
+    } catch (err) {
+      logger.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchCategories = async () => {
@@ -85,16 +99,16 @@ const Categories = () => {
               </div>
             </div>
             <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="characters">
+              <Droppable droppableId="categories">
                 {provided => (
                   <ul
-                    className="characters"
+                    className="categories"
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
                     {categories.map((category, index) => (
                       <Draggable
-                        draggableId={category.name}
+                        draggableId={category.id.toString()}
                         index={index}
                         key={category.id}
                       >

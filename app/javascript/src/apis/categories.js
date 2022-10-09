@@ -15,6 +15,12 @@ const update = (id, payload) =>
     category: payload,
   });
 
-const categoriesApi = { list, create, destroy, update };
+const reorder = (id, payload) => {
+  axios.put(`categories/${id}/reorder/`, {
+    reorder: payload,
+  });
+};
+
+const categoriesApi = { list, create, destroy, update, reorder };
 
 export default categoriesApi;
