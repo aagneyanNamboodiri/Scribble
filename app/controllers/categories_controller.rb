@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   include CategorySwitchable
   before_action :load_category!, except: %i[index create]
   def index
-    @categories = Category.all
+    @categories = Category.all.order(position: :asc)
   end
 
   def create
@@ -26,6 +26,15 @@ class CategoriesController < ApplicationController
     respond_with_success(t("successfully_updated", entity: "Category"))
   end
 
+  def reorder
+    movement_direction = reorder_positions[:positions].to_i
+    moves = movement_direction.abs()
+    while moves > 0
+      movement_direction < 0 ? @category.move_lower : @category.move_higher
+      moves -= 1
+    end
+  end
+
   private
 
     def load_category!
@@ -34,5 +43,9 @@ class CategoriesController < ApplicationController
 
     def category_params
       params.require(:category).permit(:name)
+    end
+
+    def reorder_positions
+      params.require(:reorder).permit(:positions)
     end
 end

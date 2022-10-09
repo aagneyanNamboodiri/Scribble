@@ -6,7 +6,7 @@ import { Button, Typography } from "neetoui";
 import DeleteModal from "./DeleteModal";
 import Create from "./Form";
 
-const Card = ({ category, refetch, categoryList }) => {
+const Card = ({ category, refetch, categoryList, provided }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState({});
   const [isEditing, setIsEditing] = useState(false);
@@ -26,7 +26,12 @@ const Card = ({ category, refetch, categoryList }) => {
       />
     </div>
   ) : (
-    <div className="border-t flex w-full justify-between pt-3">
+    <div
+      className="border-t flex w-full justify-between pt-3"
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+    >
       <div className="flex space-x-2">
         <Reorder size="20" />
         <Typography style="body2">{category.name}</Typography>

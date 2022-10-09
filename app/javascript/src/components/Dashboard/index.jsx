@@ -93,9 +93,13 @@ const Dashboard = () => {
           }}
         />
         <Typography className="font-semibold" style="h3">
-          {articles.length === 1
-            ? `${articles.length} Article`
-            : `${articles.length} Articles`}
+          {filterRowData(articles, articleCategory, articleStatus).length === 1
+            ? `${
+                filterRowData(articles, articleCategory, articleStatus).length
+              } Article`
+            : `${
+                filterRowData(articles, articleCategory, articleStatus).length
+              } Articles`}
         </Typography>
         <Table
           columnData={filterColumnData(handleDelete, columnList)}

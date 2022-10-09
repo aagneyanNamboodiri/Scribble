@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Plus } from "neetoicons";
 import { Typography, PageLoader } from "neetoui";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/categories";
 
@@ -12,6 +13,30 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+
+  const handleOnDragEnd = result => {
+    if (!result.destination) return;
+    handleReorder(
+      result.draggableId,
+      result.source.index - result.destination.index
+    );
+    const items = Array.from(categories);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setCategories(items);
+  };
+
+  const handleReorder = async (id, positions) => {
+    setLoading(true);
+    try {
+      await categoriesApi.reorder(id, { positions });
+    } catch (err) {
+      logger.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchCategories = async () => {
     try {
@@ -73,14 +98,44 @@ const Categories = () => {
                 )}
               </div>
             </div>
-            {categories.map(category => (
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="categories">
+                {provided => (
+                  <ul
+                    className="categories"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {categories.map((category, index) => (
+                      <Draggable
+                        draggableId={category.id.toString()}
+                        index={index}
+                        key={category.id}
+                      >
+                        {provided => (
+                          <Card
+                            category={category}
+                            categoryList={categories}
+                            key={category.id}
+                            provided={provided}
+                            refetch={fetchCategories}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
+            {/* {categories.map(category => (
               <Card
                 category={category}
                 categoryList={categories}
                 key={category.id}
                 refetch={fetchCategories}
               />
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

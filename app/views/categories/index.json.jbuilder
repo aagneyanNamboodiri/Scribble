@@ -4,5 +4,6 @@ json.categories @categories do |c|
   json.extract! c,
     :id,
     :name,
-    :articles_count
+    :articles_count,
+    :position
 end

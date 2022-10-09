@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 
 import { CloseCircle } from "neetoicons";
@@ -9,19 +8,16 @@ import categoriesApi from "apis/categories";
 import { buildCategoryValues } from "./constants";
 
 const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
-  const [deleting, setDeleting] = useState(false);
   const [toCategory, setToCategory] = useState(-1);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const handleDelete = async newCategory => {
     try {
-      setDeleting(true);
       await categoriesApi.destroy(category.id, newCategory);
       onClose();
       refetch();
     } catch (error) {
       logger.error(error);
-      setDeleting(false);
     }
   };
   useEffect(() => {
@@ -49,12 +45,10 @@ const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
             <div className="flex border-2 border-solid border-red-600 bg-red-100 p-3">
               <CloseCircle color="#e53e3e" size={18} />
               <Typography lineHeight="normal" style="body1">
-                This category has{" "}
-                {`${category.articles_count} ${
+                {`This category has ${category.articles_count} ${
                   category.articles_count > 1 ? "articles" : "article"
-                }`}{" "}
-                under it. Before this category is deleted, these articles need
-                to be moved to another category.
+                } under it. Before this category is deleted, these
+                articles need to be moved to another category.`}
                 {categoryList.length === 1 && (
                   <Typography>
                     These articles will be moved to a new category called
