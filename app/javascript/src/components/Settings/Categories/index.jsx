@@ -91,7 +91,7 @@ const Categories = () => {
                       size="20"
                       onClick={() => setIsCreating(true)}
                     />
-                    <Typography className="text-blue-600" style="body2">
+                    <Typography className="text-indigo-500" style="body2">
                       Add new category
                     </Typography>
                   </>
@@ -128,14 +128,6 @@ const Categories = () => {
                 )}
               </Droppable>
             </DragDropContext>
-            {/* {categories.map(category => (
-              <Card
-                category={category}
-                categoryList={categories}
-                key={category.id}
-                refetch={fetchCategories}
-              />
-            ))} */}
           </div>
         </div>
       </div>
