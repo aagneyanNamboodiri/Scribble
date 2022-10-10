@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Check, Close } from "neetoicons";
 import { Typography } from "neetoui";
 
-import { alphabetRegex, numericalRegex } from "../constants";
+import { alphabetRegex, numericalRegex } from "./constants";
 
 const ValidationMessages = ({ password, setIsPasswordValid }) => {
   useEffect(() => {

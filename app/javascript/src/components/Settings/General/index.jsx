@@ -45,7 +45,7 @@ const General = () => {
             onChange={e => setPassword(e.target.value)}
           />
         )}
-        {checked && password.length >= 1 && (
+        {checked && password.length > 0 && (
           <ValidationMessages
             password={password}
             setIsPasswordValid={setIsPasswordValid}
