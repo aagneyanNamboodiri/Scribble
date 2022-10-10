@@ -11,14 +11,15 @@ const General = () => {
   const [loading, setLoading] = useState(true);
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
-  const [preferences, setPreferences] = useState({});
   const [siteName, setSiteName] = useState("");
 
   const fetchPreferences = async () => {
     try {
       setLoading(true);
       const { data } = await preferencesApi.list();
-      setPreferences(data);
+      if (data.password_digest) setPassword(data.password_digest);
+      setChecked(data.is_password);
+      setSiteName(data.site_name);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -26,15 +27,8 @@ const General = () => {
     }
   };
 
-  const setSettingsValues = () => {
-    if (preferences.password_digest) setPassword(preferences.password_digest);
-    setChecked(preferences.is_password);
-    setSiteName(preferences.site_name);
-  };
-
   useEffect(() => {
     fetchPreferences();
-    setSettingsValues();
   }, []);
 
   if (loading) {
