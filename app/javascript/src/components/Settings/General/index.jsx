@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Input, Checkbox, Button, PageLoader } from "neetoui";
+import { Formik, Form } from "formik";
+import { Typography, Checkbox, Button, PageLoader } from "neetoui";
+import { Input as FormikInput } from "neetoui/formik";
 
 import preferencesApi from "apis/preferences";
 
+import { validationSchema } from "./constants";
 import ValidationMessages from "./ValidationMessages";
 
 const General = () => {
@@ -12,6 +15,10 @@ const General = () => {
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
   const [siteName, setSiteName] = useState("");
+
+  const handleSubmit = values => {
+    logger.log(values, password, checked);
+  };
 
   const fetchPreferences = async () => {
     try {
@@ -44,54 +51,67 @@ const General = () => {
 
   return (
     <div className="flex w-full justify-center py-4">
-      <div className="flex-col space-y-4">
-        <div className="space-y-10">
-          <div className="space-y-2">
-            <Typography style="h2" weight="medium">
-              General Settings
-            </Typography>
-            <Typography className="text-gray-600" style="body2">
-              Configure general attributes of scribble
-            </Typography>
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={{
+          siteName,
+          password,
+        }}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <div className="flex-col space-y-4">
+            <div className="space-y-10">
+              <div className="space-y-2">
+                <Typography style="h2" weight="medium">
+                  General Settings
+                </Typography>
+                <Typography className="text-gray-600" style="body2">
+                  Configure general attributes of scribble
+                </Typography>
+              </div>
+              <FormikInput
+                helpText="Customize the sitename which is used to show the site name"
+                label="Site Name"
+                name="siteName"
+              />
+            </div>
+            <hr />
+            <Checkbox
+              checked={checked}
+              id="checkbox_name"
+              label="Password protect knowledgebase"
+              onChange={() => setChecked(prev => !prev)}
+            />
+            {checked && (
+              <FormikInput
+                label="Password"
+                name="password"
+                placeholder="A secure password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+            )}
+            {checked && (
+              <ValidationMessages
+                password={password}
+                setIsPasswordValid={setIsPasswordValid}
+              />
+            )}
+            <div className="flex space-x-2">
+              <Button
+                label="Save Changes"
+                type="submit"
+                disabled={
+                  checked === true &&
+                  !(isPasswordValid[0] * isPasswordValid[1] > 0)
+                }
+              />
+              <Button label="Cancel" style="text" type="reset" />
+            </div>
           </div>
-          <Input
-            helpText="Customize the sitename which is used to show the site name"
-            label="Site Name"
-            value={siteName}
-            onChange={e => setSiteName(e.target.value)}
-          />
-        </div>
-        <hr />
-        <Checkbox
-          checked={checked}
-          id="checkbox_name"
-          label="Password protect knowledgebase"
-          onChange={() => setChecked(prev => !prev)}
-        />
-        {checked && (
-          <Input
-            label="Password"
-            placeholder="A secure password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
-        )}
-        {checked && (
-          <ValidationMessages
-            password={password}
-            setIsPasswordValid={setIsPasswordValid}
-          />
-        )}
-        <div className="flex space-x-2">
-          <Button
-            label="Save Changes"
-            disabled={
-              checked === true && !(isPasswordValid[0] * isPasswordValid[1] > 0)
-            }
-          />
-          <Button label="Cancel" style="text" />
-        </div>
-      </div>
+        </Form>
+      </Formik>
     </div>
   );
 };
