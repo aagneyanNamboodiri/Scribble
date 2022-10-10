@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2022_10_10_041311) do
   create_table "preferences", force: :cascade do |t|
     t.string "site_name"
     t.boolean "is_password", default: false
-    t.string "password_digest", null: false
+    t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
