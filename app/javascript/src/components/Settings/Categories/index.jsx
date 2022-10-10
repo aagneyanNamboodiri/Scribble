@@ -128,14 +128,6 @@ const Categories = () => {
                 )}
               </Droppable>
             </DragDropContext>
-            {/* {categories.map(category => (
-              <Card
-                category={category}
-                categoryList={categories}
-                key={category.id}
-                refetch={fetchCategories}
-              />
-            ))} */}
           </div>
         </div>
       </div>
