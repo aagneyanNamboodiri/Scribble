@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         put "reorder"
       end
     end
-    resources :preferences, only: %i[index]
+    resources :preferences, only: %i[index update]
   end
 
   root "home#index"

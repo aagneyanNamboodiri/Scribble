@@ -45,7 +45,7 @@ const General = () => {
             onChange={e => setPassword(e.target.value)}
           />
         )}
-        {checked && password.length > 0 && (
+        {checked && (
           <ValidationMessages
             password={password}
             setIsPasswordValid={setIsPasswordValid}
@@ -53,8 +53,10 @@ const General = () => {
         )}
         <div className="flex space-x-2">
           <Button
-            disabled={!(isPasswordValid[0] * isPasswordValid[1] > 0)}
             label="Save Changes"
+            disabled={
+              checked === true && !(isPasswordValid[0] * isPasswordValid[1] > 0)
+            }
           />
           <Button label="Cancel" style="text" />
         </div>
