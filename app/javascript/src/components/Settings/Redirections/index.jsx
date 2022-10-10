@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { Plus } from "neetoicons";
 import { Typography } from "neetoui";
 
+import Form from "./Form";
 import Row from "./Row";
 
 const Redirections = () => {
-  // eslint-disable-next-line no-unused-vars
   const [isCreating, setIsCreating] = useState(false);
 
   return (
@@ -37,16 +37,19 @@ const Redirections = () => {
             </Typography>
           </div>
           <Row />
-          <div className="flex">
-            <Plus
-              color="#667eea"
-              size="20"
-              onClick={() => setIsCreating(true)}
-            />
-            <Typography className="text-indigo-500" style="body2">
-              Add new category
-            </Typography>
-          </div>
+          {isCreating && <Form setIsCreating={setIsCreating} />}
+          {!isCreating && (
+            <div className="flex">
+              <Plus
+                color="#667eea"
+                size="20"
+                onClick={() => setIsCreating(true)}
+              />
+              <Typography className="text-indigo-500" style="body2">
+                Add new redirection
+              </Typography>
+            </div>
+          )}
         </div>
       </div>
     </div>
