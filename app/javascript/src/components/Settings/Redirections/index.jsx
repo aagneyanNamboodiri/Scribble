@@ -37,7 +37,7 @@ const Redirections = () => {
             </Typography>
           </div>
           <Row />
-          {isCreating && <Form setIsCreating={setIsCreating} />}
+          {isCreating && <Form setAction={setIsCreating} />}
           {!isCreating && (
             <div className="flex">
               <Plus

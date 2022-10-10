@@ -6,7 +6,7 @@ import { Button, Input } from "neetoui/formik";
 
 import { INITIAL_VALUES, validationSchema } from "./constants";
 
-const RoutesForm = ({ setIsCreating }) => {
+const RoutesForm = ({ setAction }) => {
   const handleSubmit = values => {
     logger.log(values);
   };
@@ -33,7 +33,7 @@ const RoutesForm = ({ setIsCreating }) => {
               disabled={false}
               icon={() => <Close size={17} />}
               style="text"
-              onClick={() => setIsCreating(false)}
+              onClick={() => setAction(false)}
             />
           </div>
         </div>
