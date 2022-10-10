@@ -15,15 +15,28 @@ const General = () => {
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
   const [siteName, setSiteName] = useState("");
+  const [preferences, setPreferences] = useState({});
 
-  const handleSubmit = values => {
-    logger.log(values, password, checked);
+  const handleSubmit = async value => {
+    const preference = {
+      site_name: value.siteName,
+      is_password: checked,
+      password_digest: checked ? password : "",
+    };
+    await preferencesApi.update({ preference });
+  };
+
+  const resetValues = () => {
+    if (preferences.password_digest) setPassword(preferences.password_digest);
+    setChecked(preferences.is_password);
+    setSiteName(preferences.site_name);
   };
 
   const fetchPreferences = async () => {
     try {
       setLoading(true);
       const { data } = await preferencesApi.list();
+      setPreferences(data);
       if (data.password_digest) setPassword(data.password_digest);
       setChecked(data.is_password);
       setSiteName(data.site_name);
@@ -46,8 +59,10 @@ const General = () => {
     );
   }
 
-  //TODO : Clicking cancel button should revert the state back to what was fetched from DB
+  //TODO : Look for a better alternative than onClick to fetchPref
   //TODO : If password was set to blank and saved, password field checkbox should be unchecked
+  //TODO : Refine the API call for update. Variable names and such
+  //TODO : Make the refetch after updations correct
 
   return (
     <div className="flex w-full justify-center py-4">
@@ -107,7 +122,12 @@ const General = () => {
                   !(isPasswordValid[0] * isPasswordValid[1] > 0)
                 }
               />
-              <Button label="Cancel" style="text" type="reset" />
+              <Button
+                label="Cancel"
+                style="text"
+                type="reset"
+                onClick={resetValues}
+              />
             </div>
           </div>
         </Form>

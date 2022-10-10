@@ -7,7 +7,7 @@ class PreferencesController < ApplicationController
   end
 
   def update
-    @preference.update!(preferece_params)
+    @preference.update!(preference_params)
     respond_with_success(t("successfully_updated", entity: "Settings"))
   end
 
@@ -17,7 +17,7 @@ class PreferencesController < ApplicationController
       @preference = Preference.first
     end
 
-    def preferece_params
-      params.require(:preference).permit([:site_name, :is_password, :password])
+    def preference_params
+      params.require(:preference).permit([:site_name, :is_password, :password_digest])
     end
 end

@@ -2,10 +2,11 @@ import axios from "axios";
 
 const list = () => axios.get("/preferences");
 
-const update = payload =>
+const update = preference => {
   axios.put("/preferences/1", {
-    preference: payload,
+    ...preference,
   });
+};
 
 const preferencesApi = { list, update };
 
