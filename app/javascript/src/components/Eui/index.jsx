@@ -17,48 +17,45 @@ const Eui = () => {
 
   const fetchArticles = async () => {
     try {
-      setLoading(true);
       const {
         data: { articles },
       } = await publicArticlesApi.list();
       setArticles(articles);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchCategories = async () => {
     try {
-      setLoading(true);
       const {
         data: { categories },
       } = await publicCategoriesApi.list();
       setCategories(categories);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchPreferences = async () => {
     try {
-      setLoading(true);
       const { data } = await publicPreferencesApi.list();
       setSiteName(data.site_name);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
+  const fetchData = async () => {
+    setLoading(true);
+    await fetchArticles();
+    await fetchCategories();
+    await fetchPreferences();
+    setLoading(false);
+  };
+
   useEffect(() => {
-    fetchArticles();
-    fetchCategories();
-    fetchPreferences();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -73,10 +70,8 @@ const Eui = () => {
     <>
       <Header siteName={siteName} />
       <div className="flex">
-        <Sidebar />
+        <Sidebar articles={articles} categories={categories} />
       </div>
-      <p>{JSON.stringify(articles)}</p>
-      <p>{JSON.stringify(categories)}</p>
     </>
   );
 };
