@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     end
     resources :preferences, only: %i[index update]
   end
+  namespace :public do
+    resources :articles, only: %i[index show], param: :slug
+    resources :categories, only: %i[index]
+  end
 
   root "home#index"
   get "*path", to: "home#index", via: :all
