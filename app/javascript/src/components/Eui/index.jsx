@@ -7,6 +7,7 @@ import publicCategoriesApi from "apis/Public/categories";
 import publicPreferencesApi from "apis/Public/preferences";
 
 import Header from "./Header";
+import ShowArticle from "./ShowArticle";
 import Sidebar from "./Sidebar";
 
 const Eui = () => {
@@ -71,6 +72,7 @@ const Eui = () => {
       <Header siteName={siteName} />
       <div className="flex">
         <Sidebar articles={articles} categories={categories} />
+        <ShowArticle />
       </div>
     </>
   );
