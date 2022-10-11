@@ -14,7 +14,7 @@ const Navbar = () => (
       <NavItem
         iconClass="ri-file-download-fill"
         name="Settings"
-        path="/settings/general"
+        path="/settings"
       />
     </div>
   </div>
