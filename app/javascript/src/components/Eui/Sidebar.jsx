@@ -1,37 +1,31 @@
 import React from "react";
 
-import { Accordion } from "neetoui";
+import { Accordion, Button } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
-import { useHistory } from "react-router";
 
-const Sidebar = () => {
-  const history = useHistory();
-
-  return (
-    <div className="flex">
-      <MenuBar showMenu>
-        <Accordion defaultActiveKey={0}>
-          <Accordion.Item title="Category 1">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+const Sidebar = ({ categories, articles }) => (
+  <div className="flex">
+    <MenuBar showMenu>
+      <Accordion defaultActiveKey={0}>
+        {categories.map(c => (
+          <Accordion.Item key={c.id} title={c.name}>
+            {articles
+              .filter(article => article.category_name === c.name)
+              .map(article => (
+                <div className="p-1" key={article.id}>
+                  <Button
+                    key={article.id}
+                    label={article.title}
+                    style="link"
+                    to={`/public/${article.slug}`}
+                  />
+                </div>
+              ))}
           </Accordion.Item>
-          <Accordion.Item title="Category 2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </Accordion.Item>
-          <Accordion.Item title="Category 3">
-            <ul>
-              <button onClick={() => history.push("/articles")}>
-                Article 1
-              </button>
-              <li>Article 2</li>
-              <li>Article 3</li>
-            </ul>
-          </Accordion.Item>
-        </Accordion>
-      </MenuBar>
-    </div>
-  );
-};
+        ))}
+      </Accordion>
+    </MenuBar>
+  </div>
+);
 
 export default Sidebar;
