@@ -1,6 +1,5 @@
 import React from "react";
 
-// eslint-disable-next-line unused-imports/no-unused-imports, no-unused-vars
 import { Redirect, Route } from "react-router";
 
 import Categories from "./Categories";
@@ -14,7 +13,7 @@ const Settings = () => (
     <Route component={General} path="/settings/general" />
     <Route component={Categories} path="/settings/categories" />
     <Route component={Redirections} path="/settings/redirections" />
-    {/* <Redirect from="/settings" to="/settings/general" /> */}
+    <Redirect from="/settings" to="/settings/general" />
   </div>
 );
 
