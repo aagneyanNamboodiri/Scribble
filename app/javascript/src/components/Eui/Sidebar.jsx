@@ -12,8 +12,13 @@ const Sidebar = ({ categories, articles }) => (
             {articles
               .filter(article => article.category_name === c.name)
               .map(article => (
-                <div className="p-2" key={article.id}>
-                  <Button key={article.id} label={article.title} style="link" />
+                <div className="p-1" key={article.id}>
+                  <Button
+                    key={article.id}
+                    label={article.title}
+                    style="link"
+                    to={`/public/${article.slug}`}
+                  />
                 </div>
               ))}
           </Accordion.Item>
