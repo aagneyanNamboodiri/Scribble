@@ -7,7 +7,7 @@ import { registerIntercepts, setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 
 import Dashboard from "./components/Dashboard";
-import Eui from "./Eui";
+import Eui from "./components/Eui";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
