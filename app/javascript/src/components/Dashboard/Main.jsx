@@ -22,6 +22,7 @@ const Dashboard = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [slugToDelete, setSlugToDelete] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentTablePage, setCurrentTablePage] = useState(1);
 
   const handleDelete = slug => {
     setSlugToDelete(slug);
@@ -114,6 +115,9 @@ const Dashboard = () => {
         </Typography>
         <Table
           columnData={filterColumnData(handleDelete, columnList)}
+          currentPageNumber={currentTablePage}
+          defaultPageSize={10}
+          handlePageChange={e => setCurrentTablePage(e)}
           rowData={searchedRowData}
         />
         {showDeleteAlert && (
