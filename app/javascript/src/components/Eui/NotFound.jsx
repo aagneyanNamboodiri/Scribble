@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PageLoader, Typography } from "neetoui";
+import { PageLoader, Typography, Button } from "neetoui";
 
 const NotFound = () => (
   <div className="flex w-full justify-center py-20">
@@ -17,6 +17,11 @@ const NotFound = () => (
             You are seeing this page because the article doesn't exist.
           </Typography>
         </div>
+        <Button
+          label="Click here to goto the first article"
+          style="primary"
+          to="/public"
+        />
       </div>
     </div>
   </div>
