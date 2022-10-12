@@ -9,16 +9,16 @@ const Sidebar = ({ categories, articles }) => {
 
   const findCurrentCategoryIndex = () => {
     const categoryName = articles.filter(article => article.slug === slug)[0]
-      .category_name;
+      ?.category_name;
 
     return (
       categories.filter(category => category.name === categoryName)[0]
-        .position - 1
+        ?.position - 1
     );
   };
 
   const currentArticleId = articles.filter(article => article.slug === slug)[0]
-    .id;
+    ?.id;
 
   return (
     <div className="flex">
