@@ -80,6 +80,7 @@ const Dashboard = () => {
         articleStatus={articleStatus}
         articles={articles}
         categories={categories}
+        refetch={fetchCategories}
         setArticleCategory={setArticleCategory}
         setArticleStatus={setArticleStatus}
       />

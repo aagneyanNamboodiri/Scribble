@@ -4,6 +4,8 @@ import { Plus, Search } from "neetoicons";
 import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
+import CategoryCreate from "./CategoryCreate";
+
 const SideMenu = ({
   articles,
   categories,
@@ -11,9 +13,11 @@ const SideMenu = ({
   articleCategory,
   setArticleStatus,
   articleStatus,
+  refetch,
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
   const [categorySearch, setCategorySearch] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
 
   return (
     <MenuBar showMenu title="Articles">
@@ -46,6 +50,7 @@ const SideMenu = ({
           },
           {
             icon: Plus,
+            onClick: () => setIsCreating(prev => !prev),
           },
         ]}
       >
@@ -64,6 +69,9 @@ const SideMenu = ({
         onChange={e => setCategorySearch(e.target.value)}
         onCollapse={() => setIsSearchCollapsed(true)}
       />
+      {isCreating && (
+        <CategoryCreate refetch={refetch} setIsCreating={setIsCreating} />
+      )}
       {categories
         .filter(category =>
           category.name.toLowerCase().includes(categorySearch.toLowerCase())
