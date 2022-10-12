@@ -10,10 +10,11 @@ import ErrorPage from "./ErrorPage";
 import { formatTime } from "../Dashboard/utils";
 
 const ShowArticle = () => {
-  const { slug } = useParams(slug);
+  const { slug } = useParams();
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
   const [articleFound, setArticleFound] = useState(true);
+
   const fetchArticle = async () => {
     try {
       setLoading(true);
@@ -28,7 +29,7 @@ const ShowArticle = () => {
   };
 
   useEffect(() => {
-    if (slug) fetchArticle();
+    fetchArticle();
   }, [slug]);
 
   if (!articleFound) {
