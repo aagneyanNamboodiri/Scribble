@@ -4,6 +4,8 @@ import { Plus, Search } from "neetoicons";
 import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
+import CategoryCreate from "./CategoryCreate";
+
 const SideMenu = ({
   articles,
   categories,
@@ -11,8 +13,11 @@ const SideMenu = ({
   articleCategory,
   setArticleStatus,
   articleStatus,
+  refetch,
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
+  const [categorySearch, setCategorySearch] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
 
   return (
     <MenuBar showMenu title="Articles">
@@ -45,6 +50,7 @@ const SideMenu = ({
           },
           {
             icon: Plus,
+            onClick: () => setIsCreating(prev => !prev),
           },
         ]}
       >
@@ -59,17 +65,26 @@ const SideMenu = ({
       </MenuBar.SubTitle>
       <MenuBar.Search
         collapse={isSearchCollapsed}
+        value={categorySearch}
+        onChange={e => setCategorySearch(e.target.value)}
         onCollapse={() => setIsSearchCollapsed(true)}
       />
-      {categories.map(category => (
-        <MenuBar.Block
-          active={articleCategory === category.name}
-          count={category.articles_count || 0}
-          key={category.id}
-          label={category.name}
-          onClick={() => setArticleCategory(category.name)}
-        />
-      ))}
+      {isCreating && (
+        <CategoryCreate refetch={refetch} setIsCreating={setIsCreating} />
+      )}
+      {categories
+        .filter(category =>
+          category.name.toLowerCase().includes(categorySearch.toLowerCase())
+        )
+        .map(category => (
+          <MenuBar.Block
+            active={articleCategory === category.name}
+            count={category.articles_count || 0}
+            key={category.id}
+            label={category.name}
+            onClick={() => setArticleCategory(category.name)}
+          />
+        ))}
     </MenuBar>
   );
 };
