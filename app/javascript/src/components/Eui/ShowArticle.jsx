@@ -21,7 +21,7 @@ const ShowArticle = () => {
       setArticle(data.data);
       setArticleFound(true);
     } catch (error) {
-      if (error.response.status === 404) setArticleFound(false);
+      if (error.response.status) setArticleFound(false);
     } finally {
       setLoading(false);
     }
