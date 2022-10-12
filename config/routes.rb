@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       end
     end
     resources :preferences, only: %i[index update]
+    resources :redirections, except: %i[new edit show]
   end
   namespace :public do
     resources :articles, only: %i[index show], param: :slug
