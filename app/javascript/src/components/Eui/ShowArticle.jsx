@@ -10,7 +10,7 @@ import { formatTime } from "../Dashboard/utils";
 const ShowArticle = () => {
   const { slug } = useParams(slug);
   const [article, setArticle] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchArticle = async () => {
     try {
@@ -25,7 +25,7 @@ const ShowArticle = () => {
   };
 
   useEffect(() => {
-    fetchArticle();
+    if (slug) fetchArticle();
   }, [slug]);
 
   if (loading) {

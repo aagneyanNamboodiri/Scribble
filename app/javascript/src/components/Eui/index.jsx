@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { PageLoader } from "neetoui";
+import { useHistory, useParams } from "react-router";
 
 import publicArticlesApi from "apis/Public/articles";
 import publicCategoriesApi from "apis/Public/categories";
@@ -11,11 +12,12 @@ import ShowArticle from "./ShowArticle";
 import Sidebar from "./Sidebar";
 
 const Eui = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [siteName, setSiteName] = useState("");
-
+  const history = useHistory();
+  const { slug } = useParams(slug);
   const fetchArticles = async () => {
     try {
       const {
@@ -58,6 +60,18 @@ const Eui = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!slug && !loading) {
+      history.push(
+        `/public/${
+          articles.filter(
+            article => article.category_name === categories[0].name
+          )[0].slug
+        }`
+      );
+    }
+  }, [loading]);
 
   if (loading) {
     return (
