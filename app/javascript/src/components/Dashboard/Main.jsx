@@ -21,6 +21,7 @@ const Dashboard = () => {
   const [columnList, setColumnList] = useState(initialColumnsList);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [slugToDelete, setSlugToDelete] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleDelete = slug => {
     setSlugToDelete(slug);
@@ -64,6 +65,13 @@ const Dashboard = () => {
       </div>
     );
   }
+  const searchedRowData = filterRowData(
+    articles,
+    articleCategory,
+    articleStatus
+  ).filter(article =>
+    article.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="flex">
@@ -87,8 +95,10 @@ const Dashboard = () => {
             </>
           }
           searchProps={{
-            onChange: function noRefCheck() {},
-            value: "",
+            onChange: e => {
+              setSearchQuery(e.target.value);
+            },
+            value: searchQuery,
             placeholder: "Search artcile titles",
           }}
         />
@@ -103,7 +113,7 @@ const Dashboard = () => {
         </Typography>
         <Table
           columnData={filterColumnData(handleDelete, columnList)}
-          rowData={filterRowData(articles, articleCategory, articleStatus)}
+          rowData={searchedRowData}
         />
         {showDeleteAlert && (
           <DeleteAlert
