@@ -13,6 +13,7 @@ const SideMenu = ({
   articleStatus,
 }) => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
+  const [categorySearch, setCategorySearch] = useState("");
 
   return (
     <MenuBar showMenu title="Articles">
@@ -59,17 +60,23 @@ const SideMenu = ({
       </MenuBar.SubTitle>
       <MenuBar.Search
         collapse={isSearchCollapsed}
+        value={categorySearch}
+        onChange={e => setCategorySearch(e.target.value)}
         onCollapse={() => setIsSearchCollapsed(true)}
       />
-      {categories.map(category => (
-        <MenuBar.Block
-          active={articleCategory === category.name}
-          count={category.articles_count || 0}
-          key={category.id}
-          label={category.name}
-          onClick={() => setArticleCategory(category.name)}
-        />
-      ))}
+      {categories
+        .filter(category =>
+          category.name.toLowerCase().includes(categorySearch.toLowerCase())
+        )
+        .map(category => (
+          <MenuBar.Block
+            active={articleCategory === category.name}
+            count={category.articles_count || 0}
+            key={category.id}
+            label={category.name}
+            onClick={() => setArticleCategory(category.name)}
+          />
+        ))}
     </MenuBar>
   );
 };
