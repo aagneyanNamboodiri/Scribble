@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 
 import publicArticlesApi from "apis/Public/articles";
 
-import NotFound from "./NotFound";
+import ErrorPage from "./ErrorPage";
 
 import { formatTime } from "../Dashboard/utils";
 
@@ -32,7 +32,7 @@ const ShowArticle = () => {
   }, [slug]);
 
   if (!articleFound) {
-    return <NotFound />;
+    return <ErrorPage error="404" />;
   }
 
   if (loading) {
