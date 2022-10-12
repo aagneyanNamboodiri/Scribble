@@ -11,11 +11,11 @@ import { INITIAL_VALUES, validationSchema } from "./constants";
 import { buildInitialValues } from "./utils";
 
 const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
-  const handleSubmit = async redirection => {
+  const handleSubmit = async values => {
     try {
-      //isEditing ?
-      await redirectionsApi.create({ redirection });
-      //: await redirectionsApi.list();
+      isEditing
+        ? await redirectionsApi.update(redirection.id, { values })
+        : await redirectionsApi.create({ values });
     } catch (err) {
       logger.log(err);
     } finally {

@@ -19,6 +19,7 @@ class RedirectionsController < ApplicationController
 
   def destroy
     @redirection.destroy!
+    respond_with_success(t("successfully_destroyed", entity: "Redirection"))
   end
 
   private
