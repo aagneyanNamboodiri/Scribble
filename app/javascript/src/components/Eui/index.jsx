@@ -11,7 +11,6 @@ import Header from "./Header";
 import ShowArticle from "./ShowArticle";
 import Sidebar from "./Sidebar";
 
-// eslint-disable-next-line consistent-return
 const Eui = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
@@ -62,18 +61,6 @@ const Eui = () => {
     fetchData();
   }, []);
 
-  /* useEffect(() => {
-    if (!slug && !loading) {
-      history.push(
-        `/public/${
-          articles.filter(
-            article => article.category_name === categories[0].name
-          )[0].slug
-        }`
-      );
-    }
-  }, [loading]); */
-
   if (loading) {
     return (
       <div className="h-screen w-full">
@@ -82,23 +69,24 @@ const Eui = () => {
     );
   }
 
-  if (slug) {
-    return (
-      <>
-        <Header siteName={siteName} />
-        <div className="flex">
-          <Sidebar articles={articles} categories={categories} />
-          <ShowArticle />
-        </div>
-      </>
+  if (!slug) {
+    history.push(
+      `/public/${
+        articles.filter(
+          article => article.category_name === categories[0].name
+        )[0].slug
+      }`
     );
   }
-  history.push(
-    `/public/${
-      articles.filter(
-        article => article.category_name === categories[0].name
-      )[0].slug
-    }`
+
+  return (
+    <>
+      <Header siteName={siteName} />
+      <div className="flex">
+        <Sidebar articles={articles} categories={categories} />
+        <ShowArticle />
+      </div>
+    </>
   );
 };
 export default Eui;
