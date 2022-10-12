@@ -61,23 +61,21 @@ const Eui = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (!slug && !loading) {
-      history.push(
-        `/public/${
-          articles.filter(
-            article => article.category_name === categories[0].name
-          )[0].slug
-        }`
-      );
-    }
-  }, [loading]);
-
   if (loading) {
     return (
       <div className="h-screen w-full">
         <PageLoader />
       </div>
+    );
+  }
+
+  if (!slug) {
+    history.push(
+      `/public/${
+        articles.filter(
+          article => article.category_name === categories[0].name
+        )[0].slug
+      }`
     );
   }
 
