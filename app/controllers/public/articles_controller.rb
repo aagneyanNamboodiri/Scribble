@@ -2,10 +2,10 @@
 
 class Public::ArticlesController < ApplicationController
   def index
-    @articles = Article.all
+    @articles = Article.all.where(status: "published")
   end
 
   def show
-    @article = Article.find_by!(slug: params[:slug])
+    @article = Article.where(status: "published").find_by!(slug: params[:slug])
   end
 end

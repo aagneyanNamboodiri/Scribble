@@ -5,15 +5,16 @@ import { useParams } from "react-router";
 
 import publicArticlesApi from "apis/Public/articles";
 
-import NotFound from "./NotFound";
+import ErrorPage from "./ErrorPage";
 
 import { formatTime } from "../Dashboard/utils";
 
 const ShowArticle = () => {
-  const { slug } = useParams(slug);
+  const { slug } = useParams();
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
   const [articleFound, setArticleFound] = useState(true);
+
   const fetchArticle = async () => {
     try {
       setLoading(true);
@@ -21,18 +22,18 @@ const ShowArticle = () => {
       setArticle(data.data);
       setArticleFound(true);
     } catch (error) {
-      if (error.response.status === 404) setArticleFound(false);
+      if (error.response.status) setArticleFound(false);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (slug) fetchArticle();
+    fetchArticle();
   }, [slug]);
 
   if (!articleFound) {
-    return <NotFound />;
+    return <ErrorPage error="404" />;
   }
 
   if (loading) {

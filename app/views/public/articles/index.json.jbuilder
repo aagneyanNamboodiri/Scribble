@@ -5,8 +5,6 @@ json.articles @articles do |article|
     :id,
     :slug,
     :title,
-    :body,
-    :created_at,
     :status
   json.user_name article.user.name
   json.category_name article.assigned_category.name

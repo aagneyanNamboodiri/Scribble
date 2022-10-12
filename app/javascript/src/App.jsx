@@ -26,7 +26,6 @@ const App = () => {
       <Router>
         <ToastContainer />
         <Switch>
-          <Route component={Eui} path="/public/:slug" />
           <Route component={Eui} path="/public" />
           <Route component={Dashboard} path="/" />
         </Switch>
