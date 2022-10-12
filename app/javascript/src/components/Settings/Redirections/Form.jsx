@@ -19,8 +19,8 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
     } catch (err) {
       logger.log(err);
     } finally {
-      setAction(false);
       refetch();
+      setAction(false);
     }
   };
 

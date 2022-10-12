@@ -6,6 +6,8 @@ const create = payload => {
   axios.post("/redirections", payload);
 };
 
-const redirectionsApi = { list, create };
+const destroy = id => axios.delete(`/redirections/${id}`);
+
+const redirectionsApi = { list, create, destroy };
 
 export default redirectionsApi;
