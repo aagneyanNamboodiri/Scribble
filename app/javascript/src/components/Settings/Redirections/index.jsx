@@ -1,13 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Plus } from "neetoicons";
-import { Typography } from "neetoui";
+import { Typography, PageLoader } from "neetoui";
 
-import Form from "./Form";
+import redirectionsApi from "apis/redirections";
+
+import RoutesForm from "./RoutesForm";
 import Row from "./Row";
 
 const Redirections = () => {
   const [isCreating, setIsCreating] = useState(false);
+  const [redirections, setRedirections] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchRedirections = async () => {
+    try {
+      setLoading(true);
+      const {
+        data: { redirections },
+      } = await redirectionsApi.list();
+      setRedirections(redirections);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRedirections();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-full justify-center py-4">
@@ -36,8 +66,16 @@ const Redirections = () => {
               ACTIONS
             </Typography>
           </div>
-          <Row />
-          {isCreating && <Form setAction={setIsCreating} />}
+          {redirections.map((redirection, idx) => (
+            <Row
+              key={idx}
+              redirection={redirection}
+              refetch={fetchRedirections}
+            />
+          ))}
+          {isCreating && (
+            <RoutesForm refetch={fetchRedirections} setAction={setIsCreating} />
+          )}
           {!isCreating && (
             <div className="flex">
               <Plus

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Redirect,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
@@ -8,6 +13,7 @@ import { initializeLogger } from "common/logger";
 
 import Dashboard from "./components/Dashboard";
 import Eui from "./components/Eui";
+import Settings from "./components/Settings";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -27,7 +33,9 @@ const App = () => {
         <ToastContainer />
         <Switch>
           <Route component={Eui} path="/public" />
-          <Route component={Dashboard} path="/" />
+          <Route component={Settings} path="/settings" />
+          <Route component={Dashboard} path="/articles" />
+          <Redirect exact from="/" to="/articles" />
         </Switch>
       </Router>
     </div>
