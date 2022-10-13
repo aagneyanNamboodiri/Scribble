@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Redirect, Route } from "react-router";
+import { Route } from "react-router";
 
 import Sidebar from "./Sidebar";
 
@@ -12,7 +12,6 @@ const Settings = () => (
     {SETTINGS_ROUTES.map(({ path, component }) => (
       <Route component={component} key={path} path={path} />
     ))}
-    <Redirect from="/settings" to="/settings/general" />
   </div>
 );
 
