@@ -40,7 +40,7 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
               placeholder="scribble.com/"
               prefix={
                 <Typography style="body3" weight="medium">
-                  localhost:3000/
+                  localhost:3000
                 </Typography>
               }
             />
@@ -49,7 +49,7 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
               placeholder="scribble.com/"
               prefix={
                 <Typography style="body3" weight="medium">
-                  localhost:3000/
+                  localhost:3000
                 </Typography>
               }
             />

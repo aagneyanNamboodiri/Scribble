@@ -66,9 +66,9 @@ const Redirections = () => {
               ACTIONS
             </Typography>
           </div>
-          {redirections.map(redirection => (
+          {redirections.map((redirection, idx) => (
             <Row
-              key={redirection.id}
+              key={idx}
               redirection={redirection}
               refetch={fetchRedirections}
             />
