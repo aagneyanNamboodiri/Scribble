@@ -5,7 +5,7 @@ import { Typography } from "neetoui";
 
 import redirectionsApi from "apis/redirections";
 
-import Form from "./Form";
+import Form from "./RoutesForm";
 
 const Row = ({ redirection, refetch }) => {
   const [isEditing, setIsEditing] = useState(false);

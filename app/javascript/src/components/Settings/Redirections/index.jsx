@@ -5,7 +5,7 @@ import { Typography, PageLoader } from "neetoui";
 
 import redirectionsApi from "apis/redirections";
 
-import Form from "./Form";
+import RoutesForm from "./RoutesForm";
 import Row from "./Row";
 
 const Redirections = () => {
@@ -73,7 +73,9 @@ const Redirections = () => {
               refetch={fetchRedirections}
             />
           ))}
-          {isCreating && <Form setAction={setIsCreating} />}
+          {isCreating && (
+            <RoutesForm refetch={fetchRedirections} setAction={setIsCreating} />
+          )}
           {!isCreating && (
             <div className="flex">
               <Plus

@@ -16,11 +16,11 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
       isEditing
         ? await redirectionsApi.update(redirection.id, { redirections })
         : await redirectionsApi.create({ redirections });
+      refetch();
     } catch (err) {
       logger.log(err);
     } finally {
       setAction(false);
-      refetch();
     }
   };
 
