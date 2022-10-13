@@ -8,6 +8,7 @@ import { initializeLogger } from "common/logger";
 
 import Dashboard from "./components/Dashboard";
 import Eui from "./components/Eui";
+import Settings from "./components/Settings";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ const App = () => {
         <ToastContainer />
         <Switch>
           <Route component={Eui} path="/public" />
+          <Route component={Settings} path="/settings" />
           <Route component={Dashboard} path="/" />
         </Switch>
       </Router>
