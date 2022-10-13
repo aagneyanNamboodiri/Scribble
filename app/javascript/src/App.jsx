@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Redirect,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
@@ -29,7 +34,8 @@ const App = () => {
         <Switch>
           <Route component={Eui} path="/public" />
           <Route component={Settings} path="/settings" />
-          <Route component={Dashboard} path="/" />
+          <Route component={Dashboard} path="/articles" />
+          <Redirect exact from="/" to="/articles" />
         </Switch>
       </Router>
     </div>
