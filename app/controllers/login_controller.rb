@@ -4,7 +4,7 @@ class LoginController < ApplicationController
   def create
     password = params[:password]
     @preference = Preference.first
-    if @preference.authenticate(password)
+    if @preference.password_digest == password
       cookies[:auth] = @preference.authentication_token
       respond_with_success("Login successful", :created)
     else

@@ -12,13 +12,12 @@ const Navbar = () => {
   const [loading, setLoading] = useState(true);
   const [isPassword, setIsPassword] = useState(false);
 
+  // eslint-disable-next-line consistent-return
   const shouldLoginOrNot = () => {
     if (!isPassword) return false;
     else if (isPassword && !cookie) {
       return true;
     }
-
-    return false;
   };
 
   const fetchPreferences = async () => {

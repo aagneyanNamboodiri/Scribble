@@ -2,8 +2,10 @@
 
 class Public::BaseController < ApplicationController
   def check_if_user_is_authorized
-    a = cookies[:auth] == Preference.first.authentication_token
-    if a == false
+    preference = Preference.first
+    a = cookies[:auth] == preference.authentication_token
+    byebug
+    if a == false && preference.is_password
       respond_with_error("Not authorized", :unauthorized)
     end
   end
