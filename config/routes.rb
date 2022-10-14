@@ -18,5 +18,6 @@ Rails.application.routes.draw do
   end
 
   root "home#index"
+  post "/login", to: "login#create"
   get "*path", to: "home#index", via: :all
 end

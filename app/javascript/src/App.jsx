@@ -13,6 +13,7 @@ import { initializeLogger } from "common/logger";
 
 import Dashboard from "./components/Dashboard";
 import Eui from "./components/Eui";
+import Login from "./components/Eui/Login";
 import Settings from "./components/Settings";
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
           <Route component={Eui} path="/public" />
           <Route component={Settings} path="/settings" />
           <Route component={Dashboard} path="/articles" />
+          <Route exact component={Login} path="/login" />
           <Redirect exact from="/" to="/articles" />
         </Switch>
       </Router>
