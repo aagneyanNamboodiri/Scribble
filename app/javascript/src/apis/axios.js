@@ -28,6 +28,10 @@ const handleSuccessResponse = response => {
     if (response.data.notice) {
       Toastr.success(response.data.notice);
     }
+
+    if ((response.success = response.status === 201)) {
+      setTimeout(() => (window.location.href = "/public"), 1000);
+    }
   }
 
   return response;
@@ -36,7 +40,7 @@ const handleSuccessResponse = response => {
 const handleErrorResponse = axiosErrorObject => {
   if (axiosErrorObject.response?.status === 401) {
     setToLocalStorage({ authToken: null, email: null, userId: null });
-    setTimeout(() => (window.location.href = "/"), 2000);
+    //setTimeout(() => (window.location.href = "/"), 5000);
   }
   Toastr.error(
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
