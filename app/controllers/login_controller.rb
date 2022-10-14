@@ -5,10 +5,10 @@ class LoginController < ApplicationController
     password = params[:password]
     @preference = Preference.first
     if @preference.authenticate(password)
-      cookies[:auth] = Preference.first.authentication_token
+      cookies[:auth] = @preference.authentication_token
       respond_with_success("Login successful", :created)
     else
-      cookies[:auth] = "noauth"
+      cookies[:auth] = ""
       respond_with_error("Incorrect credentials, try again.", :unauthorized)
     end
   end
