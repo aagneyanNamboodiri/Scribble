@@ -9,7 +9,7 @@ class LoginController < ApplicationController
       respond_with_success("Login successful", :created)
     else
       cookies[:auth] = ""
-      respond_with_error("Incorrect credentials, try again.", :unauthorized)
+      respond_with_error("Incorrect credentials, try again.")
     end
   end
 end
