@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState([]);
   const handleSubmit = async () => {
     try {
-      loginApi.create();
+      loginApi.create({ password });
     } catch (err) {
       logger.log(err);
     }
