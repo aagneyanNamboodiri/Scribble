@@ -6,7 +6,7 @@ class LoginController < ApplicationController
     @preference = Preference.first
     if @preference.is_password
       if @preference.password_digest == password
-        cookies[:auth] = @preference.authentication_token
+        session[:auth] = @preference.authentication_token
         respond_with_success("Login successful", :created)
       else
         respond_with_error("Incorrect credentials, try again.")
