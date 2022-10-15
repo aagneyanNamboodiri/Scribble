@@ -28,7 +28,6 @@ const App = ({ isLoggedIn }) => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
-  // debugger;
 
   return (
     <div>

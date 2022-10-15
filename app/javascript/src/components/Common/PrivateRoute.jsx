@@ -41,7 +41,6 @@ const PrivateRoute = ({ isLoggedIn }) => {
     );
   }
 
-  //debugger;
   return <Route component={Eui} path="/public" />;
 };
 
