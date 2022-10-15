@@ -34,9 +34,9 @@ const App = ({ isLoggedIn }) => {
       <Router>
         <ToastContainer />
         <Switch>
-          <Route component={Settings} path="/settings" />
-          <Route component={Dashboard} path="/articles" />
           <Redirect exact from="/" to="/articles" />
+          <Route component={Dashboard} path="/articles" />
+          <Route component={Settings} path="/settings" />
           <Route exact component={Login} path="/login" />
           <PrivateRoute isLoggedIn={isLoggedIn} />
           <Route component={Eui} path="/public" />
