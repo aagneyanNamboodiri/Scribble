@@ -17,7 +17,7 @@ import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
 import Settings from "./components/Settings";
 
-const App = () => {
+const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     initializeLogger();
@@ -28,6 +28,7 @@ const App = () => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
+  // debugger;
 
   return (
     <div>
@@ -38,7 +39,7 @@ const App = () => {
           <Route component={Dashboard} path="/articles" />
           <Redirect exact from="/" to="/articles" />
           <Route exact component={Login} path="/login" />
-          <PrivateRoute />
+          <PrivateRoute isLoggedIn={isLoggedIn} />
           <Route component={Eui} path="/public" />
         </Switch>
       </Router>
