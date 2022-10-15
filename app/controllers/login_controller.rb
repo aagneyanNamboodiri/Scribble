@@ -8,7 +8,6 @@ class LoginController < ApplicationController
       cookies[:auth] = @preference.authentication_token
       respond_with_success("Login successful", :created)
     else
-      cookies[:auth] = ""
       respond_with_error("Incorrect credentials, try again.")
     end
   end
