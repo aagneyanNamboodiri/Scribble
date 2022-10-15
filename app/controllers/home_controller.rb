@@ -8,6 +8,8 @@ class HomeController < ApplicationController
 
   def redirection_method
     redirection_input = Redirection.find_by(from_path: request.path)
-    redirect_to redirection_input.to_path, status: 301 unless redirection_input.nil?
+    if !redirection_input.nil?
+      redirect_to redirection_input.to_path, status: 301
+    end
   end
 end

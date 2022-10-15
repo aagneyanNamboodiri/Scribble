@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 
+import PrivateRoute from "./components/Common/PrivateRoute";
 import Dashboard from "./components/Dashboard";
 import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
@@ -33,11 +34,12 @@ const App = () => {
       <Router>
         <ToastContainer />
         <Switch>
-          <Route component={Eui} path="/public" />
           <Route component={Settings} path="/settings" />
           <Route component={Dashboard} path="/articles" />
-          <Route exact component={Login} path="/login" />
           <Redirect exact from="/" to="/articles" />
+          <Route exact component={Login} path="/login" />
+          <PrivateRoute />
+          <Route component={Eui} path="/public" />
         </Switch>
       </Router>
     </div>
