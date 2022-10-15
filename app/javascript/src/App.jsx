@@ -11,11 +11,13 @@ import { ToastContainer } from "react-toastify";
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 
+import PrivateRoute from "./components/Common/PrivateRoute";
 import Dashboard from "./components/Dashboard";
 import Eui from "./components/Eui";
+import Login from "./components/Eui/Login";
 import Settings from "./components/Settings";
 
-const App = () => {
+const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     initializeLogger();
@@ -32,10 +34,12 @@ const App = () => {
       <Router>
         <ToastContainer />
         <Switch>
-          <Route component={Eui} path="/public" />
-          <Route component={Settings} path="/settings" />
-          <Route component={Dashboard} path="/articles" />
           <Redirect exact from="/" to="/articles" />
+          <Route component={Dashboard} path="/articles" />
+          <Route component={Settings} path="/settings" />
+          <Route exact component={Login} path="/login" />
+          <PrivateRoute isLoggedIn={isLoggedIn} />
+          <Route component={Eui} path="/public" />
         </Switch>
       </Router>
     </div>
