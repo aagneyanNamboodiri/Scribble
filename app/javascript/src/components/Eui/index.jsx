@@ -74,7 +74,7 @@ const Eui = () => {
     if (articles.length === 0) {
       return (
         <div>
-          <Header siteName={siteName} />
+          <Header />
           <ErrorPage error="no articles" />;
         </div>
       );
