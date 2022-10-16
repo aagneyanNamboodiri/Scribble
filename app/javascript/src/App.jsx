@@ -16,6 +16,7 @@ import Dashboard from "./components/Dashboard";
 import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
 import Settings from "./components/Settings";
+import { PreferenceProvider } from "./contexts/preferencesContext";
 
 const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ const App = ({ isLoggedIn }) => {
   }
 
   return (
-    <div>
+    <PreferenceProvider>
       <Router>
         <ToastContainer />
         <Switch>
@@ -42,7 +43,7 @@ const App = ({ isLoggedIn }) => {
           <Route component={Eui} path="/public" />
         </Switch>
       </Router>
-    </div>
+    </PreferenceProvider>
   );
 };
 

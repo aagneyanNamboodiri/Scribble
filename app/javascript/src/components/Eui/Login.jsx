@@ -8,6 +8,8 @@ import loginApi from "apis/login";
 
 import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 
+import { usePreferenceState } from "../../contexts/preferencesContext";
+
 const Login = () => {
   const handleSubmit = async password => {
     try {
@@ -16,6 +18,7 @@ const Login = () => {
       logger.log(err);
     }
   };
+  const { siteName } = usePreferenceState();
 
   return (
     <div className="flex w-full justify-center py-4">
@@ -36,7 +39,7 @@ const Login = () => {
                   />
                 </a>
                 <Typography style="h2" weight="medium">
-                  Spinkart has password protection!
+                  {siteName} has password protection!
                 </Typography>
                 <Typography className="text-gray-600" style="body2">
                   Enter the password to access all these awesome articles!
