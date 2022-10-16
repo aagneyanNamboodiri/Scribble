@@ -13,7 +13,7 @@ import { usePreferenceState } from "../../contexts/preferencesContext";
 const Login = () => {
   const handleSubmit = async password => {
     try {
-      loginApi.create(password);
+      await loginApi.create(password);
     } catch (err) {
       logger.log(err);
     }
