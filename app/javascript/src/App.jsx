@@ -20,6 +20,7 @@ import { PreferenceProvider } from "./contexts/preferencesContext";
 
 const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     initializeLogger();
     registerIntercepts();
