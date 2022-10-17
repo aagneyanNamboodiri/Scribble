@@ -22,7 +22,7 @@ const Navbar = () => (
       icon={() => <ExternalLink size={17} />}
       label="Preview"
       style="secondary"
-      to="/public"
+      onClick={() => window.open("/public", "_blank")}
     />
   </div>
 );
