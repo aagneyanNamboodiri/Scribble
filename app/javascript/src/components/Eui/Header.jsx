@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Typography, Button } from "neetoui";
+import { Typography } from "neetoui";
 
 import { usePreferenceState } from "../../contexts/preferencesContext";
 
@@ -12,7 +12,6 @@ const Header = () => {
       <Typography style="h2" weight="medium">
         {siteName}
       </Typography>
-      <Button label="Developer's button" to="/articles" />
     </div>
   );
 };
