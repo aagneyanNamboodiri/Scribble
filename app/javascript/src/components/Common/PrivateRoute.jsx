@@ -3,23 +3,29 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
 import { usePreferenceState } from "../../contexts/preferencesContext";
-import Eui from "../Eui";
 
-const PrivateRoute = ({ isLoggedIn }) => {
+const PrivateRoute = ({
+  component: Component,
+  isLoggedIn,
+  path,
+  redirectRoute,
+  ...props
+}) => {
   const { isPassword } = usePreferenceState();
 
   if (!isLoggedIn && isPassword) {
     return (
       <Redirect
         to={{
-          pathname: "/login",
+          pathname: redirectRoute,
           from: "/public",
+          state: { url: props.location.pathname },
         }}
       />
     );
   }
 
-  return <Route component={Eui} path="/public" />;
+  return <Route component={Component} path={path} />;
 };
 
 export default PrivateRoute;

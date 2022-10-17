@@ -10,10 +10,11 @@ import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 
 import { usePreferenceState } from "../../contexts/preferencesContext";
 
-const Login = () => {
+const Login = ({ ...props }) => {
   const handleSubmit = async password => {
     try {
       await loginApi.create(password);
+      setTimeout(() => (window.location.href = props.location.state.url), 1000);
     } catch (err) {
       logger.log(err);
     }
