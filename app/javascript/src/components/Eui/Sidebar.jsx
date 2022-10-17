@@ -8,13 +8,11 @@ const Sidebar = ({ categories, articles }) => {
   const { slug } = useParams(slug);
 
   const findCurrentCategoryIndex = () => {
-    const categoryName = articles.filter(article => article.slug === slug)[0]
-      ?.category_name;
+    const categoryName = articles.find(
+      article => article.slug === slug
+    )?.category_name;
 
-    return (
-      categories.filter(category => category.name === categoryName)[0]
-        ?.position - 1
-    );
+    return categories.findIndex(category => category.name === categoryName);
   };
 
   const currentArticleId = articles.filter(article => article.slug === slug)[0]

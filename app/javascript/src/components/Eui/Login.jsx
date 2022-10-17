@@ -11,15 +11,27 @@ import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 import { usePreferenceState } from "../../contexts/preferencesContext";
 
 const Login = ({ ...props }) => {
+  const { siteName } = usePreferenceState();
+  const { isPassword } = usePreferenceState();
+  if (!isPassword) {
+    window.location.href = "/public";
+  }
+
   const handleSubmit = async password => {
     try {
       await loginApi.create(password);
-      setTimeout(() => (window.location.href = props.location.state.url), 1000);
+      setTimeout(
+        () =>
+          (window.location.href =
+            props.location.state === undefined
+              ? "/public"
+              : props.location.state.url),
+        1000
+      );
     } catch (err) {
       logger.log(err);
     }
   };
-  const { siteName } = usePreferenceState();
 
   return (
     <div className="flex w-full justify-center py-4">

@@ -24,6 +24,7 @@ const General = () => {
       password_digest: checked ? password : "",
     };
     await preferencesApi.update({ preference });
+    await fetchPreferences();
   };
 
   const resetValues = () => {

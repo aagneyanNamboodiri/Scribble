@@ -8,7 +8,8 @@ var advancedFormat = require("dayjs/plugin/advancedFormat");
 
 dayjs.extend(advancedFormat);
 
-export const formatTime = dateTime => dayjs(dateTime).format("MMMM Do, YYYY");
+export const formatTime = dateTime =>
+  dateTime === "-" ? "-" : dayjs(dateTime).format("MMMM Do, YYYY");
 
 export const buildColumns = handleDelete => {
   const columnData = [
@@ -71,6 +72,9 @@ export const buildColumns = handleDelete => {
 };
 
 export const filterRowData = (articles, articleCategory, articleStatus) => {
+  articles.map(article =>
+    article.status === "draft" ? (article.created_at = "-") : article.created_at
+  );
   if (articleCategory === "" && articleStatus === "all") return articles;
 
   if (articleCategory !== "" && articleStatus === "all") {
