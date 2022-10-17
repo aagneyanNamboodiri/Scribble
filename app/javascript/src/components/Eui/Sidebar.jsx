@@ -12,9 +12,7 @@ const Sidebar = ({ categories, articles }) => {
       article => article.slug === slug
     )?.category_name;
 
-    return (
-      categories.find(category => category.name === categoryName)?.position - 1
-    );
+    return categories.findIndex(category => category.name === categoryName);
   };
 
   const currentArticleId = articles.filter(article => article.slug === slug)[0]
