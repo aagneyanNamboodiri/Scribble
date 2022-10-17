@@ -3,7 +3,53 @@
 require "test_helper"
 
 class RedirectionsControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  def setup
+    @redirection = create(:redirection)
+    @headers = headers()
+  end
+
+  def test_listing_all_redirections
+    get redirections_path, headers: headers
+    assert_response :success
+    response_json = response.parsed_body
+    fetched_redirections = response_json["redirections"]
+    assert_equal fetched_redirections.length, Redirection.count
+  end
+
+  def test_should_create_redirection
+    post redirections_path, params: {
+                              redirections: {
+                                to_path: "/arigatou",
+                                from_path: "/gozaimasu"
+                              }
+                            },
+      headers: headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["notice"], t("successfully_created", entity: "Redirection")
+  end
+
+  def test_should_update_redirection
+    new_to_path = "/about"
+    put redirection_path(@redirection.id), params: {
+                                             redirections: {
+                                               to_path: new_to_path
+                                             }
+                                           },
+      headers: headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["notice"], t("successfully_updated", entity: "Redirection")
+    @redirection.reload
+    assert_equal @redirection.to_path, new_to_path
+  end
+
+  def test_should_destroy_redirection
+    assert_difference "Redirection.count", -1 do
+      delete redirection_path(@redirection.id), headers: headers()
+    end
+    response_json = response.parsed_body
+    assert_equal response_json["notice"], t("successfully_destroyed", entity: "Redirection")
+    assert_response :ok
+  end
 end
