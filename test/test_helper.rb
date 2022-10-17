@@ -15,3 +15,10 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+def headers(options = {})
+  {
+    Accept: "application/json",
+    "Content_Type" => "application/json"
+  }.merge(options)
+end
