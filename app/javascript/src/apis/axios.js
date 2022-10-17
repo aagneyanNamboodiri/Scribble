@@ -28,10 +28,6 @@ const handleSuccessResponse = response => {
     if (response.data.notice) {
       Toastr.success(response.data.notice);
     }
-
-    if ((response.success = response.status === 201)) {
-      setTimeout(() => (window.location.href = "/public"), 1000);
-    }
   }
 
   return response;
