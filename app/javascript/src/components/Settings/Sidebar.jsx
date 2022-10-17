@@ -1,28 +1,34 @@
 import React from "react";
 
-import { Button } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
 const Sidebar = () => (
   <div className="flex">
     <MenuBar showMenu>
-      <div className="space-y-4 px-4">
-        <Button
-          label="General Settings"
-          style="secondary"
-          to="/settings/general"
-        />
-        <Button
-          label="Redirections"
-          style="secondary"
-          to="/settings/redirections"
-        />
-        <Button
-          label="Manage categories"
-          style="secondary"
-          to="/settings/categories"
-        />
-      </div>
+      <MenuBar.Item
+        active={window.location.pathname === "/settings/general"}
+        description="Page Title, Brand Name & Meta Description"
+        label="General"
+        onClick={() => {
+          window.location.href = "/settings/general";
+        }}
+      />
+      <MenuBar.Item
+        active={window.location.pathname === "/settings/redirections"}
+        description="Create & configure redirection rules"
+        label="Redirections"
+        onClick={() => {
+          window.location.href = "/settings/redirections";
+        }}
+      />
+      <MenuBar.Item
+        active={window.location.pathname === "/settings/categories"}
+        description="Edit and reorder KB structure"
+        label="Manage Categories"
+        onClick={() => {
+          window.location.href = "/settings/categories";
+        }}
+      />
     </MenuBar>
   </div>
 );
