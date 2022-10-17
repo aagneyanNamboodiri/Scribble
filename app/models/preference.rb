@@ -5,5 +5,5 @@ class Preference < ApplicationRecord
   has_secure_token :authentication_token
 
   validates :site_name, presence: true, length: { maximum: MAX_SITENAME_LENGTH }
-  validates :password_digest, presence: true, length: { minimum: 6 } if -> { is_password }
+  validates :password_digest, presence: true, length: { minimum: 6 }, if: :is_password
 end
