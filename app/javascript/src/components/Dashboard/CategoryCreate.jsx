@@ -45,7 +45,7 @@ const CategoryCreate = ({ setIsCreating, refetch }) => {
               <Button
                 icon={() => <Close size={17} />}
                 style="text"
-                type="reset"
+                onClick={() => setIsCreating(false)}
               />
             </div>
           }

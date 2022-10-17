@@ -7,6 +7,6 @@ class Public::ArticlesController < Public::BaseController
   end
 
   def show
-    @article = Article.where(status: "published").find_by!(slug: params[:slug])
+    @article = Article.where(status: "published").find_by(slug: params[:slug])
   end
 end
