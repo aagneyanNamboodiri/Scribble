@@ -17,10 +17,13 @@ export const buildColumns = handleDelete => {
       dataIndex: "title",
       key: "Title",
       title: "Title",
-      render: title => (
-        <Typography className="text-indigo-500" style="body2">
-          {title}
-        </Typography>
+      render: (title, slug) => (
+        <Button
+          className="text-indigo-500"
+          label={title}
+          style="link"
+          to={`/articles/edit/${slug.slug}`}
+        />
       ),
     },
     {
