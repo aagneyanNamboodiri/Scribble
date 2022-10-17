@@ -16,7 +16,7 @@ const Sidebar = () => (
       <MenuBar.Item
         active={window.location.pathname === "/settings/redirections"}
         description="Create & configure redirection rules"
-        label="Styling"
+        label="Redirections"
         onClick={() => {
           window.location.href = "/settings/redirections";
         }}
