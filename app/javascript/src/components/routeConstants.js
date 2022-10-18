@@ -1,5 +1,5 @@
 import ArticleForm from "./Dashboard/ArticlesForm";
-import Dashboard from "./Dashboard/Main";
+import Main from "./Dashboard/Main";
 import Categories from "./Settings/Categories";
 import General from "./Settings/General";
 import Redirections from "./Settings/Redirections";
@@ -15,7 +15,7 @@ export const REDIRECTIONS_SETTINGS = "/settings/redirections";
 export const DASHBOARD_ROUTES = [
   {
     path: DASHBOARD_PATH,
-    component: Dashboard,
+    component: Main,
   },
   {
     path: CREATE_ARTICLE,

@@ -12,7 +12,7 @@ import DeleteAlert from "./DeleteAlert";
 import SideMenu from "./SideMenu";
 import { filterRowData, filterColumnData } from "./utils";
 
-const Dashboard = () => {
+const Main = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -128,4 +128,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Main;
