@@ -38,17 +38,24 @@ def delete_all_records_from_all_tables
 end
 
 def create_sample_data!
-  create_user! email: "oliver@example.com"
+  create_user!
+  create_preference!
 end
 
 def create_user!(options = {})
   user_attributes = {
-    first_name: "Oliver",
-    last_name: "Smith",
-    password: "welcome",
-    password_confirmation: "welcome",
-    role: "super_admin"
+    name: "Oliver Smith"
   }
   attributes = user_attributes.merge options
   User.create! attributes
+end
+
+def create_preference!(options = {})
+  preference_attributes = {
+    site_name: "Spinkart",
+    is_password: true,
+    password_digest: "admin1"
+  }
+  attributes = preference_attributes.merge options
+  Preference.create! attributes
 end
