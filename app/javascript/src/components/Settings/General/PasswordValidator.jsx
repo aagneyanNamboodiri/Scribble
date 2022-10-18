@@ -5,7 +5,7 @@ import { Typography } from "neetoui";
 
 import { alphabetRegex, numericalRegex } from "./constants";
 
-const ValidationMessages = ({ password, setIsPasswordValid }) => {
+const PasswordValidator = ({ password, setIsPasswordValid }) => {
   useEffect(() => {
     const passwordValidity = [
       alphabetRegex.test(password) && numericalRegex.test(password),
@@ -37,4 +37,4 @@ const ValidationMessages = ({ password, setIsPasswordValid }) => {
     </>
   );
 };
-export default ValidationMessages;
+export default PasswordValidator;
