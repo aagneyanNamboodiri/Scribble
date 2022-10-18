@@ -30,6 +30,7 @@ export const buildColumns = handleDelete => {
       dataIndex: "created_at",
       key: "Date",
       title: "Date",
+      width: 170,
       render: created_at => (
         <Typography style="body2">{formatTime(created_at)}</Typography>
       ),
@@ -38,16 +39,19 @@ export const buildColumns = handleDelete => {
       dataIndex: "user_name",
       key: "Author",
       title: "Author",
+      width: 150,
     },
     {
       dataIndex: "category_name",
       key: "Category",
       title: "Category",
+      width: 100,
     },
     {
       dataIndex: "status",
       key: "Status",
       title: "Status",
+      width: 80,
     },
     {
       dataIndex: "slug",
