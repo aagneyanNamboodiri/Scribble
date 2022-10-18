@@ -22,7 +22,7 @@ export const buildColumns = handleDelete => {
           className="text-indigo-500"
           label={title}
           style="link"
-          to={`/articles/edit/${slug.slug}`}
+          to={`/articles/${slug.slug}/edit`}
         />
       ),
     },
@@ -64,7 +64,7 @@ export const buildColumns = handleDelete => {
             icon={() => <Edit size="18" />}
             size="small"
             style="text"
-            to={`/articles/edit/${slug}`}
+            to={`/articles/${slug}/edit`}
           />
         </div>
       ),

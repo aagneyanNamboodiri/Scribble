@@ -6,7 +6,7 @@ import Redirections from "./Settings/Redirections";
 
 export const DASHBOARD_PATH = "/articles";
 export const CREATE_ARTICLE = "/articles/create";
-export const EDIT_ARTICLE = "/articles/edit/:slug";
+export const EDIT_ARTICLE = "/articles/:slug/edit";
 export const SETTINGS_PATH = "/settings";
 export const GENERAL_SETTINGS = "/settings/general";
 export const CATEGORIES_SETTINGS = "/settings/categories";
