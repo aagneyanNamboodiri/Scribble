@@ -23,6 +23,12 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Executing yarn =="
   system! "bin/yarn"
 
+  puts "\n== Creating config/database.yml file =="
+  if !ENV["DOCKER_ENV"]
+    system! "rm -f config/database.yml"
+    system! "cp config/database.yml.postgresql config/database.yml"
+  end
+
   puts "\n== Executing rake setup =="
   system! "bundle exec rake setup"
 
