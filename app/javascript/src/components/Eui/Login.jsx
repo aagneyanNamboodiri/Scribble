@@ -62,6 +62,7 @@ const Login = ({ ...props }) => {
                 helpText="Customize the sitename which is used to show the site name"
                 label="Site Name"
                 name="password"
+                type="password"
               />
             </div>
             <div className="flex space-x-2">

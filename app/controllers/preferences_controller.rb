@@ -27,7 +27,7 @@ class PreferencesController < ApplicationController
     def changes_to_password_logistics
       new_password_protection = params[:preference]["is_password"]
       new_password_value = params[:preference]["password_digest"]
-      changes = !(new_password_protection == @preference.is_password
-        && new_password_value == @preference.password_digest)
+      changes = !(new_password_protection == @preference.is_password &&
+        new_password_value == @preference.password_digest)
     end
 end
