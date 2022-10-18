@@ -42,7 +42,7 @@ const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
         </Typography>
         {category.articles_count > 0 && (
           <>
-            <div className="flex border-2 border-solid border-red-600 bg-red-100 p-3">
+            <div className="flex items-center space-x-2 border-2 border-solid border-red-600 bg-red-100 p-3">
               <CloseCircle
                 className="w-1/3 content-center"
                 color="#e53e3e"
