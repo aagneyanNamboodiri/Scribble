@@ -2,7 +2,7 @@ import React from "react";
 
 import { Redirect, Route } from "react-router-dom";
 
-import { usePreferenceState } from "contexts/preferencesContext";
+import { usePreferenceState } from "contexts/preferences";
 
 const PrivateRoute = ({
   component: Component,

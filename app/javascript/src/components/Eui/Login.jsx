@@ -5,7 +5,7 @@ import { Typography } from "neetoui";
 import { Input as FormikInput, Button } from "neetoui/formik";
 
 import loginApi from "apis/login";
-import { usePreferenceState } from "contexts/preferencesContext";
+import { usePreferenceState } from "contexts/preferences";
 
 import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 

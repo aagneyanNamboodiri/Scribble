@@ -17,7 +17,7 @@ import ErrorPage from "./components/ErrorPage";
 import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
 import Settings from "./components/Settings";
-import { PreferenceProvider } from "./contexts/preferencesContext";
+import { PreferenceProvider } from "./contexts/preferences";
 
 const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
