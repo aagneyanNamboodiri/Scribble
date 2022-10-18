@@ -93,7 +93,7 @@ const Main = () => {
                 columnList={columnList}
                 setColumnList={setColumnList}
               />
-              <Button label="Create new article" to="/articles/create" />
+              <Button label="Add new article" to="/articles/create" />
             </>
           }
           searchProps={{
