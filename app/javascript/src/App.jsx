@@ -13,11 +13,11 @@ import { initializeLogger } from "common/logger";
 
 import PrivateRoute from "./components/Common/PrivateRoute";
 import Dashboard from "./components/Dashboard";
+import ErrorPage from "./components/ErrorPage";
 import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
-import NotFound from "./components/NotFound";
 import Settings from "./components/Settings";
-import { PreferenceProvider } from "./contexts/preferencesContext";
+import { PreferenceProvider } from "./contexts/preferences";
 
 const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,7 @@ const App = ({ isLoggedIn }) => {
             redirectRoute="/login"
           />
           <Route component={Eui} path="/public" />
-          <Route component={NotFound} path="/" />
+          <Route component={ErrorPage} path="/" />
         </Switch>
       </Router>
     </PreferenceProvider>

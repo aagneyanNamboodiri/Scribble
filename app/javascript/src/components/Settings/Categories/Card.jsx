@@ -4,7 +4,7 @@ import { Reorder, Delete, Edit } from "neetoicons";
 import { Button, Typography } from "neetoui";
 
 import DeleteModal from "./DeleteModal";
-import Create from "./Form";
+import Form from "./Form";
 
 const Card = ({ category, refetch, categoryList, provided }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -19,7 +19,7 @@ const Card = ({ category, refetch, categoryList, provided }) => {
   return isEditing ? (
     <div className="border-t flex space-x-2 pt-2">
       <Reorder size="20" />
-      <Create
+      <Form
         category={category}
         refetch={refetch}
         setIsCreatingOrEditing={setIsEditing}

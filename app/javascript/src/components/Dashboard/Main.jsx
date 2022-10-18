@@ -12,7 +12,7 @@ import DeleteAlert from "./DeleteAlert";
 import SideMenu from "./SideMenu";
 import { filterRowData, filterColumnData } from "./utils";
 
-const Dashboard = () => {
+const Main = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -93,7 +93,7 @@ const Dashboard = () => {
                 columnList={columnList}
                 setColumnList={setColumnList}
               />
-              <Button label="Create new article" to="/articles/create" />
+              <Button label="Add new article" to="/articles/create" />
             </>
           }
           searchProps={{
@@ -105,13 +105,9 @@ const Dashboard = () => {
           }}
         />
         <Typography className="font-semibold" style="h3">
-          {filterRowData(articles, articleCategory, articleStatus).length === 1
-            ? `${
-                filterRowData(articles, articleCategory, articleStatus).length
-              } Article`
-            : `${
-                filterRowData(articles, articleCategory, articleStatus).length
-              } Articles`}
+          {searchedRowData.length === 1
+            ? `${searchedRowData.length} Article`
+            : `${searchedRowData.length} Articles`}
         </Typography>
         <Table
           columnData={filterColumnData(handleDelete, columnList)}
@@ -132,4 +128,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Main;

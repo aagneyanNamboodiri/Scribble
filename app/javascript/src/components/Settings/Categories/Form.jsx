@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Formik, Form } from "formik";
+import { Formik, Form as FormikForm } from "formik";
 import Logger from "js-logger";
 import { Check, Close } from "neetoicons";
 import { Button } from "neetoui";
@@ -10,7 +10,7 @@ import categoriesApi from "apis/categories";
 
 import { buildInitialValue, validationSchema } from "./constants";
 
-const Create = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
+const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
   const handleSubmit = async name => {
     try {
       Object.keys(category).length === 0
@@ -29,7 +29,7 @@ const Create = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      <Form>
+      <FormikForm>
         <FormikInput
           name="name"
           placeholder="Category Name"
@@ -50,9 +50,9 @@ const Create = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
             </div>
           }
         />
-      </Form>
+      </FormikForm>
     </Formik>
   );
 };
 
-export default Create;
+export default Form;

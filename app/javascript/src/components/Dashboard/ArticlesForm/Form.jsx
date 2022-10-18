@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Formik, Form } from "formik";
+import { Formik, Form as FormikForm } from "formik";
 import { Button, ActionDropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
 import { useHistory } from "react-router-dom";
@@ -13,7 +13,7 @@ import {
   buildInitialValuesForEditArticle,
 } from "./utils";
 
-const ArticleForm = ({ slug, isEdit, articleData, categories }) => {
+const Form = ({ slug, isEdit, articleData, categories }) => {
   const history = useHistory();
   const { Menu, MenuItem } = ActionDropdown;
   const statusList = ["Save Draft", "Publish"];
@@ -52,7 +52,7 @@ const ArticleForm = ({ slug, isEdit, articleData, categories }) => {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, handleSubmit }) => (
-        <Form className="mx-24 space-y-4 p-20 px-56">
+        <FormikForm className="mx-24 space-y-4 p-20 px-56">
           <div className="flex space-x-2">
             <Input
               label="Article Title"
@@ -106,10 +106,10 @@ const ArticleForm = ({ slug, isEdit, articleData, categories }) => {
               onClick={() => history.push("/articles")}
             />
           </div>
-        </Form>
+        </FormikForm>
       )}
     </Formik>
   );
 };
 
-export default ArticleForm;
+export default Form;

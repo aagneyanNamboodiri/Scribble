@@ -5,10 +5,9 @@ import { Typography } from "neetoui";
 import { Input as FormikInput, Button } from "neetoui/formik";
 
 import loginApi from "apis/login";
+import { usePreferenceState } from "contexts/preferences";
 
 import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
-
-import { usePreferenceState } from "../../contexts/preferencesContext";
 
 const Login = ({ ...props }) => {
   const { siteName } = usePreferenceState();
@@ -62,6 +61,7 @@ const Login = ({ ...props }) => {
                 helpText="Customize the sitename which is used to show the site name"
                 label="Site Name"
                 name="password"
+                type="password"
               />
             </div>
             <div className="flex space-x-2">

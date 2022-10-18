@@ -7,7 +7,7 @@ import { Input as FormikInput } from "neetoui/formik";
 import preferencesApi from "apis/preferences";
 
 import { validationSchema } from "./constants";
-import ValidationMessages from "./ValidationMessages";
+import PasswordValidator from "./PasswordValidator";
 
 const General = () => {
   const [checked, setChecked] = useState(false);
@@ -60,11 +60,6 @@ const General = () => {
     );
   }
 
-  //TODO : Look for a better alternative than onClick to fetchPref
-  //TODO : If password was set to blank and saved, password field checkbox should be unchecked
-  //TODO : Refine the API call for update. Variable names and such
-  //TODO : Make the refetch after updations correct
-
   return (
     <div className="flex w-full justify-center py-4">
       <Formik
@@ -109,7 +104,7 @@ const General = () => {
               />
             )}
             {checked && (
-              <ValidationMessages
+              <PasswordValidator
                 password={password}
                 setIsPasswordValid={setIsPasswordValid}
               />
