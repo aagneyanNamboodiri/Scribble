@@ -4,7 +4,15 @@ require "test_helper"
 
 class PreferencesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @preference = create(:preference)
+    @preference = create(:preference, is_password: true, password_digest: "admin1")
+  end
+
+  def test_listing_preference
+    get preferences_path, headers: headers
+    assert_response :success
+
+    response_json = response.parsed_body
+    assert_equal response_json["site_name"], @preference.site_name
   end
 
   def test_site_name_shouldnt_be_empty
@@ -27,5 +35,18 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
     assert_raises ActiveRecord::RecordInvalid do
       @preference.save!
     end
+  end
+
+  def test_preferences_should_get_updated
+    @preference.save!
+    preference_params = {
+      preference: {
+        site_name: "Spinboi",
+        is_password: false,
+        password_digest: "admin2"
+      }
+    }
+    put preference_path(@preference.id.to_i), params: preference_params, headers: headers
+    assert_response :success
   end
 end
