@@ -79,4 +79,17 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @article.title, new_title
     assert_equal @article.assigned_category_id, @category.id
   end
+
+  def test_shouldnt_create_article_without_valid_category
+    post articles_path,
+      params: {
+        article: {
+          title: "New Title", body: "New body", status: "published", assigned_category_id: "theres_no_way_this_is_an_id"
+        }
+      },
+      headers: headers
+    assert_response :unprocessable_entity
+    response_json = response.parsed_body
+    assert_equal response_json["error"], "Assigned category must exist"
+  end
 end
