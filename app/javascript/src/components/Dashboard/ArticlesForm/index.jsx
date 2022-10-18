@@ -6,9 +6,9 @@ import { useParams } from "react-router-dom";
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-import ArticleForm from "./Form";
+import Form from "./Form";
 
-const Create = () => {
+const CreateAndEdit = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [fetchedArticle, setFetchedArticle] = useState({});
@@ -55,7 +55,7 @@ const Create = () => {
 
   return (
     <div className="justify-center">
-      <ArticleForm
+      <Form
         articleData={fetchedArticle.data}
         categories={categories}
         isEdit={!!slug}
@@ -65,4 +65,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreateAndEdit;
