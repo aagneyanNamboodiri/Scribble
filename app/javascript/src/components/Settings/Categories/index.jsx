@@ -7,7 +7,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import categoriesApi from "apis/categories";
 
 import Card from "./Card";
-import Create from "./Form";
+import Form from "./Form";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -80,7 +80,7 @@ const Categories = () => {
             <div className=" flex w-full justify-between py-3">
               <div className="flex space-x-2">
                 {isCreating ? (
-                  <Create
+                  <Form
                     refetch={fetchCategories}
                     setIsCreatingOrEditing={setIsCreating}
                   />
