@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
   resolve: {
     alias: {
@@ -9,6 +11,7 @@ module.exports = {
       utils: "src/utils",
       constants: "src/constants",
       contexts: "src/contexts",
+      images: path.resolve(__dirname, "../", "../", "app/assets/images"),
     },
   },
 };

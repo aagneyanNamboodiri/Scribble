@@ -6,6 +6,7 @@ import { Input as FormikInput, Button } from "neetoui/formik";
 
 import loginApi from "apis/login";
 import { usePreferenceState } from "contexts/preferences";
+import LoginImage from "images/LoginImage";
 
 import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 
@@ -43,13 +44,7 @@ const Login = ({ ...props }) => {
           <div className="flex-col space-y-4">
             <div className="space-y-10">
               <div className="space-y-2">
-                <a href="https://imgbb.com/">
-                  <img
-                    alt="Control-V"
-                    border="0"
-                    src="https://i.ibb.co/VQcxdJ1/Control-V.png"
-                  />
-                </a>
+                <img src={LoginImage} />
                 <Typography style="h2" weight="medium">
                   {siteName} has password protection!
                 </Typography>
