@@ -5,10 +5,9 @@ import { Typography } from "neetoui";
 import { Input as FormikInput, Button } from "neetoui/formik";
 
 import loginApi from "apis/login";
+import { usePreferenceState } from "contexts/preferencesContext";
 
 import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
-
-import { usePreferenceState } from "../../contexts/preferencesContext";
 
 const Login = ({ ...props }) => {
   const { siteName } = usePreferenceState();

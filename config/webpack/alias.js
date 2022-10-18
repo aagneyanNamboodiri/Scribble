@@ -8,6 +8,7 @@ module.exports = {
       neetoicons: "@bigbinary/neeto-icons",
       utils: "src/utils",
       constants: "src/constants",
+      contexts: "src/contexts",
     },
   },
 };

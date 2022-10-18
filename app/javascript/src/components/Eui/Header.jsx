@@ -2,7 +2,7 @@ import React from "react";
 
 import { Typography } from "neetoui";
 
-import { usePreferenceState } from "../../contexts/preferencesContext";
+import { usePreferenceState } from "contexts/preferencesContext";
 
 const Header = () => {
   const { siteName } = usePreferenceState();
