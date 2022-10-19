@@ -13,7 +13,7 @@ Category.destroy_all
 
 p "Destroyed all articles and categories"
 
-10.times do |index|
+5.times do |index|
   Category.create!(
     name: Faker::Commerce.unique.department(max: 1)
   )
@@ -21,7 +21,7 @@ end
 
 p "Created #{Category.count} categories"
 
-100.times do |index|
+20.times do |index|
   Article.create!(
     title: Faker::Lorem.sentence,
     body: Faker::Lorem.paragraph(sentence_count: rand(10..50)),
