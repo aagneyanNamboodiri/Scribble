@@ -2,8 +2,7 @@ import React from "react";
 
 import { Formik, Form } from "formik";
 import { Check, Close } from "neetoicons";
-import { Button } from "neetoui";
-import { Input as FormikInput } from "neetoui/formik";
+import { Input as FormikInput, Button } from "neetoui/formik";
 
 import categoriesApi from "apis/categories";
 

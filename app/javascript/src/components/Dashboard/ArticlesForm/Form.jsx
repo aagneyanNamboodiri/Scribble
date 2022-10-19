@@ -86,6 +86,7 @@ const Form = ({ slug, isEdit, articleData, categories }) => {
               <Menu>
                 {statusList.map((item, idx) => (
                   <MenuItem.Button
+                    disabled={isSubmitting}
                     key={idx}
                     onClick={() => {
                       item === "Save Draft"
