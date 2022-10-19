@@ -16,7 +16,7 @@ const Main = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState("");
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState([]);
   const [articleStatus, setArticleStatus] = useState("all");
   const [columnList, setColumnList] = useState(initialColumnsList);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);

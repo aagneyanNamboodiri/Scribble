@@ -19,6 +19,17 @@ const SideMenu = ({
   const [categorySearch, setCategorySearch] = useState("");
   const [isCreating, setIsCreating] = useState(false);
 
+  const handleCategoryFiltering = categoryName => {
+    const indexOfCategory = selectedCategoryFilter?.indexOf(categoryName);
+    if (indexOfCategory === -1) {
+      setSelectedCategoryFilter(prev => [...prev, categoryName]);
+    } else {
+      setSelectedCategoryFilter(prev =>
+        prev.filter(prev_category => prev_category !== categoryName)
+      );
+    }
+  };
+
   return (
     <MenuBar showMenu title="Articles">
       <MenuBar.Block
@@ -78,15 +89,11 @@ const SideMenu = ({
         )
         .map(category => (
           <MenuBar.Block
-            active={selectedCategoryFilter === category.name}
+            active={selectedCategoryFilter.includes(category.name)}
             count={category.articles_count || 0}
             key={category.id}
             label={category.name}
-            onClick={() =>
-              setSelectedCategoryFilter(prev =>
-                prev === category.name ? "" : category.name
-              )
-            }
+            onClick={() => handleCategoryFiltering(category.name)}
           />
         ))}
     </MenuBar>

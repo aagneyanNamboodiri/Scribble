@@ -87,21 +87,15 @@ export const filterRowData = (
     article.status === "draft" ? (article.created_at = "-") : article.created_at
   );
 
-  if (selectedCategoryFilter === "" && articleStatus === "all") return articles;
-
-  if (selectedCategoryFilter !== "" && articleStatus === "all") {
-    return articles.filter(
-      article => article.category_name === selectedCategoryFilter
-    );
-  }
-
-  if (selectedCategoryFilter === "" && articleStatus !== "all") {
-    return articles.filter(article => article.status === articleStatus);
-  }
-
   return articles
-    .filter(article => article.category_name === selectedCategoryFilter)
-    .filter(article => article.status === articleStatus);
+    .filter(
+      article =>
+        selectedCategoryFilter.includes(article.category_name) ||
+        !selectedCategoryFilter.length
+    )
+    .filter(
+      article => article.status === articleStatus || articleStatus === "all"
+    );
 };
 
 export const filterColumnData = (handleDelete, columnList) =>
