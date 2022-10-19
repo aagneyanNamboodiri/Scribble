@@ -19,3 +19,7 @@ export const buildCategoryValues = (categories, deletedCategory) =>
       label: category.name,
     }))
     .filter(category => category.value !== deletedCategory);
+
+export const DELETE_MODAL_CATEGORY_SELECT_INITIAL_VALUES = {
+  category: "",
+};

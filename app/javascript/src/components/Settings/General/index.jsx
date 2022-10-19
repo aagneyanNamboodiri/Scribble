@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { Formik, Form } from "formik";
-import { Typography, Checkbox, Button, PageLoader } from "neetoui";
-import { Input as FormikInput } from "neetoui/formik";
+import { Typography, Checkbox, PageLoader } from "neetoui";
+import { Input as FormikInput, Button } from "neetoui/formik";
 
 import preferencesApi from "apis/preferences";
 
