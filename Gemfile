@@ -53,7 +53,9 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+gem "acts_as_list"
 gem "bcrypt", "~> 3.1.13"
+gem "faker"
 gem "react-rails"
 gem "responders"
 
@@ -63,5 +65,4 @@ group :development, :test do
 
     # For auto-generating demo data
     gem "acts_as_list"
-    gem "faker"
   end

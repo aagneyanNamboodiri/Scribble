@@ -40,6 +40,7 @@ end
 def create_sample_data!
   create_user!
   create_preference!
+  create_category!
 end
 
 def create_user!(options = {})
@@ -58,4 +59,12 @@ def create_preference!(options = {})
   }
   attributes = preference_attributes.merge options
   Preference.create! attributes
+end
+
+def create_category!(options = {})
+  category_attributes = {
+    name: "Getting Started"
+  }
+  attributes = category_attributes.merge options
+  Category.create! attributes
 end

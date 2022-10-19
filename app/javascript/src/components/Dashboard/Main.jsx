@@ -16,7 +16,7 @@ const Main = () => {
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [articleCategory, setArticleCategory] = useState("");
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState([]);
   const [articleStatus, setArticleStatus] = useState("all");
   const [columnList, setColumnList] = useState(initialColumnsList);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -68,7 +68,7 @@ const Main = () => {
   }
   const searchedRowData = filterRowData(
     articles,
-    articleCategory,
+    selectedCategoryFilter,
     articleStatus
   ).filter(article =>
     article.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -77,13 +77,13 @@ const Main = () => {
   return (
     <div className="flex">
       <SideMenu
-        articleCategory={articleCategory}
         articleStatus={articleStatus}
         articles={articles}
         categories={categories}
         refetch={fetchCategories}
-        setArticleCategory={setArticleCategory}
+        selectedCategoryFilter={selectedCategoryFilter}
         setArticleStatus={setArticleStatus}
+        setSelectedCategoryFilter={setSelectedCategoryFilter}
       />
       <Container>
         <Header
