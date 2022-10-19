@@ -78,24 +78,29 @@ export const buildColumns = handleDelete => {
   return columnData;
 };
 
-export const filterRowData = (articles, articleCategory, articleStatus) => {
+export const filterRowData = (
+  articles,
+  selectedCategoryFilter,
+  articleStatus
+) => {
   articles.map(article =>
     article.status === "draft" ? (article.created_at = "-") : article.created_at
   );
-  if (articleCategory === "" && articleStatus === "all") return articles;
 
-  if (articleCategory !== "" && articleStatus === "all") {
+  if (selectedCategoryFilter === "" && articleStatus === "all") return articles;
+
+  if (selectedCategoryFilter !== "" && articleStatus === "all") {
     return articles.filter(
-      article => article.category_name === articleCategory
+      article => article.category_name === selectedCategoryFilter
     );
   }
 
-  if (articleCategory === "" && articleStatus !== "all") {
+  if (selectedCategoryFilter === "" && articleStatus !== "all") {
     return articles.filter(article => article.status === articleStatus);
   }
 
   return articles
-    .filter(article => article.category_name === articleCategory)
+    .filter(article => article.category_name === selectedCategoryFilter)
     .filter(article => article.status === articleStatus);
 };
 

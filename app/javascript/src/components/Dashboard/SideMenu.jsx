@@ -9,8 +9,8 @@ import CategoryCreate from "./CategoryCreate";
 const SideMenu = ({
   articles,
   categories,
-  setArticleCategory,
-  articleCategory,
+  setSelectedCategoryFilter,
+  selectedCategoryFilter,
   setArticleStatus,
   articleStatus,
   refetch,
@@ -78,11 +78,15 @@ const SideMenu = ({
         )
         .map(category => (
           <MenuBar.Block
-            active={articleCategory === category.name}
+            active={selectedCategoryFilter === category.name}
             count={category.articles_count || 0}
             key={category.id}
             label={category.name}
-            onClick={() => setArticleCategory(category.name)}
+            onClick={() =>
+              setSelectedCategoryFilter(prev =>
+                prev === category.name ? "" : category.name
+              )
+            }
           />
         ))}
     </MenuBar>
