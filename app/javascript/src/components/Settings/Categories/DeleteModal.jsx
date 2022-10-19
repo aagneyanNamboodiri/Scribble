@@ -117,7 +117,7 @@ const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
             )}
           </Modal.Body>
           <Modal.Footer className="space-x-2">
-            <FormikButton disabled={false} label="Continue" type="submit" />
+            <FormikButton label="Continue" type="submit" />
             <FormikButton label="Cancel" style="text" onClick={onClose} />
           </Modal.Footer>
         </Modal>

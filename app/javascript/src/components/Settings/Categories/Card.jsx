@@ -38,7 +38,7 @@ const Card = ({ category, refetch, categoryList, provided }) => {
       </div>
       <div className="flex space-x-1">
         <Button
-          disabled={category.name === "General"}
+          disabled={categoryList.length === 1 && category.name === "General"}
           icon={() => <Delete size="18" />}
           size="smal"
           style="text"
