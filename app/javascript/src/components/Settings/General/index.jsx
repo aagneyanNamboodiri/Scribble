@@ -6,6 +6,7 @@ import { Input as FormikInput, Button } from "neetoui/formik";
 
 import preferencesApi from "apis/preferences";
 
+import ConfirmationModal from "./ConfirmationModal";
 import { validationSchema } from "./constants";
 import PasswordValidator from "./PasswordValidator";
 
@@ -18,9 +19,13 @@ const General = () => {
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
   const [siteName, setSiteName] = useState("");
   const [noChangesToSettings, setNoChangesToSettings] = useState(true);
+  const [previouslyPasswordProtected, setPreviouslyPasswordProtected] =
+    useState(false);
+  const [passwordAlertOpen, setPasswordAlertOpen] = useState(false);
 
   const handleSubmit = async value => {
     try {
+      if (!checked) setPassword("");
       const preference = {
         site_name: value.siteName,
         is_password: checked,
@@ -40,6 +45,7 @@ const General = () => {
       const { data } = await preferencesApi.list();
       if (data.password_digest) setPassword(data.password_digest);
       setChecked(data.is_password);
+      setPreviouslyPasswordProtected(data.is_password);
       setSiteName(data.site_name);
     } catch (error) {
       logger.error(error);
@@ -70,6 +76,13 @@ const General = () => {
         onSubmit={handleSubmit}
       >
         <Form onChange={() => setNoChangesToSettings(false)}>
+          {passwordAlertOpen && (
+            <ConfirmationModal
+              passwordAlertOpen={passwordAlertOpen}
+              setChecked={setChecked}
+              setPasswordAlertOpen={setPasswordAlertOpen}
+            />
+          )}
           <div className="flex-col space-y-4">
             <div className="space-y-10">
               <div className="space-y-2">
@@ -91,7 +104,12 @@ const General = () => {
               checked={checked}
               id="checkbox_name"
               label="Password protect knowledgebase"
-              onChange={() => setChecked(prev => !prev)}
+              onChange={() => {
+                if (checked && previouslyPasswordProtected) {
+                  setPasswordAlertOpen(true);
+                }
+                setChecked(prev => !prev);
+              }}
             />
             {checked && (
               <FormikInput

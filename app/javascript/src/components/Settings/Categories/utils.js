@@ -9,7 +9,7 @@ export const buildDeleteModalSelectValidationSchema = categoryList => {
         label: yup.string().oneOf(categoryList.map(category => category.name)),
         value: yup.number().oneOf(categoryList.map(category => category.id)),
       })
-      .required("Please select a category"),
+      .required("Category is required"),
   });
 
   return validationSchema;
