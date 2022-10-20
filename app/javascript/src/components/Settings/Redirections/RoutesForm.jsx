@@ -43,19 +43,19 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
           <div className="flex w-4/5 space-x-5">
             <Input
               name="from_path"
-              placeholder="scribble.com/"
+              placeholder="from-path"
               prefix={
                 <Typography style="body3" weight="medium">
-                  localhost:3000
+                  {`${window.location.hostname}/`}
                 </Typography>
               }
             />
             <Input
               name="to_path"
-              placeholder="scribble.com/"
+              placeholder="to-path"
               prefix={
                 <Typography style="body3" weight="medium">
-                  localhost:3000
+                  {`${window.location.hostname}/`}
                 </Typography>
               }
             />
