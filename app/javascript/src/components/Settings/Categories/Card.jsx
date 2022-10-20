@@ -6,6 +6,8 @@ import { Button, Typography } from "neetoui";
 import DeleteModal from "./DeleteModal";
 import Form from "./Form";
 
+import TooltipWrapper from "../../TooltipWrapper";
+
 const Card = ({ category, refetch, categoryList, provided }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState({});
@@ -37,13 +39,19 @@ const Card = ({ category, refetch, categoryList, provided }) => {
         <Typography style="body2">{category.name}</Typography>
       </div>
       <div className="flex space-x-1">
-        <Button
+        <TooltipWrapper
+          content="General category cannot be deleted"
           disabled={categoryList.length === 1 && category.name === "General"}
-          icon={() => <Delete size="18" />}
-          size="smal"
-          style="text"
-          onClick={() => handleDelete(category)}
-        />
+          position="bottom"
+        >
+          <Button
+            disabled={categoryList.length === 1 && category.name === "General"}
+            icon={() => <Delete size="18" />}
+            size="smal"
+            style="text"
+            onClick={() => handleDelete(category)}
+          />
+        </TooltipWrapper>
         <Button
           icon={() => <Edit size="18" />}
           size="small"

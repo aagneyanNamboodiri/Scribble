@@ -23,13 +23,19 @@ const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
     setIsCreatingOrEditing(false);
   };
 
+  const handleEscapeKeyPress = e => {
+    if ((e.type = "keydown" && e.key === "Escape")) {
+      setIsCreatingOrEditing(false);
+    }
+  };
+
   return (
     <Formik
       initialValues={buildInitialValue(category)}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      <FormikForm>
+      <FormikForm onKeyDown={e => handleEscapeKeyPress(e)}>
         <FormikInput
           name="name"
           placeholder="Category Name"

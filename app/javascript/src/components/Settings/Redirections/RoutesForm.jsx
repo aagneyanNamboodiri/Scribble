@@ -24,6 +24,12 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
     }
   };
 
+  const handleEscapeKeyPress = e => {
+    if ((e.type = "keydown" && e.key === "Escape")) {
+      setAction(false);
+    }
+  };
+
   return (
     <Formik
       validationSchema={validationSchema}
@@ -32,7 +38,7 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
       }
       onSubmit={handleSubmit}
     >
-      <Form>
+      <Form onKeyDown={e => handleEscapeKeyPress(e)}>
         <div className="flex justify-between bg-white p-3">
           <div className="flex w-4/5 space-x-5">
             <Input

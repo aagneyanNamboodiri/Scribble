@@ -23,6 +23,12 @@ const CategoryCreate = ({ setIsCreating, refetch }) => {
     }
   };
 
+  const handleEscapeKeyPress = e => {
+    if ((e.type = "keydown" && e.key === "Escape")) {
+      setIsCreating(false);
+    }
+  };
+
   return (
     <Formik
       initialValues={NEW_CATEGORY_INITIAL_VALUE}
@@ -42,12 +48,14 @@ const CategoryCreate = ({ setIsCreating, refetch }) => {
                 type="submit"
               />
               <Button
+                disabled={false}
                 icon={() => <Close size={17} />}
                 style="text"
                 onClick={() => setIsCreating(false)}
               />
             </div>
           }
+          onKeyDown={e => handleEscapeKeyPress(e)}
         />
       </Form>
     </Formik>

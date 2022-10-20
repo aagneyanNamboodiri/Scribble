@@ -75,13 +75,6 @@ const Categories = () => {
             <Typography className="text-gray-600" style="body2">
               Create and configure categories inside your scribble
             </Typography>
-            {categories.length === 1 && categories[0].name === "General" && (
-              <Typography className="text-indigo-500" style="body2">
-                Note : General category cannot be deleted if it is the only
-                category present. Please change the category or create a new one
-                to delete it.
-              </Typography>
-            )}
           </div>
           <div className="w-full flex-col space-y-1">
             <div className=" flex w-full justify-between py-3">
