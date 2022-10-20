@@ -23,8 +23,9 @@ const Card = ({ category, refetch, categoryList, provided }) => {
       <Reorder size="20" />
       <Form
         category={category}
+        isEditing={isEditing}
         refetch={refetch}
-        setIsCreatingOrEditing={setIsEditing}
+        setAction={setIsEditing}
       />
     </div>
   ) : (

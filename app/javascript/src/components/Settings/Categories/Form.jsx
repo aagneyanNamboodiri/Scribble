@@ -11,7 +11,7 @@ import { buildInitialValue, validationSchema } from "./constants";
 
 import TooltipWrapper from "../../TooltipWrapper";
 
-const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
+const Form = ({ category = {}, setAction, refetch, isEditing }) => {
   const handleSubmit = async name => {
     try {
       Object.keys(category).length === 0
@@ -21,12 +21,12 @@ const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
       Logger.log(err);
     }
     refetch();
-    setIsCreatingOrEditing(false);
+    setAction(false);
   };
 
   const handleEscapeKeyPress = e => {
     if ((e.type = "keydown" && e.key === "Escape")) {
-      setIsCreatingOrEditing(false);
+      setAction(false);
     }
   };
 
@@ -45,9 +45,13 @@ const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
             suffix={
               <div className="flex">
                 <TooltipWrapper
-                  content="Please edit category to save"
                   disabled={!(isValid && dirty)}
                   position="bottom"
+                  content={
+                    isEditing
+                      ? "Please edit category to save"
+                      : "Please enter category to add"
+                  }
                 >
                   <Button
                     icon={() => <Check size={17} />}
@@ -61,7 +65,7 @@ const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
                   style="text"
                   type="cancel"
                   onClick={() => {
-                    setIsCreatingOrEditing(false);
+                    setAction(false);
                   }}
                 />
               </div>

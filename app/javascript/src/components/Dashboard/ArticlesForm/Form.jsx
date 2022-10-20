@@ -55,11 +55,8 @@ const Form = ({ id, isEdit, articleData, categories }) => {
       }
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, handleSubmit }) => (
-        <FormikForm
-          className="mx-24 space-y-4 p-20 px-56"
-          onChange={() => setNoChangesMade(false)}
-        >
+      {({ isSubmitting, handleSubmit, isValid, dirty }) => (
+        <FormikForm className="mx-24 space-y-4 p-20 px-56">
           <div className="flex space-x-2">
             <Input
               label="Article Title"
@@ -84,7 +81,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
           />
           <div className="mr-4 flex space-x-2">
             <TooltipWrapper
-              disabled={noChangesMade}
+              disabled={!(isValid && dirty) && noChangesMade}
               position="bottom"
               content={
                 isEdit
@@ -97,7 +94,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
                 loading={isSubmitting}
                 type="submit"
                 buttonProps={{
-                  disabled: noChangesMade,
+                  disabled: !(isValid && dirty) && noChangesMade,
                 }}
                 onClick={handleSubmit}
               >
@@ -107,6 +104,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
                       disabled={isSubmitting}
                       key={idx}
                       onClick={() => {
+                        setNoChangesMade(false);
                         item === "Save Draft"
                           ? setStatus("draft")
                           : setStatus("published");

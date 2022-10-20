@@ -81,8 +81,9 @@ const Categories = () => {
               <div className="flex space-x-2">
                 {isCreating ? (
                   <Form
+                    isEditing={!isCreating}
                     refetch={fetchCategories}
-                    setIsCreatingOrEditing={setIsCreating}
+                    setAction={setIsCreating}
                   />
                 ) : (
                   <>
