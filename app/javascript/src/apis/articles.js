@@ -7,14 +7,14 @@ const create = payload =>
     article: payload,
   });
 
-const show = slug => axios.get(`/articles/${slug}`);
+const show = id => axios.get(`/articles/${id}`);
 
-const update = ({ slug, payload }) =>
-  axios.put(`/articles/${slug}`, {
+const update = ({ id, payload }) =>
+  axios.put(`/articles/${id}`, {
     article: payload,
   });
 
-const destroy = slug => axios.delete(`/articles/${slug}`);
+const destroy = id => axios.delete(`/articles/${id}`);
 
 const articlesApi = { list, create, show, update, destroy };
 

@@ -6,7 +6,7 @@ class Article < ApplicationRecord
   MAX_BODY_LENGTH = 5000
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
   validates :body, presence: true, length: { maximum: MAX_BODY_LENGTH }
-  validates :slug, uniqueness: true
+  validates :slug, uniqueness: false
   validate :slug_not_changed
 
   before_save :set_slug
