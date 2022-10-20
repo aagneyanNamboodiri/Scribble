@@ -12,24 +12,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_14_044307) do
+ActiveRecord::Schema.define(version: 2022_10_20_164921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "articles", force: :cascade do |t|
+  create_table "articles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "title", null: false
     t.text "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
-    t.integer "assigned_category_id"
     t.string "status", default: "draft", null: false
-    t.integer "user_id"
+    t.uuid "user_id", null: false
+    t.uuid "assigned_category_id", null: false
     t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
 
-  create_table "categories", force: :cascade do |t|
+  create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2022_10_14_044307) do
     t.integer "position"
   end
 
-  create_table "preferences", force: :cascade do |t|
+  create_table "preferences", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "site_name"
     t.boolean "is_password", default: false
     t.string "password_digest"
@@ -46,14 +46,14 @@ ActiveRecord::Schema.define(version: 2022_10_14_044307) do
     t.string "authentication_token"
   end
 
-  create_table "redirections", force: :cascade do |t|
+  create_table "redirections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "from_path"
     t.string "to_path"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
