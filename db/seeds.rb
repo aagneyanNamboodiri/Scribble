@@ -9,9 +9,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Article.destroy_all
-Category.destroy_all
+p "Destroyed all articles"
 
-p "Destroyed all articles and categories"
+Category.destroy_all
+p "Destroyed all categories"
 
 5.times do |index|
   Category.create!(
