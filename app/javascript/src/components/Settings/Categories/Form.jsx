@@ -3,14 +3,15 @@ import React from "react";
 import { Formik, Form as FormikForm } from "formik";
 import Logger from "js-logger";
 import { Check, Close } from "neetoicons";
-import { Button } from "neetoui";
-import { Input as FormikInput } from "neetoui/formik";
+import { Button, Input as FormikInput } from "neetoui/formik";
 
 import categoriesApi from "apis/categories";
 
 import { buildInitialValue, validationSchema } from "./constants";
 
-const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
+import TooltipWrapper from "../../TooltipWrapper";
+
+const Form = ({ category = {}, setAction, refetch, isEditing }) => {
   const handleSubmit = async name => {
     try {
       Object.keys(category).length === 0
@@ -20,7 +21,13 @@ const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
       Logger.log(err);
     }
     refetch();
-    setIsCreatingOrEditing(false);
+    setAction(false);
+  };
+
+  const handleEscapeKeyPress = e => {
+    if ((e.type = "keydown" && e.key === "Escape")) {
+      setAction(false);
+    }
   };
 
   return (
@@ -29,28 +36,43 @@ const Form = ({ category = {}, setIsCreatingOrEditing, refetch }) => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      <FormikForm>
-        <FormikInput
-          name="name"
-          placeholder="Category Name"
-          type="text"
-          suffix={
-            <div className="flex">
-              <Button
-                icon={() => <Check size={17} />}
-                style="text"
-                type="submit"
-              />
-              <Button
-                icon={() => <Close size={17} />}
-                style="text"
-                type="cancel"
-                onClick={() => setIsCreatingOrEditing(false)}
-              />
-            </div>
-          }
-        />
-      </FormikForm>
+      {({ isValid, dirty }) => (
+        <FormikForm onKeyDown={e => handleEscapeKeyPress(e)}>
+          <FormikInput
+            name="name"
+            placeholder="Category Name"
+            type="text"
+            suffix={
+              <div className="flex">
+                <TooltipWrapper
+                  disabled={!(isValid && dirty)}
+                  position="bottom"
+                  content={
+                    isEditing
+                      ? "Please edit category to save"
+                      : "Please enter category to add"
+                  }
+                >
+                  <Button
+                    icon={() => <Check size={17} />}
+                    style="text"
+                    type="submit"
+                  />
+                </TooltipWrapper>
+                <Button
+                  disabled={false}
+                  icon={() => <Close size={17} />}
+                  style="text"
+                  type="cancel"
+                  onClick={() => {
+                    setAction(false);
+                  }}
+                />
+              </div>
+            }
+          />
+        </FormikForm>
+      )}
     </Formik>
   );
 };

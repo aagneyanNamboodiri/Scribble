@@ -21,6 +21,8 @@ const SideMenu = ({
 
   const handleCategoryFiltering = categoryName => {
     const indexOfCategory = selectedCategoryFilter?.indexOf(categoryName);
+    setIsSearchCollapsed(true);
+    setCategorySearch("");
     if (indexOfCategory === -1) {
       setSelectedCategoryFilter(prev => [...prev, categoryName]);
     } else {
@@ -78,7 +80,10 @@ const SideMenu = ({
         collapse={isSearchCollapsed}
         value={categorySearch}
         onChange={e => setCategorySearch(e.target.value)}
-        onCollapse={() => setIsSearchCollapsed(true)}
+        onCollapse={() => {
+          setIsSearchCollapsed(true);
+          setCategorySearch("");
+        }}
       />
       {isCreating && (
         <CategoryCreate refetch={refetch} setIsCreating={setIsCreating} />

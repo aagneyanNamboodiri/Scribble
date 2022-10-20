@@ -30,10 +30,10 @@ const Row = ({ redirection, refetch }) => {
   ) : (
     <div className="flex justify-between bg-white p-3">
       <Typography style="body3" weight="medium">
-        {`localhost:3000${redirection.from_path}`}
+        {`${window.location.hostname}/${redirection.from_path}`}
       </Typography>
       <Typography className="w-1/4" style="body3" weight="medium">
-        {`localhost:3000${redirection.to_path}`}
+        {`${window.location.hostname}/${redirection.to_path}`}
       </Typography>
       <div className="flex w-1/12 justify-between">
         <Delete size="18" onClick={handleDelete} />

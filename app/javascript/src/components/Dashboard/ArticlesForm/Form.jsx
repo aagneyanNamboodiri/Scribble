@@ -13,11 +13,15 @@ import {
   buildInitialValuesForEditArticle,
 } from "./utils";
 
+import TooltipWrapper from "../../TooltipWrapper";
+
 const Form = ({ id, isEdit, articleData, categories }) => {
+  const [status, setStatus] = useState("draft");
+  const [noChangesMade, setNoChangesMade] = useState(true);
+
   const history = useHistory();
   const { Menu, MenuItem } = ActionDropdown;
   const statusList = ["Save Draft", "Publish"];
-  const [status, setStatus] = useState("draft");
   const handleSubmit = async values => {
     try {
       const modifiedValues = await {
@@ -51,7 +55,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
       }
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, handleSubmit }) => (
+      {({ isSubmitting, handleSubmit, isValid, dirty }) => (
         <FormikForm className="mx-24 space-y-4 p-20 px-56">
           <div className="flex space-x-2">
             <Input
@@ -75,30 +79,43 @@ const Form = ({ id, isEdit, articleData, categories }) => {
             placeholder="What do you wish to write"
             rows="15"
           />
-          <div className="mr-4 space-x-2">
-            <ActionDropdown
-              disabled={isSubmitting}
-              label={status === "draft" ? "Save Draft" : "Publish"}
-              loading={isSubmitting}
-              type="submit"
-              onClick={handleSubmit}
+          <div className="mr-4 flex space-x-2">
+            <TooltipWrapper
+              disabled={!(isValid && dirty) && noChangesMade}
+              position="bottom"
+              content={
+                isEdit
+                  ? "Please edit article to save"
+                  : "Please type in all the fields to add article"
+              }
             >
-              <Menu>
-                {statusList.map((item, idx) => (
-                  <MenuItem.Button
-                    disabled={isSubmitting}
-                    key={idx}
-                    onClick={() => {
-                      item === "Save Draft"
-                        ? setStatus("draft")
-                        : setStatus("published");
-                    }}
-                  >
-                    {item}
-                  </MenuItem.Button>
-                ))}
-              </Menu>
-            </ActionDropdown>
+              <ActionDropdown
+                label={status === "draft" ? "Save Draft" : "Publish"}
+                loading={isSubmitting}
+                type="submit"
+                buttonProps={{
+                  disabled: !(isValid && dirty) && noChangesMade,
+                }}
+                onClick={handleSubmit}
+              >
+                <Menu>
+                  {statusList.map((item, idx) => (
+                    <MenuItem.Button
+                      disabled={isSubmitting}
+                      key={idx}
+                      onClick={() => {
+                        setNoChangesMade(false);
+                        item === "Save Draft"
+                          ? setStatus("draft")
+                          : setStatus("published");
+                      }}
+                    >
+                      {item}
+                    </MenuItem.Button>
+                  ))}
+                </Menu>
+              </ActionDropdown>
+            </TooltipWrapper>
             <Button
               label="Cancel"
               size="large"
