@@ -17,7 +17,6 @@ const General = () => {
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
   const [siteName, setSiteName] = useState("");
-  const [preferences, setPreferences] = useState({});
   const [noChangesToSettings, setNoChangesToSettings] = useState(true);
 
   const handleSubmit = async value => {
@@ -35,17 +34,10 @@ const General = () => {
     }
   };
 
-  const resetValues = () => {
-    if (preferences.password_digest) setPassword(preferences.password_digest);
-    setChecked(preferences.is_password);
-    setSiteName(preferences.site_name);
-  };
-
   const fetchPreferences = async () => {
     try {
       setLoading(true);
       const { data } = await preferencesApi.list();
-      setPreferences(data);
       if (data.password_digest) setPassword(data.password_digest);
       setChecked(data.is_password);
       setSiteName(data.site_name);
@@ -142,7 +134,7 @@ const General = () => {
                   label="Cancel"
                   style="text"
                   type="reset"
-                  onClick={resetValues}
+                  onClick={() => window.location.reload()}
                 />
               </TooltipWrapper>
             </div>
