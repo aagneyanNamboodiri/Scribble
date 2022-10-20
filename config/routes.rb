@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   constraints(lambda { |req| req.format == :json }) do
-    resources :articles, except: %i[new edit], param: :slug
+    resources :articles, except: %i[new edit], param: :id
     resources :categories, except: %i[show new edit] do
       member do
         put "reorder"

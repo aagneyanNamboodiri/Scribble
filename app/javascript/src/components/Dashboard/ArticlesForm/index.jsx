@@ -12,7 +12,7 @@ const CreateAndEdit = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [fetchedArticle, setFetchedArticle] = useState({});
-  const { slug } = useParams(slug);
+  const { id } = useParams();
 
   const fetchCategories = async () => {
     try {
@@ -26,7 +26,7 @@ const CreateAndEdit = () => {
   };
   const fetchArticle = async () => {
     try {
-      const data = await articlesApi.show(slug);
+      const data = await articlesApi.show(id);
       setFetchedArticle(data);
     } catch (error) {
       logger.error(error);
@@ -35,9 +35,7 @@ const CreateAndEdit = () => {
   const fetchData = async () => {
     setLoading(true);
     await fetchCategories();
-    if (slug) {
-      await fetchArticle();
-    }
+    if (typeof id !== "undefined") await fetchArticle();
     setLoading(false);
   };
 
@@ -58,8 +56,8 @@ const CreateAndEdit = () => {
       <Form
         articleData={fetchedArticle.data}
         categories={categories}
-        isEdit={!!slug}
-        slug={slug}
+        id={id}
+        isEdit={!!id}
       />
     </div>
   );

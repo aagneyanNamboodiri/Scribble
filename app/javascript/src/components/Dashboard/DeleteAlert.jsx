@@ -4,7 +4,7 @@ import { Alert } from "neetoui";
 
 import articlesApi from "apis/articles";
 
-const DeleteAlert = ({ refetch, onClose, slug }) => {
+const DeleteAlert = ({ refetch, onClose, id }) => {
   const [deleting, setDeleting] = useState(false);
 
   const deletePrompt = "Delete this Article?";
@@ -14,7 +14,7 @@ const DeleteAlert = ({ refetch, onClose, slug }) => {
   const handleDelete = async () => {
     try {
       setDeleting(true);
-      await articlesApi.destroy(slug);
+      await articlesApi.destroy(id);
       onClose();
       refetch();
     } catch (error) {

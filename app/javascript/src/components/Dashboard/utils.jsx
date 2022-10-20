@@ -17,12 +17,12 @@ export const buildColumns = handleDelete => {
       dataIndex: "title",
       key: "Title",
       title: "Title",
-      render: (title, slug) => (
+      render: (title, { id }) => (
         <Button
           className="text-indigo-500"
           label={title}
           style="link"
-          to={`/articles/${slug.slug}/edit`}
+          to={`/articles/${id}/edit`}
         />
       ),
     },
@@ -54,21 +54,21 @@ export const buildColumns = handleDelete => {
       width: 80,
     },
     {
-      dataIndex: "slug",
+      dataIndex: "id",
       key: "deleteAndEdit",
-      render: slug => (
+      render: id => (
         <div className="flex space-x-2">
           <Button
             icon={() => <Delete size="18" />}
             size="smal"
             style="text"
-            onClick={() => handleDelete(slug)}
+            onClick={() => handleDelete(id)}
           />
           <Button
             icon={() => <Edit size="18" />}
             size="small"
             style="text"
-            to={`/articles/${slug}/edit`}
+            to={`/articles/${id}/edit`}
           />
         </div>
       ),

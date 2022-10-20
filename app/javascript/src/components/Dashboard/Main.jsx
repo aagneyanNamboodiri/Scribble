@@ -20,12 +20,12 @@ const Main = () => {
   const [articleStatus, setArticleStatus] = useState("all");
   const [columnList, setColumnList] = useState(initialColumnsList);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [slugToDelete, setSlugToDelete] = useState("");
+  const [idToDelete, setIdToDelete] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentTablePage, setCurrentTablePage] = useState(1);
 
-  const handleDelete = slug => {
-    setSlugToDelete(slug);
+  const handleDelete = id => {
+    setIdToDelete(id);
     setShowDeleteAlert(true);
   };
   const fetchArticles = async () => {
@@ -118,8 +118,8 @@ const Main = () => {
         />
         {showDeleteAlert && (
           <DeleteAlert
+            id={idToDelete}
             refetch={fetchArticles}
-            slug={slugToDelete}
             onClose={() => setShowDeleteAlert(false)}
           />
         )}
