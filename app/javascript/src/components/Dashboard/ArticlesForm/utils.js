@@ -9,7 +9,7 @@ export const buildArticlesFormValidationSchema = categoryList => {
       .nullable()
       .shape({
         label: yup.string().oneOf(categoryList.map(category => category.label)),
-        value: yup.number().oneOf(categoryList.map(category => category.value)),
+        value: yup.string().oneOf(categoryList.map(category => category.value)),
       })
       .required("Category is required"),
   });

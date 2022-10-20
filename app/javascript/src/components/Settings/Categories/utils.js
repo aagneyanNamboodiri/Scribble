@@ -7,7 +7,7 @@ export const buildDeleteModalSelectValidationSchema = categoryList => {
       .nullable()
       .shape({
         label: yup.string().oneOf(categoryList.map(category => category.name)),
-        value: yup.number().oneOf(categoryList.map(category => category.id)),
+        value: yup.string().oneOf(categoryList.map(category => category.id)),
       })
       .required("Category is required"),
   });
