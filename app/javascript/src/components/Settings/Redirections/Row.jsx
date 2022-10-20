@@ -30,7 +30,7 @@ const Row = ({ redirection, refetch }) => {
   ) : (
     <div className="flex justify-between bg-white p-3">
       <Typography style="body3" weight="medium">
-        {`${window.location.hostname}/${redirection.to_path}`}
+        {`${window.location.hostname}/${redirection.from_path}`}
       </Typography>
       <Typography className="w-1/4" style="body3" weight="medium">
         {`${window.location.hostname}/${redirection.to_path}`}

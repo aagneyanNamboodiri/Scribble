@@ -58,9 +58,8 @@ const SideMenu = ({
         iconProps={[
           {
             icon: Search,
-            onClick: () => {
-              setIsSearchCollapsed(isSearchCollapsed => !isSearchCollapsed);
-            },
+            onClick: () =>
+              setIsSearchCollapsed(isSearchCollapsed => !isSearchCollapsed),
           },
           {
             icon: Plus,
