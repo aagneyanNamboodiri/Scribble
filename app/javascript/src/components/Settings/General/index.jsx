@@ -9,6 +9,8 @@ import preferencesApi from "apis/preferences";
 import { validationSchema } from "./constants";
 import PasswordValidator from "./PasswordValidator";
 
+import TooltipWrapper from "../../TooltipWrapper";
+
 const General = () => {
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -16,15 +18,21 @@ const General = () => {
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
   const [siteName, setSiteName] = useState("");
   const [preferences, setPreferences] = useState({});
+  const [noChangesToSettings, setNoChangesToSettings] = useState(true);
 
   const handleSubmit = async value => {
-    const preference = {
-      site_name: value.siteName,
-      is_password: checked,
-      password_digest: checked ? password : "",
-    };
-    await preferencesApi.update({ preference });
-    await fetchPreferences();
+    try {
+      const preference = {
+        site_name: value.siteName,
+        is_password: checked,
+        password_digest: checked ? password : "",
+      };
+      await preferencesApi.update({ preference });
+      await fetchPreferences();
+      setNoChangesToSettings(true);
+    } catch (err) {
+      logger.log(err);
+    }
   };
 
   const resetValues = () => {
@@ -51,7 +59,6 @@ const General = () => {
   useEffect(() => {
     fetchPreferences();
   }, []);
-
   if (loading) {
     return (
       <div className="h-screen w-full">
@@ -70,7 +77,7 @@ const General = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <Form>
+        <Form onChange={() => setNoChangesToSettings(false)}>
           <div className="flex-col space-y-4">
             <div className="space-y-10">
               <div className="space-y-2">
@@ -110,20 +117,34 @@ const General = () => {
               />
             )}
             <div className="flex space-x-2">
-              <Button
-                label="Save Changes"
-                type="submit"
-                disabled={
-                  checked === true &&
-                  !(isPasswordValid[0] * isPasswordValid[1] > 0)
-                }
-              />
-              <Button
-                label="Cancel"
-                style="text"
-                type="reset"
-                onClick={resetValues}
-              />
+              <TooltipWrapper
+                content="No changes to save"
+                disabled={noChangesToSettings}
+                position="bottom"
+              >
+                <Button
+                  label="Save Changes"
+                  type="submit"
+                  disabled={
+                    (checked === true &&
+                      !(isPasswordValid[0] * isPasswordValid[1] > 0)) ||
+                    noChangesToSettings
+                  }
+                />
+              </TooltipWrapper>
+              <TooltipWrapper
+                content="No changes to cancel"
+                disabled={noChangesToSettings}
+                position="bottom"
+              >
+                <Button
+                  disabled={noChangesToSettings}
+                  label="Cancel"
+                  style="text"
+                  type="reset"
+                  onClick={resetValues}
+                />
+              </TooltipWrapper>
             </div>
           </div>
         </Form>
