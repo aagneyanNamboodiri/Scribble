@@ -36,3 +36,11 @@ en:
   task:
     slug:
       immutable: "is immutable!"
+  activerecord:
+    attributes:
+      category:
+        name: "Category "
+    errors:
+      models:
+        category:
+          taken: "already exists"

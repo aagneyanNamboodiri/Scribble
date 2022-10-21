@@ -10,15 +10,15 @@ export const validationSchema = yup.object().shape({
     .string()
     .required("Add path to redirect from")
     .matches(
-      /^[^/]?([a-zA-Z0-9])+$/,
-      "Shouldn't start with / and cannot contain special characters like ),(,@,/ etc."
+      /^(?!\/.*$).*/g,
+      "Shouldn't start with / and cannot contain special characters like ),(,@, etc."
     ),
   to_path: yup
     .string()
     .notOneOf([yup.ref("fromPath")], "Same as from path!")
     .required("Add path to redirect to")
     .matches(
-      /^[^/]?([a-zA-Z0-9])+$/,
-      "Shouldn't start with / and cannot contain special characters like ),(,@,/ etc."
+      /^(?!\/.*$).*/g,
+      "Shouldn't start with / and cannot contain special characters like ),(,@, etc."
     ),
 });

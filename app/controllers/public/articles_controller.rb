@@ -8,5 +8,8 @@ class Public::ArticlesController < Public::BaseController
 
   def show
     @article = Article.where(status: "published").find_by(slug: params[:slug])
+    if !@article
+      respond_with_error("Article doest exist!")
+    end
   end
 end
