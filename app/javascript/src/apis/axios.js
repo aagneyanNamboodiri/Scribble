@@ -45,6 +45,10 @@ const handleErrorResponse = axiosErrorObject => {
     window.location.href = "/";
   }
 
+  if (axiosErrorObject.response?.status === 404) {
+    window.location.href = "/errorPage";
+  }
+
   return Promise.reject(axiosErrorObject);
 };
 

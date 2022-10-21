@@ -14,7 +14,7 @@ class ArticlesController < ApplicationController
 
   def show
     if !@article
-      respond_with_error("Article doest exist!")
+      respond_with_error(t("doesnt_exist", entity: "Article"))
     end
   end
 

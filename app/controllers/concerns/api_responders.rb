@@ -18,4 +18,8 @@ module ApiResponders
     def respond_with_json(json = {}, status = :ok)
       render status: status, json: json
     end
+
+    def respond_with_login_success(message, context = {})
+      render status: :created, json: { notice: message }.merge(context)
+    end
 end

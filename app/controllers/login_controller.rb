@@ -7,9 +7,9 @@ class LoginController < ApplicationController
     if @preference.is_password
       if @preference.password_digest == password
         session[:auth] = @preference.authentication_token
-        respond_with_success("Login successful", :created)
+        respond_with_login_success(t("login_successful", entity: @preference.site_name))
       else
-        respond_with_error("Incorrect credentials, try again.")
+        respond_with_error(t("incorrect_credentials"))
       end
     end
   end
