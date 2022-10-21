@@ -60,6 +60,14 @@ const Main = () => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    articlesApi.list({
+      selectedCategoryFilter,
+      searchQuery: searchQuery.toLowerCase(),
+      articleStatus,
+    });
+  }, [selectedCategoryFilter, searchQuery, articleStatus]);
+
   if (loading) {
     return (
       <div className="h-screen w-full">

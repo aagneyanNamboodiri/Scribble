@@ -2,9 +2,11 @@
 
 class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
-  before_action :load_user, only: %i[create]
+  before_action :load_user, only: %i[create index]
+  before_action :search_params, only: %i[index]
+
   def index
-    @articles = Article.all
+    @articles = @user.articles.all
   end
 
   def create
@@ -29,6 +31,12 @@ class ArticlesController < ApplicationController
   end
 
   private
+
+    def search_params
+      search_term = params[:searchQuery]
+      categories_to_filter_with = params[:selectedCategoryFilter]
+      status_to_filter = params[:articleStatus]
+    end
 
     def load_article!
       @article = Article.find(params[:id])
