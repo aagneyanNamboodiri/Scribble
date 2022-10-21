@@ -9,6 +9,7 @@ import categoriesApi from "apis/categories";
 import ColumnDropdown from "./ColumnDropdown";
 import { initialColumnsList } from "./constants";
 import DeleteAlert from "./DeleteAlert";
+import NoArticles from "./NoArticles";
 import SideMenu from "./SideMenu";
 import { filterRowData, filterColumnData } from "./utils";
 
@@ -104,18 +105,23 @@ const Main = () => {
             placeholder: "Search artcile titles",
           }}
         />
-        <Typography className="font-semibold" style="h3">
-          {searchedRowData.length === 1
-            ? `${searchedRowData.length} Article`
-            : `${searchedRowData.length} Articles`}
-        </Typography>
-        <Table
-          columnData={filterColumnData(handleDelete, columnList)}
-          currentPageNumber={currentTablePage}
-          defaultPageSize={10}
-          handlePageChange={e => setCurrentTablePage(e)}
-          rowData={searchedRowData}
-        />
+        {articles.length === 0 && <NoArticles className="w-full" />}
+        {articles.length > 0 && (
+          <>
+            <Typography className="font-semibold" style="h3">
+              {searchedRowData.length === 1
+                ? `${searchedRowData.length} Article`
+                : `${searchedRowData.length} Articles`}
+            </Typography>
+            <Table
+              columnData={filterColumnData(handleDelete, columnList)}
+              currentPageNumber={currentTablePage}
+              defaultPageSize={10}
+              handlePageChange={e => setCurrentTablePage(e)}
+              rowData={searchedRowData}
+            />
+          </>
+        )}
         {showDeleteAlert && (
           <DeleteAlert
             id={idToDelete}
