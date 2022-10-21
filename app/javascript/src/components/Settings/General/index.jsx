@@ -75,89 +75,105 @@ const General = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <Form onChange={() => setNoChangesToSettings(false)}>
-          {passwordAlertOpen && (
-            <ConfirmationModal
-              passwordAlertOpen={passwordAlertOpen}
-              setChecked={setChecked}
-              setPasswordAlertOpen={setPasswordAlertOpen}
-            />
-          )}
-          <div className="flex-col space-y-4">
-            <div className="space-y-10">
-              <div className="space-y-2">
-                <Typography style="h2" weight="medium">
-                  General Settings
-                </Typography>
-                <Typography className="text-gray-600" style="body2">
-                  Configure general attributes of scribble
-                </Typography>
+        {({ dirty, isValid }) => (
+          <Form onChange={() => setNoChangesToSettings(false)}>
+            {passwordAlertOpen && (
+              <ConfirmationModal
+                passwordAlertOpen={passwordAlertOpen}
+                setChecked={setChecked}
+                setPasswordAlertOpen={setPasswordAlertOpen}
+              />
+            )}
+            <div className="flex-col space-y-4">
+              <div className="space-y-10">
+                <div className="space-y-2">
+                  <Typography style="h2" weight="medium">
+                    General Settings
+                  </Typography>
+                  <Typography className="text-gray-600" style="body2">
+                    Configure general attributes of scribble
+                  </Typography>
+                </div>
+                <FormikInput
+                  helpText="Customize the sitename which is used to show the site name"
+                  label="Site Name"
+                  name="siteName"
+                />
               </div>
-              <FormikInput
-                helpText="Customize the sitename which is used to show the site name"
-                label="Site Name"
-                name="siteName"
-              />
-            </div>
-            <hr />
-            <Checkbox
-              checked={checked}
-              id="checkbox_name"
-              label="Password protect knowledgebase"
-              onChange={() => {
-                if (checked && previouslyPasswordProtected) {
-                  setPasswordAlertOpen(true);
-                }
-                setChecked(prev => !prev);
-              }}
-            />
-            {checked && (
-              <FormikInput
-                label="Password"
-                name="password"
-                placeholder="A secure password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-            )}
-            {checked && (
-              <PasswordValidator
-                password={password}
-                setIsPasswordValid={setIsPasswordValid}
-              />
-            )}
-            <div className="flex space-x-2">
-              <TooltipWrapper
-                content="No changes to save"
-                disabled={noChangesToSettings}
-                position="bottom"
-              >
-                <Button
-                  label="Save Changes"
-                  type="submit"
-                  disabled={
-                    (checked === true &&
-                      !(isPasswordValid[0] * isPasswordValid[1] > 0)) ||
-                    noChangesToSettings
+              <hr />
+              <Checkbox
+                checked={checked}
+                id="checkbox_name"
+                label="Password protect knowledgebase"
+                onChange={() => {
+                  if (checked && previouslyPasswordProtected) {
+                    setPasswordAlertOpen(true);
                   }
+                  setChecked(prev => !prev);
+                }}
+              />
+              {checked && (
+                <FormikInput
+                  label="Password"
+                  name="password"
+                  placeholder="A secure password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                 />
-              </TooltipWrapper>
-              <TooltipWrapper
-                content="No changes to cancel"
-                disabled={noChangesToSettings}
-                position="bottom"
-              >
-                <Button
+              )}
+              {checked && (
+                <PasswordValidator
+                  password={password}
+                  setIsPasswordValid={setIsPasswordValid}
+                />
+              )}
+              <div className="flex space-x-2">
+                <TooltipWrapper
+                  position="bottom"
+                  content={
+                    checked
+                      ? "Please ensure site name is present and password is valid"
+                      : "No changes to save"
+                  }
+                  disabled={() => {
+                    dirty ||
+                      !(
+                        isValid &&
+                        checked &&
+                        !(isPasswordValid[0] * isPasswordValid[1] > 0)
+                      );
+                  }}
+                >
+                  <Button
+                    label="Save Changes"
+                    type="submit"
+                    disabled={
+                      dirty ||
+                      !(
+                        isValid &&
+                        checked &&
+                        isPasswordValid[0] * isPasswordValid[1] > 0
+                      )
+                    }
+                  />
+                </TooltipWrapper>
+                <TooltipWrapper
+                  content="No changes to cancel"
                   disabled={noChangesToSettings}
-                  label="Cancel"
-                  style="text"
-                  type="reset"
-                  onClick={() => window.location.reload()}
-                />
-              </TooltipWrapper>
+                  position="bottom"
+                >
+                  <Button
+                    disabled={noChangesToSettings}
+                    label="Cancel"
+                    style="text"
+                    type="reset"
+                    onClick={() => window.location.reload()}
+                  />
+                </TooltipWrapper>
+              </div>
             </div>
-          </div>
-        </Form>
+          </Form>
+        )}
       </Formik>
     </div>
   );
