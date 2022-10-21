@@ -13,6 +13,9 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    if !@article
+      respond_with_error(t("doesnt_exist", entity: "Article"))
+    end
   end
 
   def update

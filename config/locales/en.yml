@@ -30,9 +30,20 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  successfully_created: "%{entity} was successfully created!"
+  successfully_created: "%{entity} was successfully added!"
   successfully_destroyed: "%{entity} was successfully deleted!"
   successfully_updated: "%{entity} was successfully updated!"
+  doesnt_exist: "%{entity} doesn't exist!"
+  login_successful: "Welcome to %{entity}"
+  incorrect_credentials: "Incorrect credentials, try again."
   task:
     slug:
       immutable: "is immutable!"
+  activerecord:
+    attributes:
+      category:
+        name: "Category "
+    errors:
+      models:
+        category:
+          taken: "already exists"
