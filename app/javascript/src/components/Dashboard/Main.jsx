@@ -61,11 +61,11 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    articlesApi.list({
-      selectedCategoryFilter,
-      searchQuery: searchQuery.toLowerCase(),
-      articleStatus,
-    });
+    // articlesApi.list({
+    //   selectedCategoryFilter,
+    //   searchQuery: searchQuery.toLowerCase(),
+    //   articleStatus,
+    // });
   }, [selectedCategoryFilter, searchQuery, articleStatus]);
 
   if (loading) {
@@ -126,7 +126,7 @@ const Main = () => {
               currentPageNumber={currentTablePage}
               defaultPageSize={10}
               handlePageChange={e => setCurrentTablePage(e)}
-              rowData={searchedRowData}
+              rowData={articles}
             />
           </>
         )}
