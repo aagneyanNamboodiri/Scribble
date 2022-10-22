@@ -11,7 +11,7 @@ import { initialColumnsList } from "./constants";
 import DeleteAlert from "./DeleteAlert";
 import NoArticles from "./NoArticles";
 import SideMenu from "./SideMenu";
-import { filterRowData, filterColumnData } from "./utils";
+import { filterColumnData } from "./utils";
 
 const Main = () => {
   const [articles, setArticles] = useState([]);
@@ -24,6 +24,7 @@ const Main = () => {
   const [idToDelete, setIdToDelete] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentTablePage, setCurrentTablePage] = useState(1);
+  const [filteredArticles, setFilteredArticles] = useState([]);
 
   const handleDelete = id => {
     setIdToDelete(id);
@@ -36,6 +37,7 @@ const Main = () => {
         data: { articles },
       } = await articlesApi.list();
       setArticles(articles);
+      setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -55,10 +57,31 @@ const Main = () => {
       setLoading(false);
     }
   };
+  const fetchFilteredArticles = async payload => {
+    try {
+      setLoading(true);
+      const {
+        data: { articles },
+      } = await articlesApi.list(payload);
+      setFilteredArticles(articles);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     fetchArticles();
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    fetchFilteredArticles({
+      selectedCategoryFilter,
+      searchQuery: searchQuery.toLowerCase(),
+      articleStatus,
+    });
+  }, [selectedCategoryFilter, searchQuery, articleStatus]);
 
   if (loading) {
     return (
@@ -67,13 +90,6 @@ const Main = () => {
       </div>
     );
   }
-  const searchedRowData = filterRowData(
-    articles,
-    selectedCategoryFilter,
-    articleStatus
-  ).filter(article =>
-    article.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className="flex">
@@ -109,16 +125,16 @@ const Main = () => {
         {articles.length > 0 && (
           <>
             <Typography className="font-semibold" style="h3">
-              {searchedRowData.length === 1
-                ? `${searchedRowData.length} Article`
-                : `${searchedRowData.length} Articles`}
+              {filteredArticles.length === 1
+                ? `${filteredArticles.length} Article`
+                : `${filteredArticles.length} Articles`}
             </Typography>
             <Table
               columnData={filterColumnData(handleDelete, columnList)}
               currentPageNumber={currentTablePage}
               defaultPageSize={10}
               handlePageChange={e => setCurrentTablePage(e)}
-              rowData={searchedRowData}
+              rowData={filteredArticles}
             />
           </>
         )}

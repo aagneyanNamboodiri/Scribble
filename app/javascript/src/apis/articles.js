@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const list = () => axios.get("/articles");
+const list = payload => axios.get("/articles", { params: payload });
 
 const create = payload =>
   axios.post("/articles", {
