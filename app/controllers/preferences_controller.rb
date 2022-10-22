@@ -28,6 +28,6 @@ class PreferencesController < ApplicationController
       new_password_protection = params[:preference]["is_password"]
       new_password_value = params[:preference]["password"]
       changes = !(new_password_protection == @preference.is_password &&
-        new_password_value == @preference.password_digest)
+        @preference.authenticate(new_password_value))
     end
 end
