@@ -21,12 +21,12 @@ class PreferencesController < ApplicationController
     end
 
     def preference_params
-      params.require(:preference).permit([:site_name, :is_password, :password_digest])
+      params.require(:preference).permit([:site_name, :is_password, :password])
     end
 
     def changes_to_password_logistics
       new_password_protection = params[:preference]["is_password"]
-      new_password_value = params[:preference]["password_digest"]
+      new_password_value = params[:preference]["password"]
       changes = !(new_password_protection == @preference.is_password &&
         new_password_value == @preference.password_digest)
     end

@@ -29,7 +29,7 @@ const General = () => {
       const preference = {
         site_name: value.siteName,
         is_password: checked,
-        password_digest: checked ? password : "",
+        password: checked ? password : "",
       };
       await preferencesApi.update({ preference });
       await fetchPreferences();

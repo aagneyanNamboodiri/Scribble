@@ -11,5 +11,5 @@ class Preference < ApplicationRecord
   /x
 
   validates :site_name, presence: true, length: { maximum: MAX_SITENAME_LENGTH }
-  validates :password_digest, format: PASSWORD_VALIDATION_REGEX, if: :is_password
+  validates :password, format: PASSWORD_VALIDATION_REGEX, if: :is_password
 end
