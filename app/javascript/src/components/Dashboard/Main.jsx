@@ -24,6 +24,7 @@ const Main = () => {
   const [idToDelete, setIdToDelete] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentTablePage, setCurrentTablePage] = useState(1);
+  const [filteredArticles, setFilteredArticles] = useState([]);
 
   const handleDelete = id => {
     setIdToDelete(id);
@@ -36,6 +37,7 @@ const Main = () => {
         data: { articles },
       } = await articlesApi.list();
       setArticles(articles);
+      setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -55,17 +57,30 @@ const Main = () => {
       setLoading(false);
     }
   };
+  const fetchFilteredArticles = async payload => {
+    try {
+      setLoading(true);
+      const {
+        data: { articles },
+      } = await articlesApi.list(payload);
+      setFilteredArticles(articles);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     fetchArticles();
     fetchCategories();
   }, []);
 
   useEffect(() => {
-    // articlesApi.list({
-    //   selectedCategoryFilter,
-    //   searchQuery: searchQuery.toLowerCase(),
-    //   articleStatus,
-    // });
+    fetchFilteredArticles({
+      selectedCategoryFilter,
+      searchQuery: searchQuery.toLowerCase(),
+      articleStatus,
+    });
   }, [selectedCategoryFilter, searchQuery, articleStatus]);
 
   if (loading) {
@@ -126,7 +141,7 @@ const Main = () => {
               currentPageNumber={currentTablePage}
               defaultPageSize={10}
               handlePageChange={e => setCurrentTablePage(e)}
-              rowData={articles}
+              rowData={filteredArticles}
             />
           </>
         )}

@@ -6,13 +6,14 @@ class ArticlesController < ApplicationController
   before_action :search_params, only: %i[index]
 
   def index
-    searched_articles = @user.articles.all.where("title like ?", "%#{@search_term}%")
-    statused_articles = searched_articles.select { |art| !@status_to_filter || art.status == @status_to_filter }
-    if @categories_to_filter_with.nil? || @categories_to_filter_with.length == 0
-
-      @articles = statused_articles
+    search_query_filtered_articles = @user.articles.all.where("title like ?", "%#{@search_term}%")
+    status_filtered_articles = search_query_filtered_articles.select { |art|
+    @status_to_filter == "all" || art.status == @status_to_filter }
+    if @categories_to_filter_with.length == 0
+      @articles = status_filtered_articles
     else
-      @articles = statused_articles.select { |art| @categories_to_filter_with.include? art.assigned_category.name }
+      @articles = status_filtered_articles.select { |art|
+        @categories_to_filter_with.include? art.assigned_category.name }
     end
   end
 
@@ -40,9 +41,9 @@ class ArticlesController < ApplicationController
   private
 
     def search_params
-      @search_term = params[:searchQuery]
-      @categories_to_filter_with = params[:selectedCategoryFilter]
-      @status_to_filter = params[:articleStatus]
+      @search_term = params[:searchQuery] || ""
+      @categories_to_filter_with = params[:selectedCategoryFilter] || []
+      @status_to_filter = params[:articleStatus] || "all"
     end
 
     def load_article!
