@@ -7,13 +7,13 @@ class ArticlesController < ApplicationController
 
   def index
     search_query_filtered_articles = @user.articles.all.where("title like ?", "%#{@search_term}%")
-    status_filtered_articles = search_query_filtered_articles.select { |art|
-    @status_to_filter == "all" || art.status == @status_to_filter }
+    status_filtered_articles = search_query_filtered_articles.select { |article|
+    @status_to_filter == "all" || article.status == @status_to_filter }
     if @categories_to_filter_with.length == 0
       @articles = status_filtered_articles
     else
-      @articles = status_filtered_articles.select { |art|
-        @categories_to_filter_with.include? art.assigned_category.name }
+      @articles = status_filtered_articles.select { |article|
+        @categories_to_filter_with.include? article.assigned_category.name }
     end
   end
 

@@ -11,7 +11,7 @@ import { initialColumnsList } from "./constants";
 import DeleteAlert from "./DeleteAlert";
 import NoArticles from "./NoArticles";
 import SideMenu from "./SideMenu";
-import { filterRowData, filterColumnData } from "./utils";
+import { filterColumnData } from "./utils";
 
 const Main = () => {
   const [articles, setArticles] = useState([]);
@@ -90,13 +90,6 @@ const Main = () => {
       </div>
     );
   }
-  const searchedRowData = filterRowData(
-    articles,
-    selectedCategoryFilter,
-    articleStatus
-  ).filter(article =>
-    article.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className="flex">
@@ -132,9 +125,9 @@ const Main = () => {
         {articles.length > 0 && (
           <>
             <Typography className="font-semibold" style="h3">
-              {searchedRowData.length === 1
-                ? `${searchedRowData.length} Article`
-                : `${searchedRowData.length} Articles`}
+              {filteredArticles.length === 1
+                ? `${filteredArticles.length} Article`
+                : `${filteredArticles.length} Articles`}
             </Typography>
             <Table
               columnData={filterColumnData(handleDelete, columnList)}

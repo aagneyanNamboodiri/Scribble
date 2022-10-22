@@ -78,25 +78,5 @@ export const buildColumns = handleDelete => {
   return columnData;
 };
 
-export const filterRowData = (
-  articles,
-  selectedCategoryFilter,
-  articleStatus
-) => {
-  articles.map(article =>
-    article.status === "draft" ? (article.created_at = "-") : article.created_at
-  );
-
-  return articles
-    .filter(
-      article =>
-        selectedCategoryFilter.includes(article.category_name) ||
-        !selectedCategoryFilter.length
-    )
-    .filter(
-      article => article.status === articleStatus || articleStatus === "all"
-    );
-};
-
 export const filterColumnData = (handleDelete, columnList) =>
   buildColumns(handleDelete).filter(column => columnList[column.key] === true);
