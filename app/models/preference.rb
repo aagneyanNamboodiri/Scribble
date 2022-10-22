@@ -2,6 +2,7 @@
 
 class Preference < ApplicationRecord
   MAX_SITENAME_LENGTH = 25
+  has_secure_password
   has_secure_token :authentication_token
   PASSWORD_VALIDATION_REGEX = /\A
   (?=.{6,})
@@ -10,5 +11,5 @@ class Preference < ApplicationRecord
   /x
 
   validates :site_name, presence: true, length: { maximum: MAX_SITENAME_LENGTH }
-  validates :password_digest, format: PASSWORD_VALIDATION_REGEX, if: :is_password
+  validates :password, format: PASSWORD_VALIDATION_REGEX, if: :is_password
 end

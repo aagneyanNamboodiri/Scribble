@@ -2,5 +2,4 @@
 
 json.extract! @preference,
   :site_name,
-  :is_password,
-  :password_digest
+  :is_password
