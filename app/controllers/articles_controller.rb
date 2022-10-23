@@ -41,9 +41,9 @@ class ArticlesController < ApplicationController
   private
 
     def search_params
-      @search_term = params[:searchQuery] || ""
-      @categories_to_filter_with = params[:selectedCategoryFilter] || []
-      @status_to_filter = params[:articleStatus] || "all"
+      @search_term = params[:search_query] || ""
+      @categories_to_filter_with = params[:selected_category_fiter] || []
+      @status_to_filter = params[:article_status] || "all"
     end
 
     def load_article!
