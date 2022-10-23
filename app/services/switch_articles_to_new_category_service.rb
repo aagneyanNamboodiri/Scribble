@@ -5,7 +5,7 @@ class SwitchArticlesToNewCategoryService
     @from_category = category_id
     @to_category = to_category_id
     if @from_category == @to_category
-      raise "You cannot switch articles to the category you wish to delete"
+      raise Exception.new "From category cannot be the to category"
     end
   end
 

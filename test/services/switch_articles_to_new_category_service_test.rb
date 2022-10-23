@@ -53,4 +53,37 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
     assert_equal 1, Category.all.count
     assert_equal "General", Category.first.name
   end
+
+  def test_from_category_and_to_category_cannot_be_same
+    assert_raises Exception do
+      delete category_path(@category.id),
+        params: {
+          new_category: @category.id
+        },
+        headers: headers
+    end
+  end
+
+  def test_from_category_has_to_be_a_valid_category
+    delete category_path(@category.id + "test"),
+      params: {
+        new_category: @category.id
+      },
+      headers: headers
+
+    response_json = response.parsed_body
+    assert_equal "Couldn't find Category with 'id'=#{@category.id + "test"}", response_json["error"]
+  end
+
+  def test_to_category_has_to_be_a_valid_category
+    @article.save!
+    delete category_path(@category.id),
+      params: {
+        new_category: "test"
+      },
+      headers: headers
+
+    response_json = response.parsed_body
+    assert_equal "Assigned category must exist", response_json["error"]
+  end
 end
