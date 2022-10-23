@@ -4,6 +4,9 @@ class SwitchArticlesToNewCategoryService
   def initialize(category_id, to_category_id)
     @from_category = category_id
     @to_category = to_category_id
+    if @from_category == @to_category
+      raise "You cannot switch articles to the category you wish to delete"
+    end
   end
 
   def process
