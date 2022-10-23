@@ -84,7 +84,10 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
                                              { name: "Chocolate" }
                                      },
       headers: headers
+    @category.reload
+
     assert_response :ok
+    assert_equal "Chocolate", @category.name
   end
 
   def test_category_reorder
