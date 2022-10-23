@@ -3,6 +3,7 @@
 class CategoriesController < ApplicationController
   include CategorySwitchable
   before_action :load_category!, except: %i[index create]
+
   def index
     @categories = Category.all.order(position: :asc)
   end

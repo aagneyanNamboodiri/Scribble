@@ -10,7 +10,7 @@ class CategoryTest < ActiveSupport::TestCase
   def test_category_should_not_be_valid_and_saved_without_category_name
     @category.name = ""
     assert_not @category.valid?
-    assert_includes @category.errors.full_messages, "Name can't be blank"
+    assert_includes @category.errors.full_messages, "Category can't be blank"
   end
 
   def test_category_name_should_be_of_valid_length
@@ -21,5 +21,19 @@ class CategoryTest < ActiveSupport::TestCase
   def test_category_can_have_zero_articles_count
     @category.articles_count = 0
     assert @category.valid?
+  end
+
+  def test_category_name_should_be_unique
+    @category.save!
+    @category_two = build(:category, name: @category.name)
+    assert_not @category_two.valid?
+    assert_includes @category_two.errors.full_messages, "Category already exists"
+  end
+
+  def test_category_position_on_creation_should_be_last
+    @category.save!
+    @category_two = build(:category)
+    @category_two.save!
+    assert Category.all.count, @category_two.position
   end
 end
