@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :category do
-    name { Faker::Adjective.positive }
-    articles_count { Faker::Number.digit }
+    name { Faker::Lorem.unique.word }
+    articles_count { Faker::Number.unique.digit }
   end
 end

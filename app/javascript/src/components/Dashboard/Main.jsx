@@ -77,9 +77,9 @@ const Main = () => {
 
   useEffect(() => {
     fetchFilteredArticles({
-      selectedCategoryFilter,
-      searchQuery: searchQuery.toLowerCase(),
-      articleStatus,
+      selected_category_fiter: selectedCategoryFilter,
+      search_query: searchQuery.toLowerCase(),
+      article_status: articleStatus,
     });
   }, [selectedCategoryFilter, searchQuery, articleStatus]);
 
