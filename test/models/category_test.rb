@@ -5,12 +5,20 @@ require "test_helper"
 class CategoryTest < ActiveSupport::TestCase
   def setup
     @category = build(:category)
+    @article = build(:article, assigned_category: @category)
+  end
+
+  def test_cant_delete_category_if_it_has_an_associated_article
+    @article.save!
+    assert_raises ActiveRecord::InvalidForeignKey do
+      @category.delete
+    end
   end
 
   def test_category_should_not_be_valid_and_saved_without_category_name
     @category.name = ""
     assert_not @category.valid?
-    assert_includes "Category can't be blank", @category.errors.full_messages
+    assert_includes "Category can't be blank", @category.errors.full_messages[0]
   end
 
   def test_category_name_should_be_of_valid_length
@@ -27,7 +35,7 @@ class CategoryTest < ActiveSupport::TestCase
     @category.save!
     @category_two = build(:category, name: @category.name)
     assert_not @category_two.valid?
-    assert_includes "Category already exists", @category_two.errors.full_messages
+    assert_includes "Category already exists", @category_two.errors.full_messages[0]
   end
 
   def test_category_position_on_creation_should_be_last
