@@ -42,7 +42,7 @@ en:
   activerecord:
     attributes:
       category:
-        name: "Category "
+        name: "Category"
     errors:
       models:
         category:
