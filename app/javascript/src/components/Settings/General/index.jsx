@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 import { Formik, Form } from "formik";
-import { Typography, Checkbox, PageLoader } from "neetoui";
-import { Input as FormikInput, Button } from "neetoui/formik";
+import { Typography, PageLoader } from "neetoui";
+import { Input as FormikInput, Button, Checkbox } from "neetoui/formik";
 
 import organizationsApi from "apis/organizations";
 
-import ConfirmationModal from "./ConfirmationModal";
 import { validationSchema } from "./constants";
 import PasswordValidator from "./PasswordValidator";
 
 import TooltipWrapper from "../../TooltipWrapper";
 
 const General = () => {
-  const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
@@ -21,15 +19,15 @@ const General = () => {
   const [noChangesToSettings, setNoChangesToSettings] = useState(true);
   const [previouslyPasswordProtected, setPreviouslyPasswordProtected] =
     useState(false);
-  const [passwordAlertOpen, setPasswordAlertOpen] = useState(false);
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
 
   const handleSubmit = async value => {
     try {
-      if (!checked) setPassword("");
+      if (!value.passwordProtection) setPassword("");
       const organization = {
         site_name: value.siteName,
-        is_password: checked,
-        password: checked ? password : "",
+        is_password: value.passwordProtection,
+        password: value.passwordProtection ? password : "",
       };
       await organizationsApi.update({ organization });
       await fetchOrganizations();
@@ -44,7 +42,10 @@ const General = () => {
       setLoading(true);
       const { data } = await organizationsApi.list();
       if (data.password_digest) setPassword(data.password_digest);
-      setChecked(data.is_password);
+
+      if (data.is_password) {
+        setIsPasswordValid([1, 1]);
+      }
       setPreviouslyPasswordProtected(data.is_password);
       setSiteName(data.site_name);
     } catch (error) {
@@ -72,18 +73,12 @@ const General = () => {
         initialValues={{
           siteName,
           password,
+          passwordProtection: previouslyPasswordProtected,
         }}
         onSubmit={handleSubmit}
       >
-        {({ dirty, isValid }) => (
+        {({ dirty, ...props }) => (
           <Form onChange={() => setNoChangesToSettings(false)}>
-            {passwordAlertOpen && (
-              <ConfirmationModal
-                passwordAlertOpen={passwordAlertOpen}
-                setChecked={setChecked}
-                setPasswordAlertOpen={setPasswordAlertOpen}
-              />
-            )}
             <div className="flex-col space-y-4">
               <div className="space-y-10">
                 <div className="space-y-2">
@@ -102,26 +97,24 @@ const General = () => {
               </div>
               <hr />
               <Checkbox
-                checked={checked}
+                checked={props.values.passwordProtection}
                 id="checkbox_name"
                 label="Password protect knowledgebase"
-                onChange={() => {
-                  if (checked && previouslyPasswordProtected) {
-                    setPasswordAlertOpen(true);
-                  }
-                  setChecked(prev => !prev);
-                }}
+                name="passwordProtection"
               />
-              {checked && (
+              {props.values.passwordProtection && (
                 <FormikInput
+                  disabled={isEditingPassword}
                   label="Password"
                   name="password"
                   placeholder="A secure password"
+                  type="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  onClick={setIsEditingPassword(true)}
                 />
               )}
-              {checked && (
+              {props.values.passwordProtection && (
                 <PasswordValidator
                   password={password}
                   setIsPasswordValid={setIsPasswordValid}
@@ -129,22 +122,21 @@ const General = () => {
               )}
               <div className="flex space-x-2">
                 <TooltipWrapper
+                  disabled={!dirty}
                   position="bottom"
                   content={
-                    checked
+                    dirty
                       ? "Please ensure site name is present and password is valid"
                       : "No changes to save"
                   }
-                  disabled={() => {
-                    dirty ||
-                      !(
-                        isValid &&
-                        checked &&
-                        !(isPasswordValid[0] * isPasswordValid[1] > 0)
-                      );
-                  }}
                 >
-                  <Button disabled={false} label="Save Changes" type="submit" />
+                  <Button
+                    label="Save Changes"
+                    type="submit"
+                    disabled={
+                      !dirty || !(isPasswordValid[0] * isPasswordValid[1])
+                    }
+                  />
                 </TooltipWrapper>
                 <TooltipWrapper
                   content="No changes to cancel"
