@@ -4,12 +4,11 @@ class CategoriesController < ApplicationController
   before_action :load_category!, except: %i[index create]
 
   def index
-    @categories = Category.all.order(position: :asc)
+    @categories = current_user.categories.all.order(position: :asc)
   end
 
   def create
-    category = Category.new(category_params)
-    category.save!
+    category = current_user.categories.create!(category_params)
     respond_with_success(t("successfully_created", entity: "Category"))
   end
 
@@ -36,7 +35,7 @@ class CategoriesController < ApplicationController
   private
 
     def load_category!
-      @category = Category.find(params[:id])
+      @category = current_user.categories.find(params[:id])
     end
 
     def category_params

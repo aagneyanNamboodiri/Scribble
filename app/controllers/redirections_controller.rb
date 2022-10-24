@@ -3,13 +3,12 @@
 class RedirectionsController < ApplicationController
   before_action :load_redirection!, only: %i[destroy update]
   def create
-    redirection = Redirection.new(redirection_params)
-    redirection.save!
+    redirection = current_user.redirections.create!(redirection_params)
     respond_with_success(t("successfully_created", entity: "Redirection"))
   end
 
   def index
-    @redirections = Redirection.all
+    @redirections = current_user.redirections.all
   end
 
   def update
@@ -29,6 +28,6 @@ class RedirectionsController < ApplicationController
     end
 
     def load_redirection!
-      @redirection = Redirection.find(params[:id])
+      @redirection = current_user.redirections.find(params[:id])
     end
 end
