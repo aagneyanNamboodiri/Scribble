@@ -7,7 +7,7 @@ class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
     @category = create(:category)
     @user = build(:user)
     @article = create(:article, user: @user, assigned_category: @category)
-    @preference = create(:preference, is_password: false)
+    @organization = create(:organization, is_password: false)
     @headers = headers()
   end
 

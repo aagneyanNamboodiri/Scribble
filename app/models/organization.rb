@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Preference < ApplicationRecord
+class Organization < ApplicationRecord
   MAX_SITENAME_LENGTH = 25
   has_secure_password
   has_secure_token :authentication_token

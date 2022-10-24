@@ -5,14 +5,14 @@ import { Typography } from "neetoui";
 import { Input as FormikInput, Button } from "neetoui/formik";
 
 import loginApi from "apis/login";
-import { usePreferenceState } from "contexts/preferences";
+import { useOrganizationState } from "contexts/organizations";
 import LoginImage from "images/LoginImage";
 
 import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 
 const Login = ({ ...props }) => {
-  const { siteName } = usePreferenceState();
-  const { isPassword } = usePreferenceState();
+  const { siteName } = useOrganizationState();
+  const { isPassword } = useOrganizationState();
   if (!isPassword) {
     window.location.href = "/public";
   }

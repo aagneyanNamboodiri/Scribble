@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { Typography, Checkbox, PageLoader } from "neetoui";
 import { Input as FormikInput, Button } from "neetoui/formik";
 
-import preferencesApi from "apis/preferences";
+import organizationsApi from "apis/organizations";
 
 import ConfirmationModal from "./ConfirmationModal";
 import { validationSchema } from "./constants";
@@ -26,23 +26,23 @@ const General = () => {
   const handleSubmit = async value => {
     try {
       if (!checked) setPassword("");
-      const preference = {
+      const organization = {
         site_name: value.siteName,
         is_password: checked,
         password: checked ? password : "",
       };
-      await preferencesApi.update({ preference });
-      await fetchPreferences();
+      await organizationsApi.update({ organization });
+      await fetchOrganizations();
       setNoChangesToSettings(true);
     } catch (err) {
       logger.log(err);
     }
   };
 
-  const fetchPreferences = async () => {
+  const fetchOrganizations = async () => {
     try {
       setLoading(true);
-      const { data } = await preferencesApi.list();
+      const { data } = await organizationsApi.list();
       if (data.password_digest) setPassword(data.password_digest);
       setChecked(data.is_password);
       setPreviouslyPasswordProtected(data.is_password);
@@ -55,7 +55,7 @@ const General = () => {
   };
 
   useEffect(() => {
-    fetchPreferences();
+    fetchOrganizations();
   }, []);
   if (loading) {
     return (
@@ -144,18 +144,7 @@ const General = () => {
                       );
                   }}
                 >
-                  <Button
-                    label="Save Changes"
-                    type="submit"
-                    disabled={
-                      dirty ||
-                      !(
-                        isValid &&
-                        checked &&
-                        isPasswordValid[0] * isPasswordValid[1] > 0
-                      )
-                    }
-                  />
+                  <Button disabled={false} label="Save Changes" type="submit" />
                 </TooltipWrapper>
                 <TooltipWrapper
                   content="No changes to cancel"

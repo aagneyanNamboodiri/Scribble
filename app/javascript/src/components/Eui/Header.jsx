@@ -2,10 +2,10 @@ import React from "react";
 
 import { Typography } from "neetoui";
 
-import { usePreferenceState } from "contexts/preferences";
+import { useOrganizationState } from "contexts/organizations";
 
 const Header = () => {
-  const { siteName } = usePreferenceState();
+  const { siteName } = useOrganizationState();
 
   return (
     <div className="border-b flex justify-center py-2">
