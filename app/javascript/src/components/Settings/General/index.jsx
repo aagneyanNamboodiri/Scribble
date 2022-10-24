@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Formik, Form } from "formik";
-import { Typography, PageLoader } from "neetoui";
+import { Typography, PageLoader, Button as NeetoUIButton } from "neetoui";
 import { Input as FormikInput, Button, Checkbox } from "neetoui/formik";
 
 import organizationsApi from "apis/organizations";
@@ -13,6 +13,7 @@ import TooltipWrapper from "../../TooltipWrapper";
 
 const General = () => {
   const [loading, setLoading] = useState(true);
+  const [checkChanged, setCheckChanged] = useState(false);
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState([1, 1]);
   const [siteName, setSiteName] = useState("");
@@ -26,12 +27,14 @@ const General = () => {
       if (!value.passwordProtection) setPassword("");
       const organization = {
         site_name: value.siteName,
-        is_password: value.passwordProtection,
-        password: value.passwordProtection ? password : "",
+        ...(checkChanged && { is_password: value.passwordProtection }),
+        ...(isEditingPassword && { password: value.password }),
       };
       await organizationsApi.update({ organization });
       await fetchOrganizations();
       setNoChangesToSettings(true);
+      setIsEditingPassword(false);
+      setCheckChanged(false);
     } catch (err) {
       logger.log(err);
     }
@@ -77,8 +80,8 @@ const General = () => {
         }}
         onSubmit={handleSubmit}
       >
-        {({ dirty, ...props }) => (
-          <Form onChange={() => setNoChangesToSettings(false)}>
+        {({ dirty, setFieldValue, ...props }) => (
+          <Form>
             <div className="flex-col space-y-4">
               <div className="space-y-10">
                 <div className="space-y-2">
@@ -101,22 +104,42 @@ const General = () => {
                 id="checkbox_name"
                 label="Password protect knowledgebase"
                 name="passwordProtection"
+                onClick={() => {
+                  setFieldValue(
+                    "passwordProtection",
+                    !props.values.passwordProtection
+                  );
+                  if (!previouslyPasswordProtected) {
+                    setIsEditingPassword(true);
+                  }
+                  setCheckChanged(true);
+                }}
               />
-              {props.values.passwordProtection && (
+              {props.values.passwordProtection && previouslyPasswordProtected && (
+                <NeetoUIButton
+                  label={
+                    previouslyPasswordProtected
+                      ? "Click to change password"
+                      : "Click to add password"
+                  }
+                  onClick={() => {
+                    setIsEditingPassword(true);
+                    setCheckChanged(true);
+                  }}
+                />
+              )}
+              {props.values.passwordProtection && isEditingPassword && (
                 <FormikInput
-                  disabled={isEditingPassword}
                   label="Password"
                   name="password"
                   placeholder="A secure password"
                   type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  onClick={setIsEditingPassword(true)}
+                  value={props.values.password}
                 />
               )}
-              {props.values.passwordProtection && (
+              {props.values.passwordProtection && isEditingPassword && (
                 <PasswordValidator
-                  password={password}
+                  password={props.values.password}
                   setIsPasswordValid={setIsPasswordValid}
                 />
               )}
@@ -144,7 +167,7 @@ const General = () => {
                   position="bottom"
                 >
                   <Button
-                    disabled={noChangesToSettings}
+                    disabled={!dirty && !isEditingPassword}
                     label="Cancel"
                     style="text"
                     type="reset"

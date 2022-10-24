@@ -10,7 +10,12 @@ class OrganizationsController < ApplicationController
     if changes_to_password_logistics
       session[:auth] = nil
     end
-    @organization.update!(organization_params)
+
+    if organization_params[:is_password].nil?
+      @organization.update_attribute(:site_name, params[:organization]["site_name"])
+    else
+      @organization.update!(organization_params)
+    end
     respond_with_success(t("successfully_updated", entity: "Settings"))
   end
 
