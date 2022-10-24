@@ -3,6 +3,8 @@
 class User < ApplicationRecord
   MAX_USERNAME_LENGTH = 25
 
+  belongs_to :organization
+
   has_many :articles
   has_many :redirections
   has_many :categories

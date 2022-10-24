@@ -10,6 +10,8 @@ class Organization < ApplicationRecord
   (?=.*[a-z])
   /x
 
+  has_one :user
+
   validates :site_name, presence: true, length: { maximum: MAX_SITENAME_LENGTH }
   validates :password, format: PASSWORD_VALIDATION_REGEX, if: :is_password
 end
