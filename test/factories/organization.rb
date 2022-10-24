@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :preference do
+  factory :organization do
     site_name { Faker::Name.name }
     is_password { [true, false].sample() }
     password_digest { Faker::Adjective.positive }

@@ -2,7 +2,7 @@ import React from "react";
 
 import { Redirect, Route } from "react-router-dom";
 
-import { usePreferenceState } from "contexts/preferences";
+import { useOrganizationState } from "contexts/organizations";
 
 const PrivateRoute = ({
   component: Component,
@@ -11,7 +11,7 @@ const PrivateRoute = ({
   redirectRoute,
   ...props
 }) => {
-  const { isPassword } = usePreferenceState();
+  const { isPassword } = useOrganizationState();
 
   if (!isLoggedIn && isPassword) {
     return (

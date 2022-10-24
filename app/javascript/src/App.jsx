@@ -17,7 +17,7 @@ import ErrorPage from "./components/ErrorPage";
 import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
 import Settings from "./components/Settings";
-import { PreferenceProvider } from "./contexts/preferences";
+import { OrganizationProvider } from "./contexts/organizations";
 
 const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ const App = ({ isLoggedIn }) => {
   }
 
   return (
-    <PreferenceProvider>
+    <OrganizationProvider>
       <Router>
         <ToastContainer />
         <Switch>
@@ -51,7 +51,7 @@ const App = ({ isLoggedIn }) => {
           <Route component={ErrorPage} path="/" />
         </Switch>
       </Router>
-    </PreferenceProvider>
+    </OrganizationProvider>
   );
 };
 

@@ -39,7 +39,7 @@ end
 
 def create_sample_data!
   create_user!
-  create_preference!
+  create_organization!
   create_category!
 end
 
@@ -51,14 +51,14 @@ def create_user!(options = {})
   User.create! attributes
 end
 
-def create_preference!(options = {})
-  preference_attributes = {
+def create_organization!(options = {})
+  organization_attributes = {
     site_name: "Spinkart",
     is_password: true,
     password_digest: "admin1"
   }
-  attributes = preference_attributes.merge options
-  Preference.create! attributes
+  attributes = organization_attributes.merge options
+  Organization.create! attributes
 end
 
 def create_category!(options = {})

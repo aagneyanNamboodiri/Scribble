@@ -5,7 +5,7 @@ import { Route, useParams, Redirect, Switch } from "react-router";
 
 import publicArticlesApi from "apis/Public/articles";
 import publicCategoriesApi from "apis/Public/categories";
-import publicPreferencesApi from "apis/Public/preferences";
+import publicOrganizationsApi from "apis/Public/organizations";
 
 import ErrorPage from "./ErrorPage";
 import Header from "./Header";
@@ -41,9 +41,9 @@ const Eui = () => {
     }
   };
 
-  const fetchPreferences = async () => {
+  const fetchOrganizations = async () => {
     try {
-      const { data } = await publicPreferencesApi.list();
+      const { data } = await publicOrganizationsApi.list();
       setSiteName(data.site_name);
     } catch (error) {
       logger.error(error);
@@ -54,7 +54,7 @@ const Eui = () => {
     setLoading(true);
     await fetchArticles();
     await fetchCategories();
-    await fetchPreferences();
+    await fetchOrganizations();
     setLoading(false);
   };
 
