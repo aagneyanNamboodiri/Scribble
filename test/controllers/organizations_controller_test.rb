@@ -12,10 +12,10 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     response_json = response.parsed_body
-    assert_equal response_json["site_name"], @organization.site_name
+    assert_equal @organization.site_name, response_json["site_name"]
   end
 
-  def test_organization_should_get_updated
+  def test_organization_should_get_updated_with_all_fields_passed
     @organization.save!
     organization_params = {
       organization: {
@@ -28,7 +28,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
 
     assert_response :success
-    assert_equal response_json["notice"], "Settings was successfully updated!"
+    assert_equal "Settings was successfully updated!", response_json["notice"]
 end
 
   def test_only_organization_name_should_get_updated
@@ -42,6 +42,6 @@ end
     response_json = response.parsed_body
 
     assert_response :success
-    assert_equal response_json["notice"], "Settings was successfully updated!"
+    assert_equal "Settings was successfully updated!", response_json["notice"]
   end
 end

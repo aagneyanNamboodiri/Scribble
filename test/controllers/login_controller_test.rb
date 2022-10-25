@@ -4,7 +4,7 @@ require "test_helper"
 
 class LoginControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @organization = create(:organization, is_password: true, password: "admin1", password_confirmation: "admin1")
+    @organization = create(:organization)
   end
 
   def test_wrong_password_should_send_error_response
@@ -21,7 +21,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     post login_path, params: { password: "admin1" },
       headers: headers
 
-    assert_response 201
+    assert_response :created
   end
 
   def test_session_cookie_set_for_correct_password
@@ -29,7 +29,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     post login_path, params: { password: "admin1" },
       headers: headers
 
-    assert_equal session[:auth].nil?, false
+    assert_equal false, session[:auth].nil?
   end
 
   def test_session_cookie_not_set_for_wrong_password
@@ -39,7 +39,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
 
     assert_equal t("incorrect_credentials"), "Incorrect credentials, try again."
-    assert_equal session[:auth].nil?, true
+    assert_equal true, session[:auth].nil?
   end
 
   def test_user_should_be_authorized_regardless_if_password_protection_is_false
@@ -48,7 +48,8 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     post login_path, params: {}, headers: headers
     response_json = response.parsed_body
 
-    assert_equal t("login_successful", entity: @organization.site_name), "Welcome to #{@organization.site_name}"
+    assert_equal t("login_successful", entity: @organization.site_name),
+      "Welcome to #{@organization.site_name}"
     assert_equal true, session[:auth].nil?
   end
 end

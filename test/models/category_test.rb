@@ -7,7 +7,7 @@ class CategoryTest < ActiveSupport::TestCase
     @organization = create(:organization, is_password: false)
     @user = create(:user, organization: @organization)
     @category = build(:category, user: @user)
-    @article = build(:article, assigned_category: @category)
+    @article = build(:article, assigned_category: @category, user: @user)
   end
 
   def test_cant_delete_category_if_it_has_an_associated_article
@@ -23,9 +23,16 @@ class CategoryTest < ActiveSupport::TestCase
     assert_includes "Category can't be blank", @category.errors.full_messages[0]
   end
 
+  def test_category_name_should_have_atleast_one_alphanumeric
+    @category.name = ">_<"
+    assert_not @category.valid?
+    assert_includes "Category is invalid", @category.errors.full_messages[0]
+  end
+
   def test_category_name_should_be_of_valid_length
     @category.name = "a" * (Category::MAX_CATEGORY_LENGTH + 1)
     assert_not @category.valid?
+    assert_includes "Category is too long (maximum is 25 characters)", @category.errors.full_messages[0]
   end
 
   def test_category_can_have_zero_articles_count

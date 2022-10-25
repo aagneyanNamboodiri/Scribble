@@ -89,7 +89,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal actual_articles[0].id, response_articles[0]["id"]
   end
 
-  def test_should_create_a_valid_article
+  def test_should_be_able_to_create_a_valid_article_with_params
     post articles_path,
       params: {
         article: {
@@ -101,12 +101,15 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     response_json = response.parsed_body
 
-    assert_equal response_json["notice"], t("successfully_created", entity: "Article")
+    assert_equal t("successfully_created", entity: "Article"), response_json["notice"]
   end
 
   def test_should_destroy_article
     delete article_path(@article.id), headers: headers
     assert_response :ok
+
+    response_json = response.parsed_body
+    assert_equal t("successfully_destroyed", entity: "Article"), response_json["notice"]
   end
 
   def test_should_give_article_not_found_for_invalid_article_id
@@ -140,6 +143,6 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     response_json = response.parsed_body
-    assert_equal Article.find(@article.id).id, response_json["articles"][0]["id"]
+    assert_equal @article.id, response_json["articles"][0]["id"]
   end
 end
