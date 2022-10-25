@@ -18,7 +18,6 @@ class Redirection < ApplicationRecord
         errors.add(:base, "From path cannot be the to path")
       end
       current_user = User.first
-      prefix_slash_to_redirection_paths
       all_from_paths = current_user.redirections.pluck(:from_path)
       all_to_paths = current_user.redirections.pluck(:to_path)
       possible_from_path = to_path
@@ -36,10 +35,5 @@ class Redirection < ApplicationRecord
           break
         end
       end
-    end
-
-    def prefix_slash_to_redirection_paths
-      to_path.insert(0, "/")
-      from_path.insert(0, "/")
     end
 end
