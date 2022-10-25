@@ -7,7 +7,7 @@ import { MenuBar } from "neetoui/layouts";
 import CategoryCreate from "./CategoryCreate";
 
 const SideMenu = ({
-  articles,
+  articleStatusCounts,
   categories,
   setSelectedCategoryFilter,
   selectedCategoryFilter,
@@ -36,22 +36,20 @@ const SideMenu = ({
     <MenuBar showMenu title="Articles">
       <MenuBar.Block
         active={articleStatus === "all"}
-        count={articles.length}
+        count={articleStatusCounts.all}
         label="All"
         onClick={() => setArticleStatus("all")}
       />
       <MenuBar.Block
         active={articleStatus === "draft"}
-        count={articles.filter(article => article.status === "draft").length}
+        count={articleStatusCounts.draft}
         label="Drafts"
         onClick={() => setArticleStatus("draft")}
       />
       <MenuBar.Block
         active={articleStatus === "published"}
+        count={articleStatusCounts.published}
         label="Published"
-        count={
-          articles.filter(article => article.status === "published").length
-        }
         onClick={() => setArticleStatus("published")}
       />
       <MenuBar.SubTitle
