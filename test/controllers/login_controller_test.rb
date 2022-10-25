@@ -29,7 +29,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     post login_path, params: { password: "admin1" },
       headers: headers
 
-    assert_equal session[:auth].nil?, false
+    assert_equal false, session[:auth].nil?
   end
 
   def test_session_cookie_not_set_for_wrong_password
@@ -39,7 +39,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
 
     assert_equal t("incorrect_credentials"), "Incorrect credentials, try again."
-    assert_equal session[:auth].nil?, true
+    assert_equal true, session[:auth].nil?
   end
 
   def test_user_should_be_authorized_regardless_if_password_protection_is_false

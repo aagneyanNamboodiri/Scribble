@@ -31,6 +31,7 @@ class OrganizationTest < ActiveSupport::TestCase
     @organization.is_password = false
     @organization.save!
     @organization.password = ""
+
     assert @organization.valid?
   end
 
@@ -40,22 +41,32 @@ class OrganizationTest < ActiveSupport::TestCase
     @organization.password_confirmation = "pwd12"
 
     assert_not @organization.valid?
-    assert_includes @organization.errors.full_messages[0], "Password is invalid"
+    assert_includes "Password is invalid", @organization.errors.full_messages[0]
   end
 
   def test_password_should_be_atleast_six_characters_long
     @organization.password = "adm1"
+    @organization.password_confirmation = "adm1"
     assert_not @organization.valid?
-    assert_includes @organization.errors.full_messages[0], "Password is invalid"
+    assert_includes "Password is invalid", @organization.errors.full_messages[0]
   end
 
   def test_password_needs_one_character_and_one_number
     @organization.password = "adminonly"
+    @organization.password_confirmation = "adminonly"
     assert_not @organization.valid?
-    assert_includes @organization.errors.full_messages[0], "Password is invalid"
+    assert_includes "Password is invalid", @organization.errors.full_messages[0]
 
     @organization.password = "12345678"
+    @organization.password_confirmation = "12345678"
     assert_not @organization.valid?
-    assert_includes @organization.errors.full_messages[0], "Password is invalid"
+    assert_includes "Password is invalid", @organization.errors.full_messages[0]
+  end
+
+  def test_password_and_password_confirmation_should_match
+    @organization.password = "admin1"
+    @organization.password_confirmation = "somethingelse1"
+    assert_not @organization.valid?
+    assert_includes "Password confirmation doesn't match Password", @organization.errors.full_messages[0]
   end
 end
