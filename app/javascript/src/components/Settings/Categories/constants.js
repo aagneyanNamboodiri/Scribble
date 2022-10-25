@@ -1,5 +1,7 @@
 import * as yup from "yup";
 
+const AT_LEAST_ONE_ALPHANUMERIC_REGEX = /[a-zA-Z0-9]+/;
+
 export const buildInitialValue = category => {
   const initialValue = {
     name: Object.keys(category).length === 0 ? "" : category.name,
@@ -9,7 +11,13 @@ export const buildInitialValue = category => {
 };
 
 export const validationSchema = yup.object().shape({
-  name: yup.string().required("Category name is required"),
+  name: yup
+    .string()
+    .required("Category name is required")
+    .matches(
+      AT_LEAST_ONE_ALPHANUMERIC_REGEX,
+      "Please add one letter or number"
+    ),
 });
 
 export const buildCategoryValues = (categories, deletedCategory) =>

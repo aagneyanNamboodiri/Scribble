@@ -14,7 +14,6 @@ import SideMenu from "./SideMenu";
 import { filterColumnData } from "./utils";
 
 const Main = () => {
-  const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState([]);
@@ -25,6 +24,7 @@ const Main = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [filteredArticles, setFilteredArticles] = useState([]);
+  const [articleStatusCounts, setArticleStatusCounts] = useState({});
 
   const handleDelete = id => {
     setIdToDelete(id);
@@ -36,7 +36,12 @@ const Main = () => {
       const {
         data: { articles },
       } = await articlesApi.list();
-      setArticles(articles);
+      setArticleStatusCounts({
+        all: articles.length,
+        published: articles.filter(article => article.status === "published")
+          .length,
+        draft: articles.filter(article => article.status === "draft").length,
+      });
       setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
@@ -57,17 +62,19 @@ const Main = () => {
       setLoading(false);
     }
   };
-  const fetchFilteredArticles = async payload => {
+  const fetchFilteredArticles = async () => {
+    const payload = {
+      selected_category_fiter: selectedCategoryFilter,
+      search_query: searchQuery.toLowerCase(),
+      article_status: articleStatus,
+    };
     try {
-      setLoading(true);
       const {
         data: { articles },
       } = await articlesApi.list(payload);
       setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -76,12 +83,14 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    fetchFilteredArticles({
-      selected_category_fiter: selectedCategoryFilter,
-      search_query: searchQuery.toLowerCase(),
-      article_status: articleStatus,
-    });
-  }, [selectedCategoryFilter, searchQuery, articleStatus]);
+    fetchFilteredArticles();
+  }, [selectedCategoryFilter, articleStatus]);
+
+  useEffect(() => {
+    const getData = setTimeout(() => fetchFilteredArticles(), 400);
+
+    return () => clearTimeout(getData);
+  }, [searchQuery]);
 
   if (loading) {
     return (
@@ -95,7 +104,7 @@ const Main = () => {
     <div className="flex">
       <SideMenu
         articleStatus={articleStatus}
-        articles={articles}
+        articleStatusCounts={articleStatusCounts}
         categories={categories}
         refetch={fetchCategories}
         selectedCategoryFilter={selectedCategoryFilter}
@@ -121,8 +130,8 @@ const Main = () => {
             placeholder: "Search artcile titles",
           }}
         />
-        {articles.length === 0 && <NoArticles className="w-full" />}
-        {articles.length > 0 && (
+        {articleStatusCounts.all === 0 && <NoArticles className="w-full" />}
+        {articleStatusCounts.all > 0 && (
           <>
             <Typography className="font-semibold" style="h3">
               {filteredArticles.length === 1
