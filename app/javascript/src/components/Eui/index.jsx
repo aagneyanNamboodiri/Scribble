@@ -5,7 +5,6 @@ import { Route, useParams, Redirect, Switch } from "react-router";
 
 import publicArticlesApi from "apis/Public/articles";
 import publicCategoriesApi from "apis/Public/categories";
-import publicOrganizationsApi from "apis/Public/organizations";
 
 import ErrorPage from "./ErrorPage";
 import Header from "./Header";
@@ -16,7 +15,6 @@ const Eui = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [siteName, setSiteName] = useState("");
   const { slug } = useParams(slug);
 
   const fetchArticles = async () => {
@@ -41,20 +39,10 @@ const Eui = () => {
     }
   };
 
-  const fetchOrganizations = async () => {
-    try {
-      const { data } = await publicOrganizationsApi.list();
-      setSiteName(data.site_name);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
   const fetchData = async () => {
     setLoading(true);
     await fetchArticles();
     await fetchCategories();
-    await fetchOrganizations();
     setLoading(false);
   };
 
@@ -83,7 +71,7 @@ const Eui = () => {
 
   return (
     <>
-      <Header siteName={siteName} />
+      <Header />
       <div className="flex">
         <Switch>
           <Route exact path="/public/:slug">
