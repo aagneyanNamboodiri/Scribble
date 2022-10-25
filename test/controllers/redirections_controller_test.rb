@@ -45,7 +45,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal response_json["notice"], t("successfully_updated", entity: "Redirection")
     @redirection.reload
-    assert_equal @redirection.to_path, new_to_path
+    assert_equal @redirection.from_path, new_from_path
     assert_equal @redirection.to_path, new_to_path
   end
 
