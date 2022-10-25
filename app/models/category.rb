@@ -6,4 +6,6 @@ class Category < ApplicationRecord
   acts_as_list order: :position
   validates :name, presence: true, uniqueness: true
   validates :name, length: { maximum: MAX_CATEGORY_LENGTH }
+
+  belongs_to :user
 end

@@ -5,4 +5,10 @@ class ApplicationController < ActionController::Base
   include ApiRescuable
   include ActionView::Helpers::TranslationHelper
   protect_from_forgery with: :null_session
+
+  private
+
+    def current_user
+      @_current_user ||= User.first
+    end
 end
