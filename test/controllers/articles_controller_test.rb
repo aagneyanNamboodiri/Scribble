@@ -4,16 +4,17 @@ require "test_helper"
 
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:user)
-    @category = create(:category)
-    @filter_category_one = create(:category)
-    @filter_category_two = create(:category)
+    @organization = create(:organization, is_password: false)
+    @user = create(:user, organization: @organization)
+    @category = create(:category, user: @user)
+    @filter_category_one = create(:category, user: @user)
+    @filter_category_two = create(:category, user: @user)
     @article = create(:article, user: @user, assigned_category: @category)
     @published_article = create(:article, user: @user, assigned_category: @category, status: "published")
     @drafted_article = create(:article, user: @user, assigned_category: @category, status: "draft")
     @category_one_article = create(:article, user: @user, assigned_category: @filter_category_one)
     @category_two_article = create(:article, user: @user, assigned_category: @filter_category_two)
-    @titled_article = create(:article, user: @user, assigned_category: @category, title: "test")
+    @titled_article = create(:article, user: @user, assigned_category: @category, title: "test", status: "published")
     @headers = headers()
     end
 
@@ -36,7 +37,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get articles_path, params: {
       search_query: "test",
       article_status: "published",
-      categories_to_filter_with:
+      selected_category_fiter:
                                   [@filter_category_one.name, @filter_category_two.name]
     }, headers: headers
     response_json = response.parsed_body
@@ -114,18 +115,24 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :not_found
     response_json = response.parsed_body
-    assert_equal "Couldn't find Article with 'id'=#{invalid_id}", response_json["error"]
+    assert_includes response_json["error"], "Couldn't find Article with 'id'=#{invalid_id}"
   end
 
   def test_article_should_get_updated_successfully
     new_title = "#{@article.title}-(updated)"
-    article_params = { article: { title: new_title, assigned_category_id: @category.id, body: "New Body" } }
+    article_params = {
+      article: {
+        title: new_title, assigned_category_id: @category.id, body: "New Body",
+        status: "published"
+      }
+    }
     put article_path(@article.id), params: article_params, headers: headers
 
     assert_response :success
     @article.reload
-    assert_equal @article.title, new_title
-    assert_equal @article.assigned_category_id, @category.id
+    assert_equal new_title, @article.title
+    assert_equal @category.id, @article.assigned_category_id
+    assert_equal "published", @article.status
   end
 
   def test_should_show_the_correct_article
