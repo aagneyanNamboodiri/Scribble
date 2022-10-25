@@ -2,7 +2,8 @@
 
 FactoryBot.define do
   factory :redirection do
-    to_path { Faker::Internet.url(host: "example.com") }
-    from_path { Faker::Internet.url(host: "example.com") }
+    association :user, factory: :user
+    to_path { Faker::Lorem.word }
+    from_path { Faker::Lorem.word }
   end
 end

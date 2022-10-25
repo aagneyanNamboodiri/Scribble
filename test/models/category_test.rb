@@ -4,7 +4,9 @@ require "test_helper"
 
 class CategoryTest < ActiveSupport::TestCase
   def setup
-    @category = build(:category)
+    @organization = create(:organization, is_password: false)
+    @user = create(:user, organization: @organization)
+    @category = build(:category, user: @user)
     @article = build(:article, assigned_category: @category)
   end
 

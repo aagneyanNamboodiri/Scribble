@@ -4,7 +4,7 @@ require "test_helper"
 
 class OrganizationTest < ActiveSupport::TestCase
   def setup
-    @organization = create(:organization, password_digest: "admin1")
+    @organization = build(:organization, is_password: true, password: "admin1")
   end
 
   def test_site_name_shouldnt_be_empty
@@ -21,29 +21,31 @@ class OrganizationTest < ActiveSupport::TestCase
     assert @organization.valid?
   end
 
-  def test_password_digest_can_be_empty_if_is_password_is_false
+  def test_password_can_be_empty_if_is_password_is_false
     @organization.is_password = false
     @organization.save!
-    @organization.password_digest = ""
+    @organization.password = ""
     assert @organization.valid?
   end
 
-  def test_password_cannot_be_empty_if_is_password_is_true
+  def test_password_cannot_be_invalid_if_is_password_is_true
     @organization.is_password = true
-    @organization.save!
-    @organization.password_digest = ""
+    @organization.password = "pwd12"
+    @organization.password_confirmation = "pwd12"
+
     assert_not @organization.valid?
+    assert_includes @organization.errors.full_messages[0], "Password is invalid"
   end
 
   def test_password_should_be_atleast_six_characters_long
-    @organization.password_digest = "adm1"
+    @organization.password = "adm1"
     assert_not @organization.valid?
-    assert_includes @organization.errors.full_messages, "Password digest is invalid"
+    assert_includes @organization.errors.full_messages[0], "Password is invalid"
   end
 
   def test_password_needs_one_character_and_one_number
-    @organization.password_digest = "adminonly"
+    @organization.password = "adminonly"
     assert_not @organization.valid?
-    assert_includes @organization.errors.full_messages, "Password digest is invalid"
+    assert_includes @organization.errors.full_messages[0], "Password is invalid"
   end
 end

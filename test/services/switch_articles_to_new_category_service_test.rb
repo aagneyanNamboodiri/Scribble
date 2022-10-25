@@ -4,9 +4,10 @@ require "test_helper"
 
 class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
   def setup
-    @category = create(:category)
-    @category_2 = create(:category)
-    @user = create(:user)
+    @organization = create(:organization, is_password: false)
+    @user = create(:user, organization: @organization)
+    @category = create(:category, user: @user)
+    @category_2 = create(:category, user: @user)
     @article = build(:article, user: @user, assigned_category: @category)
     @headers = headers()
   end
@@ -72,7 +73,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
       headers: headers
 
     response_json = response.parsed_body
-    assert_equal "Couldn't find Category with 'id'=#{@category.id + "test"}", response_json["error"]
+    assert_includes response_json["error"], "Couldn't find Category with 'id'="
   end
 
   def test_to_category_has_to_be_a_valid_category

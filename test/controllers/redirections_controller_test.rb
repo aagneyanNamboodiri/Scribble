@@ -4,7 +4,9 @@ require "test_helper"
 
 class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @redirection = create(:redirection)
+    @organization = create(:organization, is_password: false)
+    @user = create(:user, organization: @organization)
+    @redirection = create(:redirection, user: @user)
     @headers = headers()
   end
 
@@ -19,8 +21,8 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def test_should_create_redirection
     post redirections_path, params: {
                               redirections: {
-                                to_path: "/arigatou",
-                                from_path: "/gozaimasu"
+                                to_path: "arigatou",
+                                from_path: "thankyou"
                               }
                             },
       headers: headers
@@ -30,9 +32,11 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_redirection
-    new_to_path = "/about"
+    new_to_path = "about"
+    new_from_path = "associations"
     put redirection_path(@redirection.id), params: {
                                              redirections: {
+                                               from_path: new_from_path,
                                                to_path: new_to_path
                                              }
                                            },
@@ -41,7 +45,8 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal response_json["notice"], t("successfully_updated", entity: "Redirection")
     @redirection.reload
-    assert_equal @redirection.to_path, new_to_path
+    assert_equal @redirection.to_path, "/" + new_to_path
+    assert_equal @redirection.to_path, "/" + new_to_path
   end
 
   def test_should_destroy_redirection
@@ -49,6 +54,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
       delete redirection_path(@redirection.id), headers: headers()
     end
     response_json = response.parsed_body
+
     assert_equal response_json["notice"], t("successfully_destroyed", entity: "Redirection")
     assert_response :ok
   end
