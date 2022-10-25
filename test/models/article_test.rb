@@ -4,8 +4,9 @@ require "test_helper"
 
 class ArticleTest < ActiveSupport::TestCase
   def setup
-    @user = create(:user)
-    @category = create(:category)
+    @organization = create(:organization, is_password: false)
+    @user = create(:user, organization: @organization)
+    @category = create(:category, user: @user)
     @article = build(:article, assigned_category: @category, user: @user, status: "published")
   end
 
