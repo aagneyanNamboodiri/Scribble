@@ -57,17 +57,19 @@ const Main = () => {
       setLoading(false);
     }
   };
-  const fetchFilteredArticles = async payload => {
+  const fetchFilteredArticles = async () => {
+    const payload = {
+      selected_category_fiter: selectedCategoryFilter,
+      search_query: searchQuery.toLowerCase(),
+      article_status: articleStatus,
+    };
     try {
-      setLoading(true);
       const {
         data: { articles },
       } = await articlesApi.list(payload);
       setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -76,12 +78,14 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    fetchFilteredArticles({
-      selected_category_fiter: selectedCategoryFilter,
-      search_query: searchQuery.toLowerCase(),
-      article_status: articleStatus,
-    });
-  }, [selectedCategoryFilter, searchQuery, articleStatus]);
+    fetchFilteredArticles();
+  }, [selectedCategoryFilter, articleStatus]);
+
+  useEffect(() => {
+    const getData = setTimeout(() => fetchFilteredArticles(), 400);
+
+    return () => clearTimeout(getData);
+  }, [searchQuery]);
 
   if (loading) {
     return (
