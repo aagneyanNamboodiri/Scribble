@@ -9,9 +9,10 @@ class Organization < ApplicationRecord
   (?=.*\d)
   (?=.*[a-z])
   /x
+  VALID_SITENAME_REGEX = /[a-zA-Z0-9]+/
 
   has_one :user
 
-  validates :site_name, presence: true, length: { maximum: MAX_SITENAME_LENGTH }
+  validates :site_name, presence: true, length: { maximum: MAX_SITENAME_LENGTH }, format: VALID_SITENAME_REGEX
   validates :password, format: PASSWORD_VALIDATION_REGEX, if: :is_password
 end

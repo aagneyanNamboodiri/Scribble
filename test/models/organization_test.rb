@@ -10,7 +10,13 @@ class OrganizationTest < ActiveSupport::TestCase
   def test_site_name_shouldnt_be_empty
     @organization.site_name = ""
     assert_not @organization.valid?
-    assert_includes @organization.errors.full_messages, "Site name can't be blank"
+    assert_includes "Site name can't be blank", @organization.errors.full_messages[0]
+  end
+
+  def test_organization_name_should_have_atleast_one_alphanumeric
+    @organization.site_name = "-_-"
+    assert_not @organization.valid?
+    assert_includes "Site name is invalid", @organization.errors.full_messages[0]
   end
 
   def test_is_password_can_be_true_or_false
@@ -45,6 +51,10 @@ class OrganizationTest < ActiveSupport::TestCase
 
   def test_password_needs_one_character_and_one_number
     @organization.password = "adminonly"
+    assert_not @organization.valid?
+    assert_includes @organization.errors.full_messages[0], "Password is invalid"
+
+    @organization.password = "12345678"
     assert_not @organization.valid?
     assert_includes @organization.errors.full_messages[0], "Password is invalid"
   end

@@ -4,7 +4,8 @@ class Article < ApplicationRecord
   enum status: { published: "published", draft: "draft" }
   MAX_TITLE_LENGTH = 200
   MAX_BODY_LENGTH = 5000
-  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
+  VALID_TITLE_REGEX = /[a-zA-Z0-9]+/
+  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: VALID_TITLE_REGEX
   validates :body, presence: true, length: { maximum: MAX_BODY_LENGTH }
   validates :slug, uniqueness: false
   validate :slug_not_changed

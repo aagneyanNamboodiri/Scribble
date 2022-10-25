@@ -13,7 +13,25 @@ class ArticleTest < ActiveSupport::TestCase
   def test_article_should_not_be_valid_and_saved_without_title
     @article.title = ""
     assert_not @article.valid?
-    assert_includes @article.errors.full_messages, "Title can't be blank"
+    assert_includes "Title can't be blank", @article.errors.full_messages[0]
+  end
+
+  def test_title_should_have_atleast_one_alphanumeric
+    @article.title = "-/|"
+    assert_not @article.valid?
+    assert_includes "Title is invalid", @article.errors.full_messages[0]
+  end
+
+  def test_article_should_not_be_valid_and_saved_without_body
+    @article.body = ""
+    assert_not @article.valid?
+    assert_includes "Body can't be blank", @article.errors.full_messages[0]
+  end
+
+  def test_article_should_have_a_valid_category_associated
+    @article.assigned_category_id = "an-invalid-id"
+    assert_not @article.valid?
+    assert_includes "Assigned category must exist", @article.errors.full_messages[0]
   end
 
   def test_slug_is_parameterised_title
