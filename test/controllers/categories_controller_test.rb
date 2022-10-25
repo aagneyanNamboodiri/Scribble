@@ -18,7 +18,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
     response_json = response.parsed_body
     all_categories = response_json["categories"]
-    existing_categories_count = Category.count
+    existing_categories_count = @user.categories.count
 
     assert_equal existing_categories_count, all_categories.count
   end
@@ -60,13 +60,14 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def test_should_create_general_category_when_deleting_last_category
     delete category_path(@category_2.id), headers: headers
     assert_response :success
+    assert_equal 1, @user.categories.count
 
     @article.save!
     delete category_path(@category.id), headers: headers
 
     assert_response :success
-    assert_equal 1, Category.all.count
-    assert_equal "General", Category.first.name
+    assert_equal 1, @user.categories.count
+    assert_equal "General", @user.categories.first.name
   end
 
   def test_should_updated_category_name

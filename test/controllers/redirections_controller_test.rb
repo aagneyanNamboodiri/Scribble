@@ -28,7 +28,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
       headers: headers
     assert_response :success
     response_json = response.parsed_body
-    assert_equal response_json["notice"], t("successfully_created", entity: "Redirection")
+    assert_equal t("successfully_created", entity: "Redirection"), response_json["notice"]
   end
 
   def test_should_update_redirection
@@ -55,7 +55,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
     end
     response_json = response.parsed_body
 
-    assert_equal response_json["notice"], t("successfully_destroyed", entity: "Redirection")
     assert_response :ok
+    assert_equal t("successfully_destroyed", entity: "Redirection"), response_json["notice"]
   end
 end
