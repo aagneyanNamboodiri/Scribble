@@ -19,7 +19,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes "Site name is invalid", @organization.errors.full_messages[0]
   end
 
-  def test_is_password_can_be_true_or_false
+  def test_password_protection_can_be_true_or_false
     @organization.is_password = true
     assert @organization.valid?
 
@@ -27,7 +27,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert @organization.valid?
   end
 
-  def test_password_can_be_empty_if_is_password_is_false
+  def test_password_can_be_empty_if_password_protection_is_false
     @organization.is_password = false
     @organization.save!
     @organization.password = ""

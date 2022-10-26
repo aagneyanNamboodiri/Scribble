@@ -4,9 +4,14 @@ import dayjs from "dayjs";
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
 
+import TooltipWrapper from "../TooltipWrapper";
+
 var advancedFormat = require("dayjs/plugin/advancedFormat");
 
 dayjs.extend(advancedFormat);
+
+const longStringTruncateFunction = str =>
+  str.length > 35 ? `${str.substring(0, 35)}...` : str;
 
 export const formatTime = dateTime =>
   dateTime === "-" ? "-" : dayjs(dateTime).format("MMMM Do, YYYY");
@@ -17,22 +22,38 @@ export const buildColumns = handleDelete => {
       dataIndex: "title",
       key: "Title",
       title: "Title",
-      render: (title, { id }) => (
-        <Button
-          className="text-indigo-500"
-          label={title}
-          style="link"
-          to={`/articles/${id}/edit`}
-        />
-      ),
+      render: (title, { status, slug }) =>
+        status === "published" ? (
+          <Typography
+            className="text-indigo-500"
+            style="body2"
+            weight="medium"
+            onClick={() => window.open(`/public/${slug}`, "_blank")}
+          >
+            {longStringTruncateFunction(title)}
+          </Typography>
+        ) : (
+          <TooltipWrapper
+            disabled
+            content="Article is not published!"
+            followCursor="horizontal"
+            position="bottom"
+          >
+            <Typography style="body2">
+              {longStringTruncateFunction(title)}
+            </Typography>
+          </TooltipWrapper>
+        ),
     },
     {
-      dataIndex: "created_at",
+      dataIndex: "updated_at",
       key: "Date",
-      title: "Date",
+      title: "Last published at",
       width: 170,
-      render: created_at => (
-        <Typography style="body2">{formatTime(created_at)}</Typography>
+      render: (udpated_at, { slug }) => (
+        <Typography style="body2">
+          {slug ? formatTime(udpated_at) : "-"}
+        </Typography>
       ),
     },
     {

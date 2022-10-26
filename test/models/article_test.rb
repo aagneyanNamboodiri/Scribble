@@ -66,16 +66,10 @@ class ArticleTest < ActiveSupport::TestCase
     assert_equal before_slug, @article.slug
   end
 
-  def test_has_to_be_either_draft_or_published
+  def test_article_status_has_to_be_either_draft_or_published
     assert_raises ArgumentError do
       @article.status = "neither"
     end
-  end
-
-  def test_shouldnt_create_article_without_valid_category
-    @article.assigned_category_id = "an-invalid-id"
-    assert_not @article.valid?
-    assert_includes @article.errors.full_messages, "Assigned category must exist"
   end
 
   def test_slug_should_be_nil_before_initial_publish
