@@ -51,6 +51,6 @@ class CategoryTest < ActiveSupport::TestCase
     @category.save!
     @category_two = build(:category)
     @category_two.save!
-    assert Category.all.count, @category_two.position
+    assert @user.categories.all.count, @category_two.position
   end
 end

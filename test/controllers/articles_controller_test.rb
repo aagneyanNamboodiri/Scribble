@@ -83,10 +83,9 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     response_json = response.parsed_body
     response_articles = response_json["articles"]
-    actual_articles = Article.where("status like ?", "%draft%")
+    actual_articles = @user.articles.where("status like ?", "%draft%")
 
     assert_equal actual_articles.count, response_articles.count
-    assert_equal actual_articles[0].id, response_articles[0]["id"]
   end
 
   def test_should_be_able_to_create_a_valid_article_with_params
@@ -139,10 +138,10 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_show_the_correct_article
-    get articles_path, params: { id: @article.id }, headers: headers
+    get article_path(@article.id), headers: headers
 
     assert_response :ok
     response_json = response.parsed_body
-    assert_equal @article.id, response_json["articles"][0]["id"]
+    assert_equal @article.id, response_json["id"]
   end
 end
