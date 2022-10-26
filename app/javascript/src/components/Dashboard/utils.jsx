@@ -21,16 +21,18 @@ export const buildColumns = handleDelete => {
       title: "Title",
       render: (title, { status, slug }) =>
         status === "published" ? (
-          <Button
+          <Typography
             className="text-indigo-500"
-            label={title}
-            style="link"
-            to={`/public/${slug}`}
-          />
+            style="body2"
+            onClick={() => window.open(`/public/${slug}`, "_blank")}
+          >
+            {title}
+          </Typography>
         ) : (
           <TooltipWrapper
             disabled
             content="Article is not published!"
+            followCursor="horizontal"
             position="bottom"
           >
             <Typography style="body2">{title}</Typography>
@@ -38,12 +40,14 @@ export const buildColumns = handleDelete => {
         ),
     },
     {
-      dataIndex: "created_at",
+      dataIndex: "updated_at",
       key: "Date",
-      title: "Date",
+      title: "Last published at",
       width: 170,
-      render: created_at => (
-        <Typography style="body2">{formatTime(created_at)}</Typography>
+      render: (udpated_at, { slug }) => (
+        <Typography style="body2">
+          {slug ? formatTime(udpated_at) : "-"}
+        </Typography>
       ),
     },
     {

@@ -5,7 +5,9 @@ class ArticlesController < ApplicationController
   before_action :search_params, only: %i[index]
 
   def index
-    search_query_filtered_articles = current_user.articles.all.where("title like ?", "%#{@search_term}%")
+    search_query_filtered_articles = current_user.articles.all.where(
+      "title like ?",
+      "%#{@search_term}%").order(updated_at: :desc)
     status_filtered_articles = search_query_filtered_articles.select { |article|
     @status_to_filter == "all" || article.status == @status_to_filter }
     if @categories_to_filter_with.length == 0
