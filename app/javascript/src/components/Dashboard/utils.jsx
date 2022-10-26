@@ -10,6 +10,9 @@ var advancedFormat = require("dayjs/plugin/advancedFormat");
 
 dayjs.extend(advancedFormat);
 
+const longStringTruncateFunction = str =>
+  str.length > 35 ? `${str.substring(0, 35)}...` : str;
+
 export const formatTime = dateTime =>
   dateTime === "-" ? "-" : dayjs(dateTime).format("MMMM Do, YYYY");
 
@@ -27,7 +30,7 @@ export const buildColumns = handleDelete => {
             weight="medium"
             onClick={() => window.open(`/public/${slug}`, "_blank")}
           >
-            {title}
+            {longStringTruncateFunction(title)}
           </Typography>
         ) : (
           <TooltipWrapper
@@ -36,7 +39,9 @@ export const buildColumns = handleDelete => {
             followCursor="horizontal"
             position="bottom"
           >
-            <Typography style="body2">{title}</Typography>
+            <Typography style="body2">
+              {longStringTruncateFunction(title)}
+            </Typography>
           </TooltipWrapper>
         ),
     },
