@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
 
+import TooltipWrapper from "../TooltipWrapper";
+
 var advancedFormat = require("dayjs/plugin/advancedFormat");
 
 dayjs.extend(advancedFormat);
@@ -17,14 +19,23 @@ export const buildColumns = handleDelete => {
       dataIndex: "title",
       key: "Title",
       title: "Title",
-      render: (title, { id }) => (
-        <Button
-          className="text-indigo-500"
-          label={title}
-          style="link"
-          to={`/articles/${id}/edit`}
-        />
-      ),
+      render: (title, { status, slug }) =>
+        status === "published" ? (
+          <Button
+            className="text-indigo-500"
+            label={title}
+            style="link"
+            to={`/public/${slug}`}
+          />
+        ) : (
+          <TooltipWrapper
+            disabled
+            content="Article is not published!"
+            position="bottom"
+          >
+            <Typography style="body2">{title}</Typography>
+          </TooltipWrapper>
+        ),
     },
     {
       dataIndex: "created_at",
