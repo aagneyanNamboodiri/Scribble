@@ -13,6 +13,8 @@ dayjs.extend(advancedFormat);
 const longStringTruncateFunction = str =>
   str.length > 35 ? `${str.substring(0, 35)}...` : str;
 
+const isArticlePublished = status => status === "published";
+
 export const formatTime = dateTime =>
   dateTime === "-" ? "-" : dayjs(dateTime).format("MMMM Do, YYYY");
 
@@ -22,28 +24,26 @@ export const buildColumns = handleDelete => {
       dataIndex: "title",
       key: "Title",
       title: "Title",
-      render: (title, { status, slug }) =>
-        status === "published" ? (
+      render: (title, { status, slug }) => (
+        <TooltipWrapper
+          content="Article is not published!"
+          disabled={!isArticlePublished(status)}
+          followCursor="horizontal"
+          position="bottom"
+        >
           <Typography
-            className="text-indigo-500"
+            className={isArticlePublished(status) && "text-indigo-500"}
             style="body2"
             weight="medium"
-            onClick={() => window.open(`/public/${slug}`, "_blank")}
+            onClick={() =>
+              isArticlePublished(status) &&
+              window.open(`/public/${slug}`, "_blank")
+            }
           >
             {longStringTruncateFunction(title)}
           </Typography>
-        ) : (
-          <TooltipWrapper
-            disabled
-            content="Article is not published!"
-            followCursor="horizontal"
-            position="bottom"
-          >
-            <Typography style="body2">
-              {longStringTruncateFunction(title)}
-            </Typography>
-          </TooltipWrapper>
-        ),
+        </TooltipWrapper>
+      ),
     },
     {
       dataIndex: "updated_at",
