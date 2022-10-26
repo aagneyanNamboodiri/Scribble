@@ -24,6 +24,7 @@ export const buildColumns = handleDelete => {
           <Typography
             className="text-indigo-500"
             style="body2"
+            weight="medium"
             onClick={() => window.open(`/public/${slug}`, "_blank")}
           >
             {title}
