@@ -5,11 +5,11 @@ class Redirection < ApplicationRecord
   ([a-zA-Z0-9-]+|\/)+$
   /x
 
+  belongs_to :user
+
   validates :from_path, uniqueness: true, format: VALID_PATH_REGEX, presence: true
   validates :to_path, format: VALID_PATH_REGEX, presence: true
   validate :loop_checking
-
-  belongs_to :user
 
   private
 
