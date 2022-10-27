@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  enum status: { published: "published", draft: "draft" }
   MAX_TITLE_LENGTH = 200
   MAX_BODY_LENGTH = 5000
   VALID_TITLE_REGEX = /[a-zA-Z0-9]+/
+
+  enum status: { published: "published", draft: "draft" }
+
+  belongs_to :assigned_category, class_name: "Category", counter_cache: true
+  belongs_to :user
+
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: VALID_TITLE_REGEX
   validates :body, presence: true, length: { maximum: MAX_BODY_LENGTH }
   validates :slug, uniqueness: false
   validate :slug_not_changed
 
   before_save :set_slug
-  belongs_to :assigned_category, class_name: "Category", counter_cache: true
-  belongs_to :user
 
   private
 

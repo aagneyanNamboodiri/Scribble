@@ -2,6 +2,7 @@
 
 class RedirectionsController < ApplicationController
   before_action :load_redirection!, only: %i[destroy update]
+
   def create
     redirection = current_user.redirections.create!(redirection_params)
     respond_with_success(t("successfully_created", entity: "Redirection"))

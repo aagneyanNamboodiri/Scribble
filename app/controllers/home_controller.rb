@@ -2,6 +2,7 @@
 
 class HomeController < ApplicationController
   before_action :redirection_method
+
   def index
     render
   end

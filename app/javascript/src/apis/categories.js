@@ -7,7 +7,7 @@ const create = payload =>
     category: payload,
   });
 
-const destroy = (id, new_category = -1) =>
+const destroy = (id, new_category) =>
   axios.delete(`/categories/${id}?new_category=${new_category}`);
 
 const update = (id, payload) =>
