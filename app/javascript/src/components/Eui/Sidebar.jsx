@@ -15,8 +15,7 @@ const Sidebar = ({ categories, articles }) => {
     return categories.findIndex(category => category.name === categoryName);
   };
 
-  const currentArticleId = articles.filter(article => article.slug === slug)[0]
-    ?.id;
+  const currentArticleId = articles.find(article => article.slug === slug)?.id;
 
   return (
     <div className="flex">

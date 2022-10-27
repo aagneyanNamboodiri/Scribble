@@ -41,8 +41,7 @@ const Eui = () => {
 
   const fetchData = async () => {
     setLoading(true);
-    await fetchArticles();
-    await fetchCategories();
+    await Promise.all([fetchArticles(), fetchCategories()]);
     setLoading(false);
   };
 

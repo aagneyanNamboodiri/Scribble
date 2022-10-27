@@ -22,7 +22,7 @@ const PasswordValidator = ({ password, setIsPasswordValid }) => {
         ) : (
           <Close color="#F56A58" size="16" />
         )}
-        <Typography style="body3">Have atleast 6 characters long</Typography>
+        <Typography style="body3">Have atleast 6 characters</Typography>
       </div>
       <div className="flex">
         {numericalRegex.test(password) && alphabetRegex.test(password) ? (
