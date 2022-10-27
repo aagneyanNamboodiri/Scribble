@@ -4,6 +4,7 @@ class OrganizationsController < ApplicationController
   before_action :load_organization, only: %i[index update]
 
   def index
+    render
   end
 
   def update
