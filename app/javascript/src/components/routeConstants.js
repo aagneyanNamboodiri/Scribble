@@ -8,9 +8,9 @@ export const DASHBOARD_PATH = "/articles";
 export const CREATE_ARTICLE = "/articles/create";
 export const EDIT_ARTICLE = "/articles/:id/edit";
 export const SETTINGS_PATH = "/settings";
-export const GENERAL_SETTINGS = "/settings/general";
-export const CATEGORIES_SETTINGS = "/settings/categories";
-export const REDIRECTIONS_SETTINGS = "/settings/redirections";
+export const GENERAL_SETTINGS = "/settings?tab=general";
+export const CATEGORIES_SETTINGS = "/settings?tab=categories";
+export const REDIRECTIONS_SETTINGS = "/settings?tab=redirections";
 
 export const DASHBOARD_ROUTES = [
   {
@@ -29,15 +29,24 @@ export const DASHBOARD_ROUTES = [
 
 export const SETTINGS_ROUTES = [
   {
+    key: "general",
+    label: "General",
+    description: "Page Title, Brand Name & Meta Description",
     path: GENERAL_SETTINGS,
     component: General,
   },
   {
-    path: CATEGORIES_SETTINGS,
-    component: Categories,
-  },
-  {
+    key: "redirections",
+    label: "Redirections",
+    description: "Create & configure redirection rules",
     path: REDIRECTIONS_SETTINGS,
     component: Redirections,
+  },
+  {
+    key: "categories",
+    label: "Categories",
+    description: "Edit and reorder KB structure",
+    path: CATEGORIES_SETTINGS,
+    component: Categories,
   },
 ];
