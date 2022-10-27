@@ -39,7 +39,7 @@ const App = ({ isLoggedIn }) => {
         <Switch>
           <Redirect exact from="/" to="/articles" />
           <Route component={Dashboard} path="/articles" />
-          <Route component={Settings} path="/settings" />
+          <Route exact component={Settings} path="/settings" />
           <Route exact component={Login} path="/login" />
           <PrivateRoute
             component={Eui}
