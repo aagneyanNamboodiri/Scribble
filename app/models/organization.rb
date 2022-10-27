@@ -17,7 +17,7 @@ class Organization < ApplicationRecord
 
   before_save :destroy_password_if_password_protection_is_disabled
 
-  has_secure_password
+  has_secure_password(validations: false)
   has_secure_token :authentication_token
 
   private
