@@ -8,9 +8,7 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    if changes_to_password_logistics
-      session[:auth] = nil
-    end
+    reset_cookie_if_changes_to_password_logistics
 
     if organization_params[:is_password].nil?
       @organization.update_attribute(:site_name, params[:organization]["site_name"])
@@ -30,10 +28,13 @@ class OrganizationsController < ApplicationController
       params.require(:organization).permit([:site_name, :is_password, :password])
     end
 
-    def changes_to_password_logistics
+    def reset_cookie_if_changes_to_password_logistics
       new_password_protection = params[:organization]["is_password"]
       new_password_value = params[:organization]["password"]
       changes = !(new_password_protection == @organization.is_password &&
         @organization.authenticate(new_password_value))
+      if changes
+        session[:auth] = nil
+      end
     end
 end
