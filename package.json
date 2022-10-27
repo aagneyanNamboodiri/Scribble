@@ -1,4 +1,9 @@
 {
+  "engines": {
+    "node": "16.4.2",
+    "npm": "7.x",
+    "yarn": "1.22.x"
+  },
   "lint-staged": {
     "app/javascript/src/**/*.{js,jsx,json}": [
       "prettier --write",
