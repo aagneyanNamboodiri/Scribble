@@ -62,11 +62,4 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not @organization.valid?
     assert_includes "Password is invalid", @organization.errors.full_messages[0]
   end
-
-  def test_password_and_password_confirmation_should_match
-    @organization.password = "admin1"
-    @organization.password_confirmation = "somethingelse1"
-    assert_not @organization.valid?
-    assert_includes "Password confirmation doesn't match Password", @organization.errors.full_messages[0]
-  end
 end
