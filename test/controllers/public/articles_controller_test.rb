@@ -13,7 +13,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_list_only_published_articles
-    post login_path, params: { password: "admin1" },
+    post api_login_path, params: { password: "admin1" },
       headers: headers
     get public_articles_path, headers: headers
     assert_response :success
@@ -28,7 +28,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def test_lists_correct_articles
     @article.save!
     slug_to_get = @article.slug
-    post login_path, params: { password: "admin1" },
+    post api_login_path, params: { password: "admin1" },
       headers: headers
     get public_article_path(slug_to_get), headers: headers
     assert_response :success
