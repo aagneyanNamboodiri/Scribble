@@ -1,30 +1,14 @@
-<% branch_name = `git symbolic-ref HEAD 2>/dev/null`.chomp.sub('refs/heads/', '') %>
-<% repository_name = `git rev-parse --show-toplevel`.split('/').last.strip %>
-
 default: &default
   adapter: postgresql
-  encoding: unicode
   host: 127.0.0.1
-  pool: 5
-  username: <%= ENV['PG_USER'] %>
-  password: <%= ENV['PG_PASSWORD'] %>
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 10 } %>
 
 development:
   <<: *default
-  database: <%= "#{repository_name}_development" %>
+  database: wheel_development
 
 test:
   <<: *default
-  database: scribble_test<%= ENV['CIRCLE_NODE_INDEX'] %>
-
-heroku:
-  <<: *default
-  database: <%= "#{repository_name}_heroku" %>
-
-staging:
-  <<: *default
-  database: <%= "#{repository_name}_staging" %>
-
-production:
-  <<: *default
-  database: <%= "#{repository_name}_production" %>
+  user: postgres
+  database: wheel_test<%= ENV['CIRCLE_NODE_INDEX'] %>
