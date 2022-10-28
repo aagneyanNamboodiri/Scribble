@@ -9,7 +9,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
 
   def test_wrong_password_should_send_error_response
     @organization.save!
-    post login_path, params: { password: "notadmin123" },
+    post api_login_path, params: { password: "notadmin123" },
       headers: headers
     response_json = response.parsed_body
 
@@ -18,7 +18,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
 
   def test_correct_password_should_send_correct_response
     @organization.save!
-    post login_path, params: { password: "admin1" },
+    post api_login_path, params: { password: "admin1" },
       headers: headers
 
     assert_response :created
@@ -26,7 +26,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
 
   def test_session_cookie_set_for_correct_password
     @organization.save!
-    post login_path, params: { password: "admin1" },
+    post api_login_path, params: { password: "admin1" },
       headers: headers
 
     assert_equal false, session[:auth].nil?
@@ -34,7 +34,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
 
   def test_session_cookie_not_set_for_wrong_password
     @organization.save!
-    post login_path, params: { password: "notadmin123" },
+    post api_login_path, params: { password: "notadmin123" },
       headers: headers
     response_json = response.parsed_body
 
@@ -45,7 +45,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
   def test_user_should_be_authorized_regardless_if_password_protection_is_false
     @organization.is_password = false
     @organization.save!
-    post login_path, params: {}, headers: headers
+    post api_login_path, params: {}, headers: headers
     response_json = response.parsed_body
 
     assert_equal t("login_successful", entity: @organization.site_name),

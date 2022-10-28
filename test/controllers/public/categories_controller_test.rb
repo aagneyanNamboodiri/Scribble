@@ -21,7 +21,7 @@ class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_authorized_user_can_access_categories_with_atleast_one_published_article
-    post login_path, params: { password: "admin1" }, headers: headers
+    post api_login_path, params: { password: "admin1" }, headers: headers
     get public_categories_path, headers: headers
     assert_response :success
 
@@ -34,7 +34,7 @@ class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
   def test_only_categories_with_published_articles_are_shown_to_authorized_user
     @article.status = "draft"
     @article.save!
-    post login_path, params: { password: "admin1" }, headers: headers
+    post api_login_path, params: { password: "admin1" }, headers: headers
     get public_categories_path, headers: headers
     assert_response :success
     response_json = response.parsed_body

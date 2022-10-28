@@ -13,7 +13,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_listing_all_categories
-    get categories_path, headers: headers
+    get api_categories_path, headers: headers
     assert_response :success
 
     response_json = response.parsed_body
@@ -24,7 +24,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_create_valid_category
-    post categories_path, params: {
+    post api_categories_path, params: {
       category: {
         name: "random category"
       }
@@ -37,7 +37,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_delete_category_if_it_has_no_articles_under_it
     @category_2.save!
-    delete category_path(@category_2.id), headers: headers
+    delete api_category_path(@category_2.id), headers: headers
     response_json = response.parsed_body
 
     assert_response :success
@@ -46,7 +46,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_switch_article_category_to_new_category_when_deleting
     @article.save!
-    delete category_path(@category.id),
+    delete api_category_path(@category.id),
       params: {
         new_category: @category_2.id
       },
@@ -58,12 +58,12 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_create_general_category_when_deleting_last_category
-    delete category_path(@category_2.id), headers: headers
+    delete api_category_path(@category_2.id), headers: headers
     assert_response :success
     assert_equal 1, @user.categories.count
 
     @article.save!
-    delete category_path(@category.id), headers: headers
+    delete api_category_path(@category.id), headers: headers
 
     assert_response :success
     assert_equal 1, @user.categories.count
@@ -72,10 +72,10 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_updated_category_name
     @category.save!
-    put category_path(@category.id), params: {
-                                       category:
-                                             { name: "Chocolate" }
-                                     },
+    put api_category_path(@category.id), params: {
+                                           category:
+                                                 { name: "Chocolate" }
+                                         },
       headers: headers
     @category.reload
 
@@ -88,7 +88,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     @category_2.position = 2
     @category.save!
     @category_2.save!
-    put reorder_category_path(@category_2.id), params: { reorder: { positions: 2 } }, headers: headers
+    put reorder_api_category_path(@category_2.id), params: { reorder: { positions: 2 } }, headers: headers
     @category.reload
     @category_2.reload
     assert_equal 1, @category_2.position

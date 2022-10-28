@@ -11,7 +11,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_listing_all_redirections
-    get redirections_path, headers: headers
+    get api_redirections_path, headers: headers
     assert_response :success
     response_json = response.parsed_body
     fetched_redirections = response_json["redirections"]
@@ -19,12 +19,12 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_create_redirection
-    post redirections_path, params: {
-                              redirections: {
-                                to_path: "arigatou",
-                                from_path: "thankyou"
-                              }
-                            },
+    post api_redirections_path, params: {
+                                  redirections: {
+                                    to_path: "arigatou",
+                                    from_path: "thankyou"
+                                  }
+                                },
       headers: headers
     assert_response :success
     response_json = response.parsed_body
@@ -34,12 +34,12 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def test_should_update_redirection
     new_to_path = "about"
     new_from_path = "associations"
-    put redirection_path(@redirection.id), params: {
-                                             redirections: {
-                                               from_path: new_from_path,
-                                               to_path: new_to_path
-                                             }
-                                           },
+    put api_redirection_path(@redirection.id), params: {
+                                                 redirections: {
+                                                   from_path: new_from_path,
+                                                   to_path: new_to_path
+                                                 }
+                                               },
       headers: headers
     assert_response :success
     response_json = response.parsed_body
@@ -51,7 +51,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_destroy_redirection
     assert_difference "Redirection.count", -1 do
-      delete redirection_path(@redirection.id), headers: headers()
+      delete api_redirection_path(@redirection.id), headers: headers()
     end
     response_json = response.parsed_body
 

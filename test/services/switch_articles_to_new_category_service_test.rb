@@ -17,13 +17,13 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
     @article.assigned_category = some_category
     @article.save!
     assert_raises NoMethodError do
-      delete category_path(@some_category.id.to_i), headers: headers
+      delete api_category_path(@some_category.id.to_i), headers: headers
     end
   end
 
   def test_should_delete_category_if_it_has_no_articles_under_it
     @category_2.save!
-    delete category_path(@category_2.id), headers: headers
+    delete api_category_path(@category_2.id), headers: headers
     response_json = response.parsed_body
 
     assert_response :success
@@ -32,7 +32,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
 
   def test_should_switch_article_category_to_new_category_when_deleting
     @article.save!
-    delete category_path(@category.id),
+    delete api_category_path(@category.id),
       params: {
         new_category: @category_2.id
       },
@@ -44,11 +44,11 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_create_general_category_when_deleting_last_category
-    delete category_path(@category_2.id), headers: headers
+    delete api_category_path(@category_2.id), headers: headers
     assert_response :success
 
     @article.save!
-    delete category_path(@category.id), headers: headers
+    delete api_category_path(@category.id), headers: headers
 
     assert_response :success
     assert_equal 1, Category.all.count
@@ -57,7 +57,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
 
   def test_from_category_and_to_category_cannot_be_same
     assert_raises Exception do
-      delete category_path(@category.id),
+      delete api_category_path(@category.id),
         params: {
           new_category: @category.id
         },
@@ -66,7 +66,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
   end
 
   def test_from_category_has_to_be_a_valid_category
-    delete category_path(@category.id + "test"),
+    delete api_category_path(@category.id + "test"),
       params: {
         new_category: @category.id
       },
@@ -78,7 +78,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
 
   def test_to_category_has_to_be_a_valid_category
     @article.save!
-    delete category_path(@category.id),
+    delete api_category_path(@category.id),
       params: {
         new_category: "test"
       },
