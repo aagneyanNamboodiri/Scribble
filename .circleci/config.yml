@@ -1,7 +1,26 @@
 version: 2.1
 jobs:
   build:
+    #No. of servers/machines
+    parallelism: 1
+    docker:
+      - image: cimg/ruby:3.0.2-node
+      - image: cimg/postgres:9.6
+        environment:
+          POSTGRES_HOST_AUTH_METHOD: trust
+
+    #application directory change it with your application directory name
+    working_directory: ~/scribble
+    environment:
+      TZ: "/usr/share/zoneinfo/America/New_York"
+      RAILS_ENV: "test"
+      RACK_ENV: "test"
+
     steps:
+      - checkout
+      - run: gem install bundler:2.2.20
+      #install sqlite dependency
+      - run: sudo apt update && sudo apt-get install postgresql-client
       # Bundle install
       - run:
           bundle check --path=vendor/bundle || bundle install
@@ -16,7 +35,6 @@ jobs:
           "./app/javascript/src/**/*.{js,jsx,json}"
       # Setup database
       - run: cp config/database.yml.ci config/database.yml
-      - run: sudo apt update && sudo apt-get install postgresql-client
       - run: bundle exec rails db:create db:schema:load --trace
       # Generate assets
       - run: chmod a+x ./bin/webpack && ./bin/webpack
