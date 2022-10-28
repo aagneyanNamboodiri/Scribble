@@ -52,12 +52,7 @@ const Login = ({ ...props }) => {
                   Enter the password to access all these awesome articles!
                 </Typography>
               </div>
-              <FormikInput
-                helpText="Customize the sitename which is used to show the site name"
-                label="Site Name"
-                name="password"
-                type="password"
-              />
+              <FormikInput label="Password" name="password" type="password" />
             </div>
             <div className="flex space-x-2">
               <Button label="Submit" type="submit" />
