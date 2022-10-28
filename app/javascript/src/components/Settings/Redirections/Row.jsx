@@ -6,6 +6,7 @@ import { Typography } from "neetoui";
 import redirectionsApi from "apis/redirections";
 
 import Form from "./RoutesForm";
+import { truncateLongString } from "./utils";
 
 const Row = ({ redirection, refetch }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -29,11 +30,15 @@ const Row = ({ redirection, refetch }) => {
     />
   ) : (
     <div className="flex justify-between bg-white p-3">
-      <Typography style="body3" weight="medium">
-        {`${window.location.hostname}/${redirection.from_path}`}
+      <Typography className="w-1/2" style="body3" weight="medium">
+        {`${truncateLongString(window.location.hostname)}/${
+          redirection.from_path
+        }`}
       </Typography>
-      <Typography className="w-1/4" style="body3" weight="medium">
-        {`${window.location.hostname}/${redirection.to_path}`}
+      <Typography className="w-1/2" style="body3" weight="medium">
+        {`${truncateLongString(window.location.hostname)}/${
+          redirection.to_path
+        }`}
       </Typography>
       <div className="flex w-1/12 justify-between">
         <Delete size="18" onClick={handleDelete} />

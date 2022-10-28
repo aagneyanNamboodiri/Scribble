@@ -28,13 +28,10 @@ const Categories = () => {
   };
 
   const handleReorder = async (id, positions) => {
-    setLoading(true);
     try {
       await categoriesApi.reorder(id, { positions });
     } catch (err) {
       logger.log(err);
-    } finally {
-      setLoading(false);
     }
   };
 
