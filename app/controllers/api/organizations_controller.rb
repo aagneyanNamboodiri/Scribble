@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class OrganizationsController < ApplicationController
+class Api::OrganizationsController < ApplicationController
   before_action :load_organization, only: %i[index update]
 
   def index
