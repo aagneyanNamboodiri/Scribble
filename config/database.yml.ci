@@ -15,7 +15,7 @@ development:
 
 test:
   <<: *default
-  database: <%= "#{repository_name}_test" %>
+  database: scribble_test<%= ENV['CIRCLE_NODE_INDEX'] %>
 
 heroku:
   <<: *default
