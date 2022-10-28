@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const list = () => axios.get("/organizations");
+const list = () => axios.get("api/organizations");
 
 const update = organization =>
-  axios.put("/organizations/1", {
+  axios.put("api/organizations/1", {
     ...organization,
   });
 

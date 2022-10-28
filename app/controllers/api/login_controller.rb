@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class LoginController < ApplicationController
+class Api::LoginController < ApplicationController
   def create
     password = params[:password]
     if current_organization.is_password

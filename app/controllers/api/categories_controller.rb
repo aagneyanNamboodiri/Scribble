@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoriesController < ApplicationController
+class Api::CategoriesController < ApplicationController
   before_action :load_category!, except: %i[index create]
 
   def index

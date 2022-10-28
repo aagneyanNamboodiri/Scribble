@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const create = payload => axios.post("/login", payload);
+const create = payload => axios.post("api/login", payload);
 
 const loginApi = { create };
 
