@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   include ActionView::Helpers::TranslationHelper
   protect_from_forgery with: :null_session
 
+  before_action :set_paper_trail_whodunnit
+
   private
 
     def current_user
