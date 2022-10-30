@@ -6,3 +6,4 @@ json.extract! @article,
   :body,
   :slug,
   :assigned_category
+json.versions @article.versions
