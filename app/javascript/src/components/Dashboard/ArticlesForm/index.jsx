@@ -7,6 +7,7 @@ import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 import Form from "./Form";
+import VersionList from "./VersionList";
 
 const CreateAndEdit = () => {
   const [loading, setLoading] = useState(true);
@@ -52,13 +53,15 @@ const CreateAndEdit = () => {
   }
 
   return (
-    <div className="justify-center">
+    <div className="flex w-full">
       <Form
         articleData={fetchedArticle.data}
         categories={categories}
+        className="w-2/4"
         id={id}
         isEdit={!!id}
       />
+      {id && <VersionList className="w-1/3" />}
     </div>
   );
 };
