@@ -55,9 +55,10 @@ const VersionList = ({ setFetchedArticle }) => {
           </Typography>
           <Button
             className="text-indigo-500"
+            disabled={version.is_restoration}
             style="link"
             label={`Article ${
-              version.status === "published" ? version.status : "drafted"
+              version.is_restoration ? "restored" : version.status
             } `}
             onClick={() => handleClick(version.id)}
           />

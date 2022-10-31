@@ -32,7 +32,8 @@ class Api::VersionsController < Api::ArticlesController
         body: version.object[/#{"body: "}(.*?)#{"\nassigned"}/m, 1],
         assigned_category_id: version.object[/#{"assigned_category_id: "}(.*?)#{"\n"}/m, 1],
         status: version.object[/#{"status: "}(.*?)#{"\n"}/m, 1],
-        time: version.created_at
+        time: version.created_at,
+        is_restoration: version.event == "restored"
       }
     end
 end

@@ -29,6 +29,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
         ...values,
         assigned_category_id: values.category.value,
         status,
+        is_restoration: false,
       };
       isEdit
         ? await articlesApi.update({
@@ -91,7 +92,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
               }
             >
               <ActionDropdown
-                label={status === "draft" ? "Save Draft" : "Publish"}
+                label={status === "drafted" ? "Save Draft" : "Publish"}
                 loading={isSubmitting}
                 type="submit"
                 buttonProps={{
@@ -107,7 +108,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
                       onClick={() => {
                         setNoChangesMade(false);
                         item === "Save Draft"
-                          ? setStatus("draft")
+                          ? setStatus("drafted")
                           : setStatus("published");
                       }}
                     >

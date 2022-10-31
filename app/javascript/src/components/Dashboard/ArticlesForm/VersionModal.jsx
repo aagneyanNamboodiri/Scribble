@@ -33,6 +33,7 @@ const VersionModal = ({
       const payload = {
         ...article,
         assigned_category_id: article.assigned_category.id,
+        is_restoration: true,
       };
       await articlesApi.update({ id: articleId, payload });
     } catch (error) {

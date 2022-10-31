@@ -5,7 +5,7 @@ class Article < ApplicationRecord
   MAX_BODY_LENGTH = 5000
   VALID_TITLE_REGEX = /[a-zA-Z0-9]+/
 
-  enum status: { published: "published", draft: "draft" }
+  enum status: { published: "published", draft: "drafted" }
 
   belongs_to :assigned_category, class_name: "Category", counter_cache: true
   belongs_to :user

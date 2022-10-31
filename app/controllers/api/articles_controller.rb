@@ -3,6 +3,7 @@
 class Api::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
   before_action :search_params, only: %i[index]
+  after_action :set_version_event_as_restored, only: %i[update]
 
   def index
     search_query_filtered_articles = current_user.articles.where(
@@ -53,5 +54,12 @@ class Api::ArticlesController < ApplicationController
 
     def article_params
       params.require(:article).permit([:title, :body, :assigned_category_id, :status])
+    end
+
+    def set_version_event_as_restored
+      is_restoration = params[:article]["is_restoration"]
+      if is_restoration
+        @article.versions.last.update!(event: "restored")
+      end
     end
 end
