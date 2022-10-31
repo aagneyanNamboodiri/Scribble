@@ -18,7 +18,10 @@ const VersionModal = ({
   const fetchArticleWithVersion = async () => {
     try {
       setLoading(true);
-      const { data } = await versionsApi.show({ articleId, versionId });
+      const { data } = await versionsApi.show({
+        article_id: articleId,
+        version_id: versionId,
+      });
       setArticle(data);
     } catch (error) {
       logger.error(error);
@@ -65,7 +68,7 @@ const VersionModal = ({
           Version History
         </Typography>
         <Typography className="text-gray-500" id="dialogue2body" style="body2">
-          Version history of article-title in Scribble
+          {`Version history of ${article.title} in Scribble`}
         </Typography>
       </Modal.Header>
       <Modal.Body className="h-full space-y-2">

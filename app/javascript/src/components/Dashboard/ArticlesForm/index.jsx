@@ -62,7 +62,11 @@ const CreateAndEdit = () => {
         isEdit={!!id}
       />
       {id && (
-        <VersionList className="w-1/3" setFetchedArticle={setFetchedArticle} />
+        <VersionList
+          article={fetchedArticle}
+          className="w-1/3"
+          setFetchedArticle={setFetchedArticle}
+        />
       )}
     </div>
   );

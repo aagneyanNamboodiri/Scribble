@@ -8,7 +8,7 @@ import versionsApi from "apis/versions";
 import { formatTime } from "./utils";
 import VersionModal from "./VersionModal";
 
-const VersionList = ({ setFetchedArticle }) => {
+const VersionList = ({ setFetchedArticle, article }) => {
   const [loading, setLoading] = useState(true);
   const [versions, setVersions] = useState([]);
   const [showVersionModal, setShowVersionModal] = useState(false);
@@ -46,7 +46,7 @@ const VersionList = ({ setFetchedArticle }) => {
     <div className="border-l w-1/4 p-4">
       <Typography style="h3">Version History</Typography>
       <Typography className="text-gray-600" style="body2">
-        Version history of article-titles
+        {`Version history of ${article.title}`}
       </Typography>
       {versions.map(version => (
         <div className="flex space-x-4 p-2" key={version.id}>
