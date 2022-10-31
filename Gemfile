@@ -57,6 +57,7 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "acts_as_list"
 gem "bcrypt", "~> 3.1.13"
 gem "faker"
+gem "paper_trail"
 gem "react-rails"
 gem "responders"
 
