@@ -8,7 +8,7 @@ import versionsApi from "apis/versions";
 import { formatTime } from "./utils";
 import VersionModal from "./VersionModal";
 
-const VersionList = () => {
+const VersionList = ({ setFetchedArticle }) => {
   const [loading, setLoading] = useState(true);
   const [versions, setVersions] = useState([]);
   const [showVersionModal, setShowVersionModal] = useState(false);
@@ -66,6 +66,7 @@ const VersionList = () => {
       {showVersionModal && (
         <VersionModal
           articleId={id}
+          setFetchedArticle={setFetchedArticle}
           setShowVersionModal={setShowVersionModal}
           showVersionModal={showVersionModal}
           versionId={versionId}

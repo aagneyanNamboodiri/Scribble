@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Modal, Typography, Button, Input, Textarea } from "neetoui";
 
+import articlesApi from "apis/articles";
 import versionsApi from "apis/versions";
 
 const VersionModal = ({
@@ -9,6 +10,7 @@ const VersionModal = ({
   setShowVersionModal,
   versionId,
   articleId,
+  setFetchedArticle,
 }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
@@ -22,6 +24,24 @@ const VersionModal = ({
       logger.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRestore = async () => {
+    try {
+      setLoading(true);
+      const payload = {
+        ...article,
+        assigned_category_id: article.assigned_category.id,
+      };
+      await articlesApi.update({ id: articleId, payload });
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+      setFetchedArticle(article);
+      window.location.reload();
+      setShowVersionModal(false);
     }
   };
 
@@ -67,13 +87,13 @@ const VersionModal = ({
           disabled
           label="Article Body"
           name="body"
-          rows={15}
+          rows={14}
           size="large"
           value={article.body}
         />
       </Modal.Body>
       <Modal.Footer className="space-x-2">
-        <Button label="Restore" onClick={() => setShowVersionModal(false)} />
+        <Button label="Restore version" onClick={handleRestore} />
         <Button
           label="Cancel"
           style="text"

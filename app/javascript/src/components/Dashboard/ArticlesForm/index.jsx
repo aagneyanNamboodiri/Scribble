@@ -27,7 +27,7 @@ const CreateAndEdit = () => {
   };
   const fetchArticle = async () => {
     try {
-      const data = await articlesApi.show(id);
+      const { data } = await articlesApi.show(id);
       setFetchedArticle(data);
     } catch (error) {
       logger.error(error);
@@ -55,13 +55,15 @@ const CreateAndEdit = () => {
   return (
     <div className="flex w-full">
       <Form
-        articleData={fetchedArticle.data}
+        articleData={fetchedArticle}
         categories={categories}
         className="w-2/4"
         id={id}
         isEdit={!!id}
       />
-      {id && <VersionList className="w-1/3" />}
+      {id && (
+        <VersionList className="w-1/3" setFetchedArticle={setFetchedArticle} />
+      )}
     </div>
   );
 };

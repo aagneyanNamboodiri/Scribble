@@ -22,6 +22,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
   const history = useHistory();
   const { Menu, MenuItem } = ActionDropdown;
   const statusList = ["Save Draft", "Publish"];
+
   const handleSubmit = async values => {
     try {
       const modifiedValues = await {
