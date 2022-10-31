@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 
 import versionsApi from "apis/versions";
 
+import { formatTime } from "./utils";
+
 const VersionList = () => {
   const [loading, setLoading] = useState(true);
   const [versions, setVersions] = useState([]);
@@ -39,7 +41,16 @@ const VersionList = () => {
         Version history of article-titles
       </Typography>
       {versions.map(version => (
-        <Button key={version.id} label="bruh" />
+        <div className="flex" key={version.id}>
+          <Typography className="pt-1 text-gray-600" style="body2">
+            {formatTime(version.time)}
+          </Typography>
+          <Button
+            className="text-indigo-500"
+            label={`Article ${version.status} `}
+            style="text"
+          />
+        </div>
       ))}
     </div>
   );

@@ -1,6 +1,14 @@
+import dayjs from "dayjs";
 import * as yup from "yup";
 
 import { AT_LEAST_ONE_ALPHANUMERIC_REGEX } from "./constants";
+
+var advancedFormat = require("dayjs/plugin/advancedFormat");
+
+dayjs.extend(advancedFormat);
+
+export const formatTime = dateTime =>
+  dayjs(dateTime).format("h:mm A,  MM/DD/YYYY");
 
 export const buildArticlesFormValidationSchema = categoryList => {
   const validationSchema = yup.object().shape({
