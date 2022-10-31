@@ -4,5 +4,6 @@ json.versions @versions_data do |version|
   json.extract! version,
     :id,
     :status,
-    :time
+    :time,
+    :is_restoration
 end

@@ -22,12 +22,14 @@ const Form = ({ id, isEdit, articleData, categories }) => {
   const history = useHistory();
   const { Menu, MenuItem } = ActionDropdown;
   const statusList = ["Save Draft", "Publish"];
+
   const handleSubmit = async values => {
     try {
       const modifiedValues = await {
         ...values,
         assigned_category_id: values.category.value,
         status,
+        is_restoration: false,
       };
       isEdit
         ? await articlesApi.update({
@@ -56,7 +58,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, handleSubmit, isValid, dirty }) => (
-        <FormikForm className="mx-24 space-y-4 p-20 px-56">
+        <FormikForm className="mx-12 w-2/3 space-y-4 p-20 px-20">
           <div className="flex space-x-2">
             <Input
               label="Article Title"
@@ -90,7 +92,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
               }
             >
               <ActionDropdown
-                label={status === "draft" ? "Save Draft" : "Publish"}
+                label={status === "drafted" ? "Save Draft" : "Publish"}
                 loading={isSubmitting}
                 type="submit"
                 buttonProps={{
@@ -106,7 +108,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
                       onClick={() => {
                         setNoChangesMade(false);
                         item === "Save Draft"
-                          ? setStatus("draft")
+                          ? setStatus("drafted")
                           : setStatus("published");
                       }}
                     >
