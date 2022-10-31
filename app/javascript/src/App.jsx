@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { registerIntercepts, setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 
+import Analytics from "./components/Analytics";
 import PrivateRoute from "./components/Common/PrivateRoute";
 import Dashboard from "./components/Dashboard";
 import ErrorPage from "./components/ErrorPage";
@@ -41,6 +42,7 @@ const App = ({ isLoggedIn }) => {
           <Route component={Dashboard} path="/articles" />
           <Route exact component={Settings} path="/settings" />
           <Route exact component={Login} path="/login" />
+          <Route exact component={Analytics} path="/analytics" />
           <PrivateRoute
             component={Eui}
             isLoggedIn={isLoggedIn}
