@@ -6,10 +6,13 @@ import { useParams } from "react-router-dom";
 import versionsApi from "apis/versions";
 
 import { formatTime } from "./utils";
+import VersionModal from "./VersionModal";
 
 const VersionList = () => {
   const [loading, setLoading] = useState(true);
   const [versions, setVersions] = useState([]);
+  const [showVersionModal, setShowVersionModal] = useState(false);
+  const [versionId, setVersionId] = useState(0);
   const { id } = useParams();
 
   const fetchVersions = async () => {
@@ -24,6 +27,11 @@ const VersionList = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClick = versionId => {
+    setVersionId(versionId);
+    setShowVersionModal(true);
   };
 
   useEffect(() => {
@@ -41,17 +49,28 @@ const VersionList = () => {
         Version history of article-titles
       </Typography>
       {versions.map(version => (
-        <div className="flex" key={version.id}>
-          <Typography className="pt-1 text-gray-600" style="body2">
+        <div className="flex space-x-4 p-2" key={version.id}>
+          <Typography className="text-gray-600" style="body2">
             {formatTime(version.time)}
           </Typography>
           <Button
             className="text-indigo-500"
-            label={`Article ${version.status} `}
-            style="text"
+            style="link"
+            label={`Article ${
+              version.status === "published" ? version.status : "drafted"
+            } `}
+            onClick={() => handleClick(version.id)}
           />
         </div>
       ))}
+      {showVersionModal && (
+        <VersionModal
+          articleId={id}
+          setShowVersionModal={setShowVersionModal}
+          showVersionModal={showVersionModal}
+          versionId={versionId}
+        />
+      )}
     </div>
   );
 };

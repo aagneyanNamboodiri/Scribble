@@ -22,14 +22,14 @@ class Api::VersionsController < Api::ArticlesController
     end
 
     def load_version_by_id!
-      @version_by_id = PaperTrail::Version.find(params[:id])
+      @version_by_id = @article.versions.find(params[:id])
     end
 
     def load_article_data_per_version(version)
       article_data = {
         id: version.id,
         title: version.object[/#{"title: "}(.*?)#{"\n"}/m, 1],
-        body: version.object[/#{"body: "}(.*?)#{"\n"}/m, 1],
+        body: version.object[/#{"body: "}(.*?)#{"\nassigned"}/m, 1],
         assigned_category_id: version.object[/#{"assigned_category_id: "}(.*?)#{"\n"}/m, 1],
         status: version.object[/#{"status: "}(.*?)#{"\n"}/m, 1],
         time: version.created_at
