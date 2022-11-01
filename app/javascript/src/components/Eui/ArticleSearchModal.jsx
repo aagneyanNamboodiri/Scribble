@@ -48,7 +48,6 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
         {searchTerm.length > 0 &&
           articles.map((article, idx) => (
             <Link
-              a
               className="w-10/12 p-2"
               id={idx}
               key={article.id}
