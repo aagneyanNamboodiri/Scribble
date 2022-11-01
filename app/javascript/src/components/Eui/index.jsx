@@ -75,6 +75,7 @@ const Eui = () => {
       <Header setIsSearchModalOpen={setIsSearchModalOpen} />
       {isSearchModalOpen && (
         <ArticleSearchModal
+          articles={articles}
           isSearchModalOpen={isSearchModalOpen}
           setIsSearchModalOpen={setIsSearchModalOpen}
         />

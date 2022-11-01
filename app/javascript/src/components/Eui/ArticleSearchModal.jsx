@@ -1,38 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Modal, Button, Typography } from "neetoui";
+import { Modal, Input } from "neetoui";
 
-const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => (
-  <div className="w-full">
-    <Modal
-      isOpen={isSearchModalOpen}
-      onClose={() => setIsSearchModalOpen(false)}
-    >
-      <Modal.Header description="Short description">
-        <Typography id="dialog1Title" style="h2">
-          They're creepy & they're kooky
-        </Typography>
-      </Modal.Header>
-      <Modal.Body className="space-y-2">
-        <Typography lineHeight="normal" style="body2">
-          Somewhere out in space live the Herculoids! Zok, the laser-ray dragon!
-          Igoo, the giant rock ape! Tundro, the tremendous! Gloop and Gleep, the
-          formless, fearless wonders! With Zandor, their leader, and his wife,
-          Tara, and son, Dorno, they team up to protect their planet from
-          sinister invaders! All-strong! All-brave! All-heroes! They're the
-          Herculoids!
-        </Typography>
-      </Modal.Body>
-      <Modal.Footer className="space-x-2">
-        <Button label="Continue" onClick={() => setIsSearchModalOpen(false)} />
-        <Button
-          label="Cancel"
-          style="text"
-          onClick={() => setIsSearchModalOpen(false)}
-        />
-      </Modal.Footer>
-    </Modal>
-  </div>
-);
+import publicArticlesApi from "apis/Public/articles";
 
+const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [articles, setArticles] = useState([]);
+
+  const fetchArticles = async () => {
+    try {
+      const {
+        data: { articles },
+      } = await publicArticlesApi.list();
+      setArticles(articles);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const getData = setTimeout(() => fetchArticles("first"), 400);
+
+    return () => clearTimeout(getData);
+  }, [searchTerm]);
+
+  return (
+    <div className="w-full">
+      <Modal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+      >
+        <Modal.Header>
+          <Input
+            className="w-full"
+            placeholder="Search for article title"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+          />
+          {searchTerm.length > 0 ?? <p>{JSON.stringify(articles)}</p>}
+        </Modal.Header>
+      </Modal>
+    </div>
+  );
+};
 export default ArticleSearchModal;
