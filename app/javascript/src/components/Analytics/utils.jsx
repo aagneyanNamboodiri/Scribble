@@ -3,13 +3,9 @@ import React from "react";
 import dayjs from "dayjs";
 import { Typography } from "neetoui";
 
-import TooltipWrapper from "../TooltipWrapper";
-
 var advancedFormat = require("dayjs/plugin/advancedFormat");
 
 dayjs.extend(advancedFormat);
-
-const isArticlePublished = status => status === "published";
 
 export const formatTime = dateTime =>
   dateTime === "-" ? "-" : dayjs(dateTime).format("MMMM Do, YYYY");
@@ -20,25 +16,15 @@ export const COLUMN_DATA = [
     key: "Title",
     title: "Title",
     width: 250,
-    render: (title, { status, slug }) => (
-      <TooltipWrapper
-        content="Article is not published!"
-        disabled={!isArticlePublished(status)}
-        followCursor="horizontal"
-        position="bottom"
+    render: (title, { slug }) => (
+      <Typography
+        className="text-indigo-500"
+        style="body2"
+        weight="medium"
+        onClick={() => window.open(`/public/${slug}`, "_blank")}
       >
-        <Typography
-          className={isArticlePublished(status) && "text-indigo-500"}
-          style="body2"
-          weight="medium"
-          onClick={() =>
-            isArticlePublished(status) &&
-            window.open(`/public/${slug}`, "_blank")
-          }
-        >
-          {title}
-        </Typography>
-      </TooltipWrapper>
+        {title}
+      </Typography>
     ),
   },
   {
