@@ -43,7 +43,7 @@ const Analytics = () => {
     <>
       <Navbar />
       <div className="grid justify-center pt-20">
-        <div className="m-auto w-2/3">
+        <div className="m-auto h-full w-4/5">
           <Table
             columnData={COLUMN_DATA}
             currentPageNumber={currentTablePage}

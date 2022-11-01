@@ -46,10 +46,8 @@ export const COLUMN_DATA = [
     key: "Date",
     title: "Last published at",
     width: 170,
-    render: (udpated_at, { slug }) => (
-      <Typography style="body2">
-        {slug ? formatTime(udpated_at) : "-"}
-      </Typography>
+    render: udpated_at => (
+      <Typography style="body2">{formatTime(udpated_at)}</Typography>
     ),
   },
   {
