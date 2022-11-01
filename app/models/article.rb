@@ -15,7 +15,7 @@ class Article < ApplicationRecord
   validates :slug, uniqueness: false
   validate :slug_not_changed
 
-  has_paper_trail ignore: [:slug, :id, :user_id]
+  has_paper_trail ignore: [:slug, :id, :user_id, :visits]
 
   before_save :set_slug
 
