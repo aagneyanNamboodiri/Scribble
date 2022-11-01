@@ -12,6 +12,7 @@ class Public::ArticlesController < Public::BaseController
     if !@article
       respond_with_error(t("doesnt_exist", entity: "Article"))
     end
-    @article.visits += 1
+
+    @article.increment!(:visits)
   end
 end

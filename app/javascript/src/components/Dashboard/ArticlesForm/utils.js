@@ -45,3 +45,11 @@ export const buildInitialValuesForEditArticle = articleData => {
 
   return initialValues;
 };
+
+export const getButtonLabel = article => {
+  if (article.is_restoration) return "Article restored";
+
+  if (article.status === "draft") return "Article drafted";
+
+  return "Article Published";
+};
