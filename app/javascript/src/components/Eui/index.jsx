@@ -6,7 +6,6 @@ import { Route, useParams, Redirect, Switch } from "react-router";
 import publicArticlesApi from "apis/Public/articles";
 import publicCategoriesApi from "apis/Public/categories";
 
-import ArticleSearchModal from "./ArticleSearchModal";
 import ErrorPage from "./ErrorPage";
 import Header from "./Header";
 import ShowArticle from "./ShowArticle";
@@ -16,15 +15,13 @@ const Eui = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const { slug } = useParams(slug);
 
   const fetchArticles = async () => {
-    const payload = { search_term: "" };
     try {
       const {
         data: { articles },
-      } = await publicArticlesApi.list(payload);
+      } = await publicArticlesApi.list();
       setArticles(articles);
     } catch (error) {
       logger.error(error);
@@ -73,14 +70,7 @@ const Eui = () => {
 
   return (
     <>
-      <Header setIsSearchModalOpen={setIsSearchModalOpen} />
-      {isSearchModalOpen && (
-        <ArticleSearchModal
-          articles={articles}
-          isSearchModalOpen={isSearchModalOpen}
-          setIsSearchModalOpen={setIsSearchModalOpen}
-        />
-      )}
+      <Header />
       <div className="flex">
         <Switch>
           <Route exact path="/public/:slug">
