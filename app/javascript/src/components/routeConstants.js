@@ -4,6 +4,7 @@ import Categories from "./Settings/Categories";
 import General from "./Settings/General";
 import Redirections from "./Settings/Redirections";
 
+export const ANALYTICS_PATH = "/analytics";
 export const DASHBOARD_PATH = "/articles";
 export const CREATE_ARTICLE = "/articles/create";
 export const EDIT_ARTICLE = "/articles/:id/edit";

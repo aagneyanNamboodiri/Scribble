@@ -16,6 +16,7 @@ const Navbar = () => (
           name="Settings"
           path="/settings"
         />
+        <NavItem iconClass="ri-add-fill " name="Analytics" path="/analytics" />
       </div>
     </div>
     <Button

@@ -7,7 +7,8 @@ json.articles @articles do |article|
     :title,
     :updated_at,
     :created_at,
-    :status
+    :status,
+    :visits
   json.user_name article.user.name
   json.category_name article.assigned_category.name
 

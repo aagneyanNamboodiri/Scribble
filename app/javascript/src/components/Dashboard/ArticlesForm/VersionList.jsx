@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 import versionsApi from "apis/versions";
 
-import { formatTime } from "./utils";
+import { formatTime, getButtonLabel } from "./utils";
 import VersionModal from "./VersionModal";
 
 const VersionList = ({ setFetchedArticle, article }) => {
@@ -56,10 +56,8 @@ const VersionList = ({ setFetchedArticle, article }) => {
           <Button
             className="text-indigo-500"
             disabled={version.is_restoration}
+            label={getButtonLabel(version)}
             style="link"
-            label={`Article ${
-              version.is_restoration ? "restored" : version.status
-            } `}
             onClick={() => handleClick(version.id)}
           />
         </div>

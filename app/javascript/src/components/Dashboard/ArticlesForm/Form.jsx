@@ -92,7 +92,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
               }
             >
               <ActionDropdown
-                label={status === "drafted" ? "Save Draft" : "Publish"}
+                label={status === "draft" ? "Save Draft" : "Publish"}
                 loading={isSubmitting}
                 type="submit"
                 buttonProps={{
@@ -108,7 +108,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
                       onClick={() => {
                         setNoChangesMade(false);
                         item === "Save Draft"
-                          ? setStatus("drafted")
+                          ? setStatus("draft")
                           : setStatus("published");
                       }}
                     >
