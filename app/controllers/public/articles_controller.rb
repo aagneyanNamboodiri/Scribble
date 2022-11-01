@@ -4,7 +4,9 @@ class Public::ArticlesController < Public::BaseController
   before_action :check_if_user_is_authorized
 
   def index
-    @articles = current_user.articles.all.where(status: "published")
+    @articles = current_user.articles.all.where(status: "published").where(
+      "lower(title) like ?",
+      "%#{params[:search_term].downcase}%")
   end
 
   def show

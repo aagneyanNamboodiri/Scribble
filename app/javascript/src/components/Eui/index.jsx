@@ -20,10 +20,11 @@ const Eui = () => {
   const { slug } = useParams(slug);
 
   const fetchArticles = async () => {
+    const payload = { search_term: "" };
     try {
       const {
         data: { articles },
-      } = await publicArticlesApi.list();
+      } = await publicArticlesApi.list(payload);
       setArticles(articles);
     } catch (error) {
       logger.error(error);
