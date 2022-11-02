@@ -16,7 +16,7 @@ import {
 import TooltipWrapper from "../../TooltipWrapper";
 
 const Form = ({ id, isEdit, articleData, categories }) => {
-  const [status, setStatus] = useState("draft");
+  const [status, setStatus] = useState(articleData?.status);
   const [noChangesMade, setNoChangesMade] = useState(true);
 
   const history = useHistory();
@@ -92,7 +92,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
               }
             >
               <ActionDropdown
-                label={status === "draft" ? "Save Draft" : "Publish"}
+                label={status === "published" ? "Publish" : "Save Draft"}
                 loading={isSubmitting}
                 type="submit"
                 buttonProps={{

@@ -5,4 +5,5 @@ json.extract! @article,
   :title,
   :body,
   :slug,
-  :assigned_category
+  :assigned_category,
+  :status
