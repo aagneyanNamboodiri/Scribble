@@ -9,7 +9,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     @category = create(:category, user: @user)
     @article = create(:article, user: @user, assigned_category: @category)
     @headers = headers()
-    end
+  end
 
   def test_list_all_articles_without_any_filters
     5.times do
