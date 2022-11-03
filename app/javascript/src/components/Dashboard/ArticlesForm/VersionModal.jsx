@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { Modal, Typography, Button, Input, Textarea } from "neetoui";
 
+import versionsApi from "apis/article_versions";
 import articlesApi from "apis/articles";
-import versionsApi from "apis/versions";
 
 import TooltipWrapper from "../../TooltipWrapper";
 
