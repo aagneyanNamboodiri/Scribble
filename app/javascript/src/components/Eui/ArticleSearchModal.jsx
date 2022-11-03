@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { Search } from "neetoicons";
-import { Modal, Input, Typography, Tag } from "neetoui";
-import { Link } from "react-router-dom";
+import { Modal, Select } from "neetoui";
+import { useHistory } from "react-router-dom";
 
 import publicArticlesApi from "apis/Public/articles";
 
 const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [articles, setArticles] = useState([]);
 
+  const history = useHistory();
+
   const fetchArticles = async () => {
-    const payload = { search_term: searchTerm };
+    const payload = { search_term: "" };
     try {
       const {
         data: { articles },
@@ -29,12 +29,8 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
   };
 
   useEffect(() => {
-    const getData = setTimeout(() => {
-      if (searchTerm.length > 0) fetchArticles();
-    }, 400);
-
-    return () => clearTimeout(getData);
-  }, [searchTerm]);
+    fetchArticles();
+  }, []);
 
   return (
     <div className="w-full">
@@ -44,32 +40,21 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
       >
-        <Input
-          autocomplete="off"
+        <Select
+          isSearchable
           className="w-full"
-          placeholder="Search for article title"
-          prefix={<Search />}
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
+          placeholder="Select placeholder"
+          size="small"
+          options={articles.map(article => ({
+            label: article.title,
+            value: article.slug,
+          }))}
           onKeyDown={e => handleEscapeKeyPress(e)}
+          onChange={e => {
+            history.push(`/public/${e.value}`);
+            setIsSearchModalOpen(false);
+          }}
         />
-        {searchTerm.length > 0 &&
-          articles.map((article, idx) => (
-            <Link
-              className="w-10/12 p-2"
-              id={idx}
-              key={article.id}
-              to={`/public/${article.slug}`}
-              onClick={() => setIsSearchModalOpen(false)}
-            >
-              <div className="active mb-3 flex justify-between px-2 hover:text-indigo-500">
-                <Typography className="" style="h4">
-                  {article.title}
-                </Typography>
-                <Tag label={article.category_name} />
-              </div>
-            </Link>
-          ))}
       </Modal>
     </div>
   );
