@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { PageLoader, Table } from "neetoui";
+import { PageLoader, Table, Typography } from "neetoui";
 
 import articlesApi from "apis/articles";
 
@@ -43,15 +43,26 @@ const Analytics = () => {
     <>
       <Navbar />
       <div className="grid justify-center pt-20">
-        <div className="m-auto h-full w-4/5">
-          <Table
-            columnData={COLUMN_DATA}
-            currentPageNumber={currentTablePage}
-            defaultPageSize={10}
-            handlePageChange={e => setCurrentTablePage(e)}
-            rowData={articles}
-          />
-        </div>
+        {articles.length > 0 ? (
+          <div className="m-auto h-full w-4/5">
+            <Table
+              columnData={COLUMN_DATA}
+              currentPageNumber={currentTablePage}
+              defaultPageSize={10}
+              handlePageChange={e => setCurrentTablePage(e)}
+              rowData={articles}
+            />
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <Typography style="h1" weight="medium">
+              :/
+            </Typography>
+            <Typography style="h2" weight="medium">
+              No published articles found!
+            </Typography>
+          </div>
+        )}
       </div>
     </>
   );

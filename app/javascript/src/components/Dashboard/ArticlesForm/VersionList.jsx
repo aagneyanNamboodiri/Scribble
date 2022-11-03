@@ -48,6 +48,12 @@ const VersionList = ({ setFetchedArticle, article }) => {
       <Typography className="text-gray-600" style="body2">
         {`Version history of ${article.title}`}
       </Typography>
+      <div className="flex space-x-4 p-2">
+        <Typography className="text-gray-600" style="body2">
+          {formatTime(article.created_at)}
+        </Typography>
+        <Typography style="body2">Article Created</Typography>
+      </div>
       {versions.map(version => (
         <div className="flex space-x-4 p-2" key={version.id}>
           <Typography className="text-gray-600" style="body2">
@@ -55,7 +61,6 @@ const VersionList = ({ setFetchedArticle, article }) => {
           </Typography>
           <Button
             className="text-indigo-500"
-            disabled={version.is_restoration}
             label={getButtonLabel(version)}
             style="link"
             onClick={() => handleClick(version.id)}

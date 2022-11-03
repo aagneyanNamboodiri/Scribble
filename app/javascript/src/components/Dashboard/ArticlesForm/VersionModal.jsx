@@ -5,6 +5,8 @@ import { Modal, Typography, Button, Input, Textarea } from "neetoui";
 import articlesApi from "apis/articles";
 import versionsApi from "apis/versions";
 
+import TooltipWrapper from "../../TooltipWrapper";
+
 const VersionModal = ({
   showVersionModal,
   setShowVersionModal,
@@ -35,6 +37,7 @@ const VersionModal = ({
       setLoading(true);
       const payload = {
         ...article,
+        status: "draft",
         assigned_category_id: article.assigned_category.id,
         is_restoration: true,
       };
@@ -63,7 +66,7 @@ const VersionModal = ({
       size="large"
       onClose={() => setShowVersionModal(false)}
     >
-      <Modal.Header description="Short description">
+      <Modal.Header description="Article versions cannot be edited here! Please restore to edit.">
         <Typography id="dialog1Title" style="h2">
           Version History
         </Typography>
@@ -84,7 +87,11 @@ const VersionModal = ({
             disabled
             label="Category"
             type="text"
-            value={article.assigned_category.name}
+            value={
+              article.assigned_category
+                ? article.assigned_category.name
+                : "Category doesnt exist!"
+            }
           />
         </div>
         <Textarea
@@ -96,8 +103,18 @@ const VersionModal = ({
           value={article.body}
         />
       </Modal.Body>
-      <Modal.Footer className="space-x-2">
-        <Button label="Restore version" onClick={handleRestore} />
+      <Modal.Footer className="flex space-x-2">
+        <TooltipWrapper
+          content="Category doesnt exist. Restoration not possible."
+          disabled={!article.assigned_category}
+          position="bottom"
+        >
+          <Button
+            disabled={!article.assigned_category}
+            label="Restore version"
+            onClick={handleRestore}
+          />
+        </TooltipWrapper>
         <Button
           label="Cancel"
           style="text"
