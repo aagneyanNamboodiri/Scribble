@@ -22,6 +22,12 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
     }
   };
 
+  const handleEscapeKeyPress = e => {
+    if ((e.type = "keydown" && e.key === "Escape")) {
+      setIsSearchModalOpen(false);
+    }
+  };
+
   useEffect(() => {
     const getData = setTimeout(() => {
       if (searchTerm.length > 0) fetchArticles();
@@ -39,11 +45,13 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
         onClose={() => setIsSearchModalOpen(false)}
       >
         <Input
+          autocomplete="off"
           className="w-full"
           placeholder="Search for article title"
           prefix={<Search />}
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
+          onKeyDown={e => handleEscapeKeyPress(e)}
         />
         {searchTerm.length > 0 &&
           articles.map((article, idx) => (
@@ -54,10 +62,7 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
               to={`/public/${article.slug}`}
               onClick={() => setIsSearchModalOpen(false)}
             >
-              <div
-                className="mb-3 flex justify-between px-2 hover:text-indigo-500"
-                onClick={() => setIsSearchModalOpen(false)}
-              >
+              <div className="active mb-3 flex justify-between px-2 hover:text-indigo-500">
                 <Typography className="" style="h4">
                   {article.title}
                 </Typography>
