@@ -26,12 +26,13 @@ class Api::VersionsController < Api::ArticlesController
     end
 
     def load_article_data_per_version(version)
+      versioned_article = version.reify
       article_data = {
         id: version.id,
-        title: version.object[/#{"title: "}(.*?)#{"\n"}/m, 1],
-        body: version.object[/#{"body: "}(.*?)#{"\nassigned"}/m, 1],
-        assigned_category_id: version.object[/#{"assigned_category_id: "}(.*?)#{"\n"}/m, 1],
-        status: version.object[/#{"status: "}(.*?)#{"\n"}/m, 1],
+        title: versioned_article.title,
+        body: versioned_article.body,
+        assigned_category: versioned_article.assigned_category,
+        status: versioned_article.status,
         time: version.created_at,
         is_restoration: version.event == "restored"
       }

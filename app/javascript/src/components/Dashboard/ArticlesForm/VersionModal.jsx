@@ -35,6 +35,7 @@ const VersionModal = ({
       setLoading(true);
       const payload = {
         ...article,
+        status: "draft",
         assigned_category_id: article.assigned_category.id,
         is_restoration: true,
       };
@@ -84,7 +85,11 @@ const VersionModal = ({
             disabled
             label="Category"
             type="text"
-            value={article.assigned_category.name}
+            value={
+              article.assigned_category
+                ? article.assigned_category.name
+                : "Category doesnt exist!"
+            }
           />
         </div>
         <Textarea
@@ -97,7 +102,11 @@ const VersionModal = ({
         />
       </Modal.Body>
       <Modal.Footer className="space-x-2">
-        <Button label="Restore version" onClick={handleRestore} />
+        <Button
+          disabled={!article.assigned_category}
+          label="Restore version"
+          onClick={handleRestore}
+        />
         <Button
           label="Cancel"
           style="text"
