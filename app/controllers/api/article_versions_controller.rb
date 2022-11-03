@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::VersionsController < Api::ArticlesController
+class Api::ArticleVersionsController < Api::ArticlesController
   before_action :load_article!, only: %i[index show]
   before_action :load_version_by_id!, only: %i[show]
 

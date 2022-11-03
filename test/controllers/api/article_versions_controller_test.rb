@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Api::VersionsControllerTest < ActionDispatch::IntegrationTest
+class Api::ArticleVersionsControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
