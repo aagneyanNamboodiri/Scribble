@@ -20,7 +20,6 @@ const Form = ({ id, isEdit, articleData, categories }) => {
   const [noChangesMade, setNoChangesMade] = useState(true);
 
   const history = useHistory();
-  const { Menu, MenuItem } = ActionDropdown;
   const statusList = ["Save Draft", "Publish"];
 
   const handleSubmit = async values => {
@@ -100,22 +99,29 @@ const Form = ({ id, isEdit, articleData, categories }) => {
                 }}
                 onClick={handleSubmit}
               >
-                <Menu>
+                <ul>
                   {statusList.map((item, idx) => (
-                    <MenuItem.Button
-                      disabled={isSubmitting}
+                    <li
                       key={idx}
                       onClick={() => {
-                        setNoChangesMade(false);
+                        if (
+                          (item === "Save Draft" &&
+                            articleData.status === "published") ||
+                          (item === "Publish" && articleData.status === "draft")
+                        ) {
+                          setNoChangesMade(false);
+                        } else {
+                          setNoChangesMade(true);
+                        }
                         item === "Save Draft"
                           ? setStatus("draft")
                           : setStatus("published");
                       }}
                     >
                       {item}
-                    </MenuItem.Button>
+                    </li>
                   ))}
-                </Menu>
+                </ul>
               </ActionDropdown>
             </TooltipWrapper>
             <Button
