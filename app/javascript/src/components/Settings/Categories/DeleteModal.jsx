@@ -5,7 +5,7 @@ import { CloseCircle } from "neetoicons";
 import { Modal, Typography, Button } from "neetoui";
 import { Select, Button as FormikButton } from "neetoui/formik";
 
-import categoriesApi from "apis/categories";
+import categoriesApi from "apis/Api/categories";
 
 import {
   buildCategoryValues,

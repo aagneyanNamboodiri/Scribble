@@ -5,7 +5,7 @@ import { Check, Close } from "neetoicons";
 import { Typography } from "neetoui";
 import { Button, Input } from "neetoui/formik";
 
-import redirectionsApi from "apis/redirections";
+import redirectionsApi from "apis/Api/redirections";
 
 import { INITIAL_VALUES, validationSchema } from "./constants";
 import { buildInitialValues } from "./utils";
@@ -26,8 +26,8 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
     }
   };
 
-  const handleEscapeKeyPress = e => {
-    if ((e.type = "keydown" && e.key === "Escape")) {
+  const handleEscapeKeyPress = ({ type, key }) => {
+    if (type === "keydown" && key === "Escape") {
       setAction(false);
     }
   };

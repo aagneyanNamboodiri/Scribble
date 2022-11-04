@@ -53,8 +53,8 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
     }
   };
 
-  const handleEscapeKeyPress = e => {
-    if ((e.type = "keydown" && e.key === "Escape")) {
+  const handleEscapeKeyPress = ({ type, key }) => {
+    if (type === "keydown" && key === "Escape") {
       setIsSearchModalOpen(false);
     }
   };

@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { Typography, PageLoader, Button as NeetoUIButton } from "neetoui";
 import { Input as FormikInput, Button, Checkbox } from "neetoui/formik";
 
-import organizationsApi from "apis/organizations";
+import organizationsApi from "apis/Api/organizations";
 
 import { validationSchema } from "./constants";
 import PasswordValidator from "./PasswordValidator";

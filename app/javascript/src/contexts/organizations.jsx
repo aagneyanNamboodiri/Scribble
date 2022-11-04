@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import organizationsApi from "apis/organizations";
+import organizationsApi from "apis/Api/organizations";
 
 const OrganizationStateContext = createContext();
 const OrganizationDispatchContext = createContext();

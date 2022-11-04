@@ -5,7 +5,7 @@ import Logger from "js-logger";
 import { Check, Close } from "neetoicons";
 import { Button, Input as FormikInput } from "neetoui/formik";
 
-import categoriesApi from "apis/categories";
+import categoriesApi from "apis/Api/categories";
 
 import { buildInitialValue, validationSchema } from "./constants";
 
@@ -24,8 +24,8 @@ const Form = ({ category = {}, setAction, refetch, isEditing }) => {
     setAction(false);
   };
 
-  const handleEscapeKeyPress = e => {
-    if ((e.type = "keydown" && e.key === "Escape")) {
+  const handleEscapeKeyPress = ({ type, key }) => {
+    if (type === "keydown" && key === "Escape") {
       setAction(false);
     }
   };

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Button } from "neetoui";
 import { useParams } from "react-router-dom";
 
-import article_versionsApi from "apis/article_versions";
+import article_versionsApi from "apis/Api/article_versions";
 
 import { formatTime, getButtonLabel } from "./utils";
 import VersionModal from "./VersionModal";

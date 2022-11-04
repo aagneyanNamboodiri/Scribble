@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Delete, Edit } from "neetoicons";
 import { Typography } from "neetoui";
 
-import redirectionsApi from "apis/redirections";
+import redirectionsApi from "apis/Api/redirections";
 
 import Form from "./RoutesForm";
 import { truncateLongString } from "./utils";
