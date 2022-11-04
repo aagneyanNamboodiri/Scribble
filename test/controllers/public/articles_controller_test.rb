@@ -43,6 +43,28 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
 
     response_json = response.parsed_body
-    assert_equal "Not authorized", response_json["error"]
+    assert_equal t("not_authorized"), response_json["error"]
+  end
+
+  def test_showing_article_increments_visits
+    slug_to_get = @article.slug
+    visits_previously = @article.visits
+    post api_login_path, params: { password: "admin1" },
+      headers: headers
+    get public_article_path(slug_to_get), headers: headers
+    assert_response :success
+
+    @article.reload
+    assert_equal visits_previously + 1, @article.visits
+  end
+
+  def test_unauthorized_user_doesnt_increment_visits
+    slug_to_get = @article.slug
+    visits_previously = @article.visits
+    get public_article_path(slug_to_get), headers: headers
+    assert_response :unauthorized
+
+    @article.reload
+    assert_equal visits_previously, @article.visits
   end
 end

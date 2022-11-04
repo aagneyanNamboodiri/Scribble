@@ -5,7 +5,7 @@ class Public::BaseController < ApplicationController
     organization = Organization.first
     is_auth_token_set = session[:auth] == organization.authentication_token
     if !is_auth_token_set && organization.is_password
-      respond_with_error("Not authorized", :unauthorized)
+      respond_with_error(t("not_authorized"), :unauthorized)
     end
   end
 end
