@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { Search } from "neetoicons";
-import { Modal, Input } from "neetoui";
+import { Search, UpArrow, DownArrow } from "neetoicons";
+import { Modal, Input, Tag, Typography } from "neetoui";
 import { useHistory } from "react-router";
 
 import publicArticlesApi from "apis/Public/articles";
@@ -9,6 +9,7 @@ import publicArticlesApi from "apis/Public/articles";
 import { useKeyPress } from "./constants";
 
 const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
+  const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [articleIndex, setArticleIndex] = useState(0);
@@ -63,6 +64,8 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
       setArticles(articles);
     } catch (error) {
       logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,6 +79,8 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
     const getData = setTimeout(() => {
       if (searchTerm.length > 0) fetchArticles();
     }, 400);
+    if (searchTerm.length === 0) setArticles([]);
+    setLoading(true);
 
     return () => clearTimeout(getData);
   }, [searchTerm]);
@@ -102,10 +107,9 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
             articles.map((article, idx) => (
               <div
                 key={article.id}
-                style={{
-                  cursor: "pointer",
-                  color: idx === articleIndex ? "red" : "black",
-                }}
+                className={`${
+                  idx === articleIndex && "bg-gray-300 text-indigo-500"
+                } cursor-pointer p-2`}
                 onClick={() => {
                   history.push(article.slug);
                   setIsSearchModalOpen(false);
@@ -115,7 +119,26 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
               </div>
             ))}
         </Modal.Body>
-        <Modal.Footer>Keyboard navigation not there</Modal.Footer>
+        <Modal.Footer className="flex-col space-y-2">
+          {!loading && searchTerm.length > 0 && articles.length === 0 && (
+            <Typography className="text-red-400" style="body2">
+              No articles found!
+            </Typography>
+          )}
+          <div className="flex space-x-2">
+            <Typography style="body3">Keyboard Navigation: </Typography>
+            {articles.length > 0 && (
+              <Tag icon={() => <DownArrow />} style="secondary" type="solid" />
+            )}
+            {articles.length > 0 && (
+              <Tag icon={() => <UpArrow />} style="secondary" type="solid" />
+            )}
+            {articles.length > 0 && (
+              <Tag label="Enter" style="success" type="solid" />
+            )}
+            <Tag label="Esc" style="danger" type="solid" />
+          </div>
+        </Modal.Footer>
       </Modal>
     </div>
   );
