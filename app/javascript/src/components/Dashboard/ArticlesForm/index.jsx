@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
+import { useArticleStatusDispatchContext } from "contexts/articleStatus";
 
 import Form from "./Form";
 import VersionList from "./VersionList";
@@ -14,6 +15,8 @@ const CreateAndEdit = () => {
   const [categories, setCategories] = useState([]);
   const [fetchedArticle, setFetchedArticle] = useState({});
   const { id } = useParams();
+
+  const articleStatusDispatch = useArticleStatusDispatchContext();
 
   const fetchCategories = async () => {
     try {
@@ -43,6 +46,14 @@ const CreateAndEdit = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!loading) articleStatusDispatch({ status: fetchedArticle.status });
+
+    return () => {
+      articleStatusDispatch({ status: "" });
+    };
+  }, [loading]);
 
   if (loading) {
     return (

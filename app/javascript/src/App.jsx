@@ -18,6 +18,7 @@ import ErrorPage from "./components/ErrorPage";
 import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
 import Settings from "./components/Settings";
+import { ArticleStatusProvider } from "./contexts/articleStatus";
 import { OrganizationProvider } from "./contexts/organizations";
 
 const App = ({ isLoggedIn }) => {
@@ -35,24 +36,26 @@ const App = ({ isLoggedIn }) => {
 
   return (
     <OrganizationProvider>
-      <Router>
-        <ToastContainer />
-        <Switch>
-          <Redirect exact from="/" to="/articles" />
-          <Route component={Dashboard} path="/articles" />
-          <Route exact component={Settings} path="/settings" />
-          <Route exact component={Login} path="/login" />
-          <Route exact component={Analytics} path="/analytics" />
-          <PrivateRoute
-            component={Eui}
-            isLoggedIn={isLoggedIn}
-            path={["/public", "/public/:slug"]}
-            redirectRoute="/login"
-          />
-          <Route component={Eui} path="/public" />
-          <Route component={ErrorPage} path="/" />
-        </Switch>
-      </Router>
+      <ArticleStatusProvider>
+        <Router>
+          <ToastContainer />
+          <Switch>
+            <Redirect exact from="/" to="/articles" />
+            <Route component={Dashboard} path="/articles" />
+            <Route exact component={Settings} path="/settings" />
+            <Route exact component={Login} path="/login" />
+            <Route exact component={Analytics} path="/analytics" />
+            <PrivateRoute
+              component={Eui}
+              isLoggedIn={isLoggedIn}
+              path={["/public", "/public/:slug"]}
+              redirectRoute="/login"
+            />
+            <Route component={Eui} path="/public" />
+            <Route component={ErrorPage} path="/" />
+          </Switch>
+        </Router>
+      </ArticleStatusProvider>
     </OrganizationProvider>
   );
 };
