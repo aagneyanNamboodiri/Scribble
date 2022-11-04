@@ -17,7 +17,7 @@ class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
 
     response_json = response.parsed_body
-    assert_equal "Not authorized", response_json["error"]
+    assert_equal t("not_authorized"), response_json["error"]
   end
 
   def test_authorized_user_can_access_categories_with_atleast_one_published_article

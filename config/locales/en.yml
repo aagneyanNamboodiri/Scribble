@@ -35,6 +35,7 @@ en:
   successfully_updated: "%{entity} was successfully updated!"
   doesnt_exist: "%{entity} doesn't exist!"
   login_successful: "Welcome to %{entity}"
+  not_authorized: "Not Authorized"
   incorrect_credentials: "Incorrect credentials, try again."
   task:
     slug:

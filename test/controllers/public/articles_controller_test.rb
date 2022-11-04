@@ -7,8 +7,8 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     @organization = create(:organization)
     @user = create(:user, organization: @organization)
     @category = create(:category, user: @user)
-    @article = create(:article, user: @user, status: "published")
-    @drafted_article = create(:article, user: @user, status: "draft")
+    @article = create(:article, user: @user, assigned_category: @category, status: "published")
+    @drafted_article = create(:article, user: @user, assigned_category: @category, status: "draft")
     @headers = headers()
   end
 
@@ -22,7 +22,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     all_articles = response_json["articles"]
     published_articles_count = @user.articles.where(status: "published").count
 
-    assert_equal all_articles.count, published_articles_count
+    assert_equal published_articles_count, all_articles.count
   end
 
   def test_lists_correct_articles
@@ -43,6 +43,28 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
 
     response_json = response.parsed_body
-    assert_equal "Not authorized", response_json["error"]
+    assert_equal t("not_authorized"), response_json["error"]
+  end
+
+  def test_showing_article_increments_visits
+    slug_to_get = @article.slug
+    visits_previously = @article.visits
+    post api_login_path, params: { password: "admin1" },
+      headers: headers
+    get public_article_path(slug_to_get), headers: headers
+    assert_response :success
+
+    @article.reload
+    assert_equal visits_previously + 1, @article.visits
+  end
+
+  def test_unauthorized_user_doesnt_increment_visits
+    slug_to_get = @article.slug
+    visits_previously = @article.visits
+    get public_article_path(slug_to_get), headers: headers
+    assert_response :unauthorized
+
+    @article.reload
+    assert_equal visits_previously, @article.visits
   end
 end
