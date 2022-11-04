@@ -1,17 +1,61 @@
 import React, { useEffect, useState } from "react";
 
-import { Modal, Select } from "neetoui";
-import { useHistory } from "react-router-dom";
+import { Search } from "neetoicons";
+import { Modal, Input } from "neetoui";
+import { useHistory } from "react-router";
 
 import publicArticlesApi from "apis/Public/articles";
 
+import { useKeyPress } from "./constants";
+
 const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
   const [articles, setArticles] = useState([]);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [articleIndex, setArticleIndex] = useState(0);
   const history = useHistory();
 
+  const arrowUpPressed = useKeyPress("ArrowUp");
+  const arrowDownPressed = useKeyPress("ArrowDown");
+  const enterKeyPressed = useKeyPress("Enter");
+
+  const handleArrowKeyInteractions = ({ action }) => {
+    switch (action) {
+      case "arrowUp":
+        setArticleIndex(
+          articleIndex !== 0 ? articleIndex - 1 : articles.length - 1
+        );
+        break;
+
+      case "arrowDown":
+        setArticleIndex(
+          articleIndex !== articles.length - 1 ? articleIndex + 1 : 0
+        );
+        break;
+
+      default:
+        throw new Error();
+    }
+  };
+
+  useEffect(() => {
+    arrowUpPressed && handleArrowKeyInteractions({ action: "arrowUp" });
+  }, [arrowUpPressed]);
+
+  useEffect(() => {
+    arrowDownPressed && handleArrowKeyInteractions({ action: "arrowDown" });
+  }, [arrowDownPressed]);
+
+  useEffect(() => {
+    if (enterKeyPressed) {
+      if (articles[articleIndex]) {
+        history.push(articles[articleIndex].slug);
+        setIsSearchModalOpen(false);
+      }
+    }
+  }, [enterKeyPressed]);
+
   const fetchArticles = async () => {
-    const payload = { search_term: "" };
+    const payload = { search_term: searchTerm };
     try {
       const {
         data: { articles },
@@ -29,8 +73,12 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
   };
 
   useEffect(() => {
-    fetchArticles();
-  }, []);
+    const getData = setTimeout(() => {
+      if (searchTerm.length > 0) fetchArticles();
+    }, 400);
+
+    return () => clearTimeout(getData);
+  }, [searchTerm]);
 
   return (
     <div className="w-full">
@@ -40,21 +88,34 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
       >
-        <Select
-          isSearchable
-          className="w-full"
-          placeholder="Select placeholder"
-          size="small"
-          options={articles.map(article => ({
-            label: article.title,
-            value: article.slug,
-          }))}
-          onKeyDown={e => handleEscapeKeyPress(e)}
-          onChange={e => {
-            history.push(`/public/${e.value}`);
-            setIsSearchModalOpen(false);
-          }}
-        />
+        <Modal.Header>Search For an article title</Modal.Header>
+        <Modal.Body>
+          <Input
+            className="w-full"
+            placeholder="Search for article title"
+            prefix={<Search />}
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            onKeyDown={e => handleEscapeKeyPress(e)}
+          />
+          {searchTerm.length > 0 &&
+            articles.map((article, idx) => (
+              <div
+                key={article.id}
+                style={{
+                  cursor: "pointer",
+                  color: idx === articleIndex ? "red" : "black",
+                }}
+                onClick={() => {
+                  history.push(article.slug);
+                  setIsSearchModalOpen(false);
+                }}
+              >
+                {article.title}
+              </div>
+            ))}
+        </Modal.Body>
+        <Modal.Footer>Keyboard navigation not there</Modal.Footer>
       </Modal>
     </div>
   );
