@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { PageLoader } from "neetoui";
 import { useParams } from "react-router-dom";
 
-import articlesApi from "apis/articles";
-import categoriesApi from "apis/categories";
+import articlesApi from "apis/Api/articles";
+import categoriesApi from "apis/Api/categories";
 import { useArticleStatusDispatchContext } from "contexts/articleStatus";
 
 import Form from "./Form";

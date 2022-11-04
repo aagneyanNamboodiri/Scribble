@@ -5,7 +5,7 @@ import { Button, ActionDropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
 import { useHistory } from "react-router-dom";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/Api/articles";
 
 import { INITIAL_ARTICLES_FORM_VALUES } from "./constants";
 import {

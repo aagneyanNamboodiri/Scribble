@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { Check, Close } from "neetoicons";
 import { Input as FormikInput, Button } from "neetoui/formik";
 
-import categoriesApi from "apis/categories";
+import categoriesApi from "apis/Api/categories";
 
 import {
   NEW_CATEGORY_FORM_VALIDATION_SCHEMA,
@@ -25,8 +25,8 @@ const CategoryCreate = ({ setIsCreating, refetch }) => {
     }
   };
 
-  const handleEscapeKeyPress = e => {
-    if ((e.type = "keydown" && e.key === "Escape")) {
+  const handleEscapeKeyPress = ({ type, key }) => {
+    if (type === "keydown" && key === "Escape") {
       setIsCreating(false);
     }
   };

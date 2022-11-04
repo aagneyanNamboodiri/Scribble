@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Button, Typography, Table, PageLoader } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
 
-import articlesApi from "apis/articles";
-import categoriesApi from "apis/categories";
+import articlesApi from "apis/Api/articles";
+import categoriesApi from "apis/Api/categories";
 
 import ColumnDropdown from "./ColumnDropdown";
 import { initialColumnsList } from "./constants";

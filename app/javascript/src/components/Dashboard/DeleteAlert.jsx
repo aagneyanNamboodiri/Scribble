@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Alert } from "neetoui";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/Api/articles";
 
 const DeleteAlert = ({ refetch, onClose, id }) => {
   const [deleting, setDeleting] = useState(false);

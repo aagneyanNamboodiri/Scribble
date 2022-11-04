@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { Typography } from "neetoui";
 import { Input as FormikInput, Button } from "neetoui/formik";
 
-import loginApi from "apis/login";
+import loginApi from "apis/Api/login";
 import { useOrganizationState } from "contexts/organizations";
 import LoginImage from "images/LoginImage";
 
