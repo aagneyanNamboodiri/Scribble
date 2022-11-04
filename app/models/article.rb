@@ -12,7 +12,7 @@ class Article < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: VALID_TITLE_REGEX
   validates :body, presence: true, length: { maximum: MAX_BODY_LENGTH }
-  validates :slug, uniqueness: false
+  validates :slug, uniqueness: true, if: -> { status == :published }
   validate :slug_not_changed
 
   has_paper_trail ignore: [:slug, :id, :user_id, :visits]
