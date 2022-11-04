@@ -7,8 +7,8 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     @organization = create(:organization)
     @user = create(:user, organization: @organization)
     @category = create(:category, user: @user)
-    @article = create(:article, user: @user, status: "published")
-    @drafted_article = create(:article, user: @user, status: "draft")
+    @article = create(:article, user: @user, assigned_category: @category, status: "published")
+    @drafted_article = create(:article, user: @user, assigned_category: @category, status: "draft")
     @headers = headers()
   end
 
