@@ -12,7 +12,7 @@ const VersionModal = ({
   setShowVersionModal,
   versionId,
   articleId,
-  setFetchedArticle,
+  fetchData,
 }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
@@ -45,9 +45,9 @@ const VersionModal = ({
     } catch (error) {
       logger.error(error);
     } finally {
+      fetchData();
       setLoading(false);
-      setFetchedArticle(article);
-      window.location.reload();
+      //window.location.reload();
       setShowVersionModal(false);
     }
   };

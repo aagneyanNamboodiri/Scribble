@@ -76,7 +76,7 @@ const CreateAndEdit = () => {
         <VersionList
           article={fetchedArticle}
           className="w-1/3"
-          setFetchedArticle={setFetchedArticle}
+          fetchData={fetchData}
         />
       )}
     </div>
