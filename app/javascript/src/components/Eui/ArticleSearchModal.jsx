@@ -13,6 +13,7 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
   const [articles, setArticles] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [articleIndex, setArticleIndex] = useState(0);
+
   const history = useHistory();
 
   const arrowUpPressed = useKeyPress("ArrowUp");
@@ -38,23 +39,6 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
     }
   };
 
-  useEffect(() => {
-    arrowUpPressed && handleArrowKeyInteractions({ action: "arrowUp" });
-  }, [arrowUpPressed]);
-
-  useEffect(() => {
-    arrowDownPressed && handleArrowKeyInteractions({ action: "arrowDown" });
-  }, [arrowDownPressed]);
-
-  useEffect(() => {
-    if (enterKeyPressed) {
-      if (articles[articleIndex]) {
-        history.push(articles[articleIndex].slug);
-        setIsSearchModalOpen(false);
-      }
-    }
-  }, [enterKeyPressed]);
-
   const fetchArticles = async () => {
     const payload = { search_term: searchTerm };
     try {
@@ -76,8 +60,28 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
   };
 
   useEffect(() => {
+    arrowUpPressed && handleArrowKeyInteractions({ action: "arrowUp" });
+  }, [arrowUpPressed]);
+
+  useEffect(() => {
+    arrowDownPressed && handleArrowKeyInteractions({ action: "arrowDown" });
+  }, [arrowDownPressed]);
+
+  useEffect(() => {
+    if (enterKeyPressed) {
+      if (articles[articleIndex]) {
+        history.push(articles[articleIndex].slug);
+        setIsSearchModalOpen(false);
+      }
+    }
+  }, [enterKeyPressed]);
+
+  useEffect(() => {
     const getData = setTimeout(() => {
-      if (searchTerm.length > 0) fetchArticles();
+      if (searchTerm.length > 0) {
+        fetchArticles();
+        setArticleIndex(0);
+      }
     }, 400);
     if (searchTerm.length === 0) setArticles([]);
     setLoading(true);
@@ -93,11 +97,12 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
       >
-        <Modal.Header>Search For an article title</Modal.Header>
-        <Modal.Body>
+        <Modal.Header />
+        <Modal.Body className="space-y-2">
           <Input
+            autocomplete="off"
             className="w-full"
-            placeholder="Search for article title"
+            placeholder="Search article title"
             prefix={<Search />}
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
@@ -108,7 +113,7 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
               <div
                 key={article.id}
                 className={`${
-                  idx === articleIndex && "bg-gray-300 text-indigo-500"
+                  idx === articleIndex && "bg-gray-200 text-indigo-500"
                 } cursor-pointer p-2`}
                 onClick={() => {
                   history.push(article.slug);

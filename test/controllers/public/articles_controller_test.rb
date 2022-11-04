@@ -15,7 +15,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def test_list_only_published_articles
     post api_login_path, params: { password: "admin1" },
       headers: headers
-    get public_articles_path, headers: headers
+    get public_articles_path, params: { search_term: "" }, headers: headers
     assert_response :success
 
     response_json = response.parsed_body
@@ -66,5 +66,22 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     @article.reload
     assert_equal visits_previously, @article.visits
+  end
+
+  def test_lists_articles_when_searched
+    @article_two = create(:article, user: @user, assigned_category: @category, status: "published")
+    title_to_search = @article.title
+    post api_login_path, params: { password: "admin1" },
+      headers: headers
+    get public_articles_path, params: { search_term: title_to_search }, headers: headers
+    assert_response :success
+
+    articles_with_search = @user.articles.where(
+      "title like ?",
+      title_to_search)
+    response_json = response.parsed_body
+
+    assert_equal response_json["articles"].count, articles_with_search.count
+    assert_equal response_json["articles"].first["id"], articles_with_search.first.id
   end
 end
