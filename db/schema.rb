@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_31_171648) do
+ActiveRecord::Schema.define(version: 2022_11_04_183745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -39,6 +39,12 @@ ActiveRecord::Schema.define(version: 2022_10_31_171648) do
     t.integer "position"
     t.uuid "user_id"
     t.index ["user_id"], name: "index_categories_on_user_id"
+  end
+
+  create_table "frontend_routes", force: :cascade do |t|
+    t.text "route"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

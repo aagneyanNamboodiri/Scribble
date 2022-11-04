@@ -42,6 +42,7 @@ def create_sample_data!
   create_user!
   create_category!
   seed_data!
+  seed_frontend_routes!
 end
 
 def create_user!(options = {})
@@ -102,4 +103,11 @@ def seed_data!
   end
 
   p "Created #{current_user.articles.count} articles"
+end
+
+def seed_frontend_routes!
+  FrontendRoute.create!(route: "articles")
+  FrontendRoute.create!(route: "analytics")
+  FrontendRoute.create!(route: "settings")
+  FrontendRoute.create!(route: "public")
 end
