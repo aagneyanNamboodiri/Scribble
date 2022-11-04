@@ -22,7 +22,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     all_articles = response_json["articles"]
     published_articles_count = @user.articles.where(status: "published").count
 
-    assert_equal all_articles.count, published_articles_count
+    assert_equal published_articles_count, all_articles.count
   end
 
   def test_lists_correct_articles
