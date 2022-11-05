@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const list = () => axios.get("api/organizations");
+const show = () => axios.get("api/organization");
 
 const update = organization =>
-  axios.put("api/organizations/1", {
+  axios.put("api/organization", {
     ...organization,
   });
 
-const organizationsApi = { list, update };
+const organizationsApi = { show, update };
 
 export default organizationsApi;

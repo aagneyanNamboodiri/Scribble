@@ -11,14 +11,13 @@ Rails.application.routes.draw do
           put "reorder"
         end
       end
-      resources :organizations, only: %i[index update]
+      resource :organization, only: %i[show update]
       resources :redirections, except: %i[new edit show]
       post "/login", to: "login#create"
     end
     namespace :public do
       resources :articles, only: %i[index show], param: :slug
       resources :categories, only: %i[index]
-      resources :organizations, only: %i[index]
     end
   end
 

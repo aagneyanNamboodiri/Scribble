@@ -13,7 +13,7 @@ const OrganizationProvider = ({ children }) => {
   const fetchOrganizations = async () => {
     try {
       setLoading(true);
-      const { data } = await organizationsApi.list();
+      const { data } = await organizationsApi.show();
       setInitialState({
         siteName: data.site_name,
         isPassword: data.is_password,

@@ -43,7 +43,7 @@ const General = () => {
   const fetchOrganizations = async () => {
     try {
       setLoading(true);
-      const { data } = await organizationsApi.list();
+      const { data } = await organizationsApi.show();
       if (data.password_digest) setPassword(data.password_digest);
 
       if (data.is_password) {
