@@ -5,7 +5,7 @@ import { Typography } from "neetoui";
 import { Input as FormikInput, Button } from "neetoui/formik";
 
 import loginApi from "apis/Api/login";
-import { useOrganizationState } from "contexts/organizations";
+import { useOrganizationState } from "contexts/organization";
 import LoginImage from "images/LoginImage";
 
 import { INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";

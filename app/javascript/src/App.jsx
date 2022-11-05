@@ -19,7 +19,7 @@ import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
 import Settings from "./components/Settings";
 import { ArticleStatusProvider } from "./contexts/articleStatus";
-import { OrganizationProvider } from "./contexts/organizations";
+import { OrganizationProvider } from "./contexts/organization";
 
 const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);

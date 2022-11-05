@@ -2,7 +2,7 @@ import React from "react";
 
 import { Typography, Input } from "neetoui";
 
-import { useOrganizationState } from "contexts/organizations";
+import { useOrganizationState } from "contexts/organization";
 
 const Header = ({ setIsSearchModalOpen, isSearchEnabled }) => {
   const { siteName } = useOrganizationState();

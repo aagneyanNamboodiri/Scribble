@@ -7,6 +7,6 @@ const update = organization =>
     ...organization,
   });
 
-const organizationsApi = { show, update };
+const organizationApi = { show, update };
 
-export default organizationsApi;
+export default organizationApi;
