@@ -11,6 +11,7 @@ import { INITIAL_ARTICLES_FORM_VALUES } from "./constants";
 import {
   buildArticlesFormValidationSchema,
   buildInitialValuesForEditArticle,
+  buildCategoryList,
 } from "./utils";
 
 import TooltipWrapper from "../../TooltipWrapper";
@@ -41,10 +42,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
       logger.log(err);
     }
   };
-  const categoryList = categories.map(category => ({
-    value: category.id,
-    label: category.name,
-  }));
+  const categoryList = buildCategoryList(categories);
 
   return (
     <Formik

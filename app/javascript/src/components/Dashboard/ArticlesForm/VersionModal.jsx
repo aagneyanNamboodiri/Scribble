@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Modal, Typography, Button, Input, Textarea } from "neetoui";
+import { Modal, Typography, Button, Input, Textarea, Select } from "neetoui";
 
 import versionsApi from "apis/Api/article_versions";
 import articlesApi from "apis/Api/articles";
+
+import { buildCategoryList } from "./utils";
 
 import TooltipWrapper from "../../TooltipWrapper";
 
@@ -13,9 +15,13 @@ const VersionModal = ({
   versionId,
   articleId,
   fetchData,
+  categories,
 }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const categoryList = buildCategoryList(categories);
 
   const fetchArticleWithVersion = async () => {
     try {
@@ -25,6 +31,7 @@ const VersionModal = ({
         version_id: versionId,
       });
       setArticle(data);
+      setSelectedCategory(data.assigned_category?.id);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -38,7 +45,7 @@ const VersionModal = ({
       const payload = {
         ...article,
         status: "draft",
-        assigned_category_id: article.assigned_category.id,
+        assigned_category_id: selectedCategory,
         is_restoration: true,
       };
       await articlesApi.update({ id: articleId, payload });
@@ -83,16 +90,22 @@ const VersionModal = ({
             type="text"
             value={article.title}
           />
-          <Input
-            disabled
-            label="Category"
-            type="text"
-            value={
-              article.assigned_category
-                ? article.assigned_category.name
-                : "Category doesnt exist!"
-            }
-          />
+          {article.assigned_category ? (
+            <Input
+              disabled
+              label="Category"
+              type="text"
+              value={article.assigned_category.name}
+            />
+          ) : (
+            <Select
+              isSearchable
+              label="Category"
+              options={categoryList}
+              placeholder="Select new category"
+              onChange={e => setSelectedCategory(e.value)}
+            />
+          )}
         </div>
         <Textarea
           disabled
@@ -105,12 +118,12 @@ const VersionModal = ({
       </Modal.Body>
       <Modal.Footer className="flex space-x-2">
         <TooltipWrapper
-          content="Category doesnt exist. Restoration not possible."
-          disabled={!article.assigned_category}
+          content="Previous category doesnt exist. Please select new category from the list"
+          disabled={!selectedCategory}
           position="bottom"
         >
           <Button
-            disabled={!article.assigned_category}
+            disabled={!selectedCategory}
             label="Restore version"
             onClick={handleRestore}
           />

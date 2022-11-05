@@ -75,6 +75,7 @@ const CreateAndEdit = () => {
       {id && (
         <VersionList
           article={fetchedArticle}
+          categories={categories}
           className="w-1/3"
           fetchData={fetchData}
         />
