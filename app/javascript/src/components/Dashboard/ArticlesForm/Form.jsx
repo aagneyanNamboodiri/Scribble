@@ -55,7 +55,13 @@ const Form = ({ id, isEdit, articleData, categories }) => {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, handleSubmit, isValid, dirty }) => (
-        <FormikForm className="mx-12 w-2/3 space-y-4 p-20 px-20">
+        <FormikForm
+          className={
+            isEdit
+              ? "mx-12 w-2/3 space-y-4 p-20 px-20"
+              : "mx-24 space-y-4 p-20 px-56"
+          }
+        >
           <div className="flex space-x-2">
             <Input
               label="Article Title"

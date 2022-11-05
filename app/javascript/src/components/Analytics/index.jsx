@@ -4,7 +4,7 @@ import { PageLoader, Table, Typography } from "neetoui";
 
 import articlesApi from "apis/Api/articles";
 
-import { COLUMN_DATA } from "./utils";
+import { COLUMN_DATA } from "./constants";
 
 import Navbar from "../Navbar";
 

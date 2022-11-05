@@ -20,19 +20,18 @@ const Main = () => {
   const [articleStatus, setArticleStatus] = useState("all");
   const [columnList, setColumnList] = useState(initialColumnsList);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [idToDelete, setIdToDelete] = useState("");
+  const [articleIdToDelete, setArticleIdToDelete] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [articleStatusCounts, setArticleStatusCounts] = useState({});
 
   const handleDelete = id => {
-    setIdToDelete(id);
+    setArticleIdToDelete(id);
     setShowDeleteAlert(true);
   };
   const fetchArticles = async () => {
     try {
-      setLoading(true);
       const {
         data: { articles },
       } = await articlesApi.list();
@@ -45,21 +44,16 @@ const Main = () => {
       setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
   const fetchCategories = async () => {
     try {
-      setLoading(true);
       const {
         data: { categories },
       } = await categoriesApi.list();
       setCategories(categories);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
   const fetchFilteredArticles = async () => {
@@ -77,9 +71,14 @@ const Main = () => {
       logger.error(error);
     }
   };
+
+  const fetchData = async () => {
+    setLoading(true);
+    await Promise.all([fetchArticles(), fetchCategories()]);
+    setLoading(false);
+  };
   useEffect(() => {
-    fetchArticles();
-    fetchCategories();
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -149,7 +148,7 @@ const Main = () => {
         )}
         {showDeleteAlert && (
           <DeleteAlert
-            id={idToDelete}
+            id={articleIdToDelete}
             refetch={fetchArticles}
             onClose={() => setShowDeleteAlert(false)}
           />

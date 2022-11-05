@@ -60,20 +60,21 @@ const Eui = () => {
     );
   }
 
-  if (!slug) {
-    if (articles.length === 0) {
-      return (
-        <div>
-          <Header />
-          <ErrorPage error="no articles" />;
-        </div>
-      );
-    }
+  if (articles.length === 0) {
+    return (
+      <div>
+        <Header />
+        <ErrorPage error="no articles" />;
+      </div>
+    );
   }
 
   return (
     <>
-      <Header setIsSearchModalOpen={setIsSearchModalOpen} />
+      <Header
+        isSearchEnabled={articles.length > 0}
+        setIsSearchModalOpen={setIsSearchModalOpen}
+      />
       {isSearchModalOpen && (
         <ArticleSearchModal
           articles={articles}

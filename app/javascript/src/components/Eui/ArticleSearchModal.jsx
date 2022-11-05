@@ -21,22 +21,13 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
   const enterKeyPressed = useKeyPress("Enter");
 
   const handleArrowKeyInteractions = ({ action }) => {
-    switch (action) {
-      case "arrowUp":
-        setArticleIndex(
+    action === "arrowUp"
+      ? setArticleIndex(
           articleIndex !== 0 ? articleIndex - 1 : articles.length - 1
-        );
-        break;
-
-      case "arrowDown":
-        setArticleIndex(
+        )
+      : setArticleIndex(
           articleIndex !== articles.length - 1 ? articleIndex + 1 : 0
         );
-        break;
-
-      default:
-        throw new Error();
-    }
   };
 
   const fetchArticles = async () => {
@@ -77,6 +68,7 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
   }, [enterKeyPressed]);
 
   useEffect(() => {
+    setLoading(true);
     const getData = setTimeout(() => {
       if (searchTerm.length > 0) {
         fetchArticles();
@@ -84,7 +76,6 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
       }
     }, 400);
     if (searchTerm.length === 0) setArticles([]);
-    setLoading(true);
 
     return () => clearTimeout(getData);
   }, [searchTerm]);
