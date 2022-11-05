@@ -115,6 +115,7 @@ const ArticleSearchModal = ({ isSearchModalOpen, setIsSearchModalOpen }) => {
                 className={`${
                   idx === articleIndex && "bg-gray-200 text-indigo-500"
                 } cursor-pointer p-2`}
+                onMouseEnter={() => setArticleIndex(idx)}
                 onClick={() => {
                   history.push(article.slug);
                   setIsSearchModalOpen(false);
