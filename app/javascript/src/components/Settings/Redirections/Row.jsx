@@ -5,7 +5,7 @@ import { Typography } from "neetoui";
 
 import redirectionsApi from "apis/Api/redirections";
 
-import Form from "./RoutesForm";
+import Form from "./Form";
 import { truncateLongString } from "./utils";
 
 const Row = ({ redirection, refetch }) => {
