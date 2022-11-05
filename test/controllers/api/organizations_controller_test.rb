@@ -7,8 +7,8 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     @organization = create(:organization, is_password: true, password: "admin1", password_confirmation: "admin1")
   end
 
-  def test_listing_organizations
-    get api_organizations_path, headers: headers
+  def test_listing_organization
+    get api_organization_path, headers: headers
     assert_response :success
 
     response_json = response.parsed_body
@@ -24,7 +24,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
         password: "admin2"
       }
     }
-    put api_organization_path(@organization.id), params: organization_params, headers: headers
+    put api_organization_path, params: organization_params, headers: headers
     response_json = response.parsed_body
 
     assert_response :success
@@ -38,7 +38,7 @@ end
         site_name: "Spinboi"
       }
     }
-    put api_organization_path(@organization.id), params: organization_params, headers: headers
+    put api_organization_path, params: organization_params, headers: headers
     response_json = response.parsed_body
 
     assert_response :success

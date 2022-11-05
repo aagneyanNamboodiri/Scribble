@@ -2,7 +2,7 @@ import React from "react";
 
 import { Redirect, Route } from "react-router-dom";
 
-import { useOrganizationState } from "contexts/organizations";
+import { useOrganizationState } from "contexts/organization";
 
 const PrivateRoute = ({
   component: Component,

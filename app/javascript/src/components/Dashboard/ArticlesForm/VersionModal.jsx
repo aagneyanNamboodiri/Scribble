@@ -86,7 +86,6 @@ const VersionModal = ({
           <Input
             disabled
             label="Article Title"
-            name="title"
             type="text"
             value={article.title}
           />

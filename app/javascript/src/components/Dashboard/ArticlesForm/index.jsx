@@ -64,7 +64,7 @@ const CreateAndEdit = () => {
   }
 
   return (
-    <div className="flex w-full">
+    <div className={id ? "flex w-full" : "justify-center"}>
       <Form
         articleData={fetchedArticle}
         categories={categories}

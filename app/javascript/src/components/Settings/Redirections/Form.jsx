@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Formik, Form } from "formik";
+import { Formik, Form as FormikForm } from "formik";
 import { Check, Close } from "neetoicons";
 import { Typography } from "neetoui";
 import { Button, Input } from "neetoui/formik";
@@ -12,7 +12,7 @@ import { buildInitialValues } from "./utils";
 
 import TooltipWrapper from "../../TooltipWrapper";
 
-const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
+const Form = ({ isEditing, setAction, redirection, refetch }) => {
   const handleSubmit = async redirections => {
     try {
       isEditing
@@ -41,7 +41,7 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
       onSubmit={handleSubmit}
     >
       {({ isValid, dirty }) => (
-        <Form onKeyDown={e => handleEscapeKeyPress(e)}>
+        <FormikForm onKeyDown={e => handleEscapeKeyPress(e)}>
           <div className="flex justify-between bg-white p-3">
             <div className="flex w-4/5 space-x-5">
               <Input
@@ -83,14 +83,15 @@ const RoutesForm = ({ isEditing, setAction, redirection, refetch }) => {
                 disabled={false}
                 icon={() => <Close size={17} />}
                 style="text"
+                type="reset"
                 onClick={() => setAction(false)}
               />
             </div>
           </div>
-        </Form>
+        </FormikForm>
       )}
     </Formik>
   );
 };
 
-export default RoutesForm;
+export default Form;

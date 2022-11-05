@@ -67,5 +67,4 @@ group :development, :test do
     gem "factory_bot_rails"
 
     # For auto-generating demo data
-    gem "acts_as_list"
   end

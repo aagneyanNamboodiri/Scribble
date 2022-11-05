@@ -5,7 +5,7 @@ import { Typography, PageLoader } from "neetoui";
 
 import redirectionsApi from "apis/Api/redirections";
 
-import RoutesForm from "./RoutesForm";
+import RoutesForm from "./Form";
 import Row from "./Row";
 
 const Redirections = () => {

@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { Typography, PageLoader, Button as NeetoUIButton } from "neetoui";
 import { Input as FormikInput, Button, Checkbox } from "neetoui/formik";
 
-import organizationsApi from "apis/Api/organizations";
+import organizationApi from "apis/Api/organization";
 
 import { validationSchema } from "./constants";
 import PasswordValidator from "./PasswordValidator";
@@ -30,8 +30,8 @@ const General = () => {
         ...(checkChanged && { is_password: value.passwordProtection }),
         ...(isEditingPassword && { password: value.password }),
       };
-      await organizationsApi.update({ organization });
-      await fetchOrganizations();
+      await organizationApi.update({ organization });
+      await fetchOrganization();
       setNoChangesToSettings(true);
       setIsEditingPassword(false);
       setCheckChanged(false);
@@ -40,10 +40,10 @@ const General = () => {
     }
   };
 
-  const fetchOrganizations = async () => {
+  const fetchOrganization = async () => {
     try {
       setLoading(true);
-      const { data } = await organizationsApi.list();
+      const { data } = await organizationApi.show();
       if (data.password_digest) setPassword(data.password_digest);
 
       if (data.is_password) {
@@ -59,7 +59,7 @@ const General = () => {
   };
 
   useEffect(() => {
-    fetchOrganizations();
+    fetchOrganization();
   }, []);
   if (loading) {
     return (

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import organizationsApi from "apis/Api/organizations";
+import organizationApi from "apis/Api/organization";
 
 const OrganizationStateContext = createContext();
 const OrganizationDispatchContext = createContext();
@@ -10,10 +10,10 @@ const OrganizationProvider = ({ children }) => {
     isPassword: "",
   });
   const [loading, setLoading] = useState(true);
-  const fetchOrganizations = async () => {
+  const fetchOrganization = async () => {
     try {
       setLoading(true);
-      const { data } = await organizationsApi.list();
+      const { data } = await organizationApi.show();
       setInitialState({
         siteName: data.site_name,
         isPassword: data.is_password,
@@ -25,7 +25,7 @@ const OrganizationProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    fetchOrganizations();
+    fetchOrganization();
   }, []);
   if (loading) {
     return <div />;
