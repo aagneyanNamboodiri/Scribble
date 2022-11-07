@@ -57,9 +57,9 @@ class Api::ArticlesController < ApplicationController
     end
 
     def set_version_event_as_restored_if_article_is_being_restored
-      is_restoration = params[:article]["is_restoration"]
-      if is_restoration
-        @article.versions.last.update!(event: "restored")
+      restored_from = params[:article]["restored_from"]
+      if restored_from
+        @article.versions.last.update!(restored_from: restored_from)
       end
     end
 end

@@ -5,7 +5,7 @@ class Api::ArticleVersionsController < Api::ArticlesController
   before_action :load_version_by_id!, only: %i[show]
 
   def index
-    @versions_data = @article.versions.drop(1).map { |version|
+    @versions_data = @article.versions.drop(1).reverse.map { |version|
       load_article_data_per_version(version)
     }
   end
@@ -33,8 +33,12 @@ class Api::ArticleVersionsController < Api::ArticlesController
         body: versioned_article.body,
         assigned_category: versioned_article.assigned_category,
         status: versioned_article.status,
-        time: version.created_at,
-        is_restoration: version.event == "restored"
+        time: versioned_article.updated_at,
+        restoration_date: version.restored_from ? get_article_date_of_version(version) : nil
       }
+    end
+
+    def get_article_date_of_version(version)
+      restored_version_date = PaperTrail::Version.find(version.restored_from).reify.updated_at
     end
 end
