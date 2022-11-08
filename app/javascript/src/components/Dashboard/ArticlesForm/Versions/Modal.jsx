@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import { Modal, Typography, Button, Input, Textarea, Select } from "neetoui";
+import TooltipWrapper from "tooltipwrapper";
 
 import versionsApi from "apis/Api/article_versions";
 import articlesApi from "apis/Api/articles";
 
-import TooltipWrapper from "../../../TooltipWrapper";
 import { buildCategoryList } from "../utils";
 
 const VersionModal = ({

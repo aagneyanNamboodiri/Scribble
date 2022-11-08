@@ -12,6 +12,7 @@ module.exports = {
       constants: "src/constants",
       contexts: "src/contexts",
       images: path.resolve(__dirname, "../", "../", "app/assets/images"),
+      tooltipwrapper: "src/components/TooltipWrapper.jsx",
     },
   },
 };

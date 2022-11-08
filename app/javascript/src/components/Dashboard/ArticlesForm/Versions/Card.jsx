@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Typography, Callout, Button } from "neetoui";
+import TooltipWrapper from "tooltipwrapper";
 
-import TooltipWrapper from "../../../TooltipWrapper";
 import { formatTime, getButtonLabel } from "../utils";
 
 const Card = ({ article, isCurrentVersion, version, handleClick }) =>

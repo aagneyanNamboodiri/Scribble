@@ -3,8 +3,7 @@ import React from "react";
 import dayjs from "dayjs";
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
-
-import TooltipWrapper from "../TooltipWrapper";
+import TooltipWrapper from "tooltipwrapper";
 
 var advancedFormat = require("dayjs/plugin/advancedFormat");
 

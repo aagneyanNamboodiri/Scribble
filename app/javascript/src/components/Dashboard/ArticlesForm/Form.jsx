@@ -4,6 +4,7 @@ import { Formik, Form as FormikForm } from "formik";
 import { Button, ActionDropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
 import { useHistory } from "react-router-dom";
+import TooltipWrapper from "tooltipwrapper";
 
 import articlesApi from "apis/Api/articles";
 
@@ -13,8 +14,6 @@ import {
   buildInitialValuesForEditArticle,
   buildCategoryList,
 } from "./utils";
-
-import TooltipWrapper from "../../TooltipWrapper";
 
 const Form = ({ id, isEdit, articleData, categories }) => {
   const [status, setStatus] = useState(articleData?.status);

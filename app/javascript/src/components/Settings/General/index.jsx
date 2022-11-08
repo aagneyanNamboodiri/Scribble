@@ -3,13 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { Typography, PageLoader, Button as NeetoUIButton } from "neetoui";
 import { Input as FormikInput, Button, Checkbox } from "neetoui/formik";
+import TooltipWrapper from "tooltipwrapper";
 
 import organizationApi from "apis/Api/organization";
 
 import { validationSchema } from "./constants";
 import PasswordValidator from "./PasswordValidator";
-
-import TooltipWrapper from "../../TooltipWrapper";
 
 const General = () => {
   const [loading, setLoading] = useState(true);
