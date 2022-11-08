@@ -53,7 +53,6 @@ const VersionModal = ({
     } finally {
       fetchData();
       setLoading(false);
-      //window.location.reload();
       setShowVersionModal(false);
     }
   };

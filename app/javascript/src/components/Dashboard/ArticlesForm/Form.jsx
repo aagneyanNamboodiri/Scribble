@@ -29,7 +29,7 @@ const Form = ({ id, isEdit, articleData, categories }) => {
         ...values,
         assigned_category_id: values.category.value,
         status,
-        is_restoration: false,
+        restored_from: null,
       };
       isEdit
         ? await articlesApi.update({

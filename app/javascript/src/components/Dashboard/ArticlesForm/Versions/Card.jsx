@@ -2,6 +2,7 @@ import React from "react";
 
 import { Typography, Callout, Button } from "neetoui";
 
+import TooltipWrapper from "../../../TooltipWrapper";
 import { formatTime, getButtonLabel } from "../utils";
 
 const Card = ({ article, isCurrentVersion, version, handleClick }) =>
@@ -33,14 +34,20 @@ const Card = ({ article, isCurrentVersion, version, handleClick }) =>
             {formatTime(version.time)}
           </Typography>
           {version.restoration_date && (
-            <Typography className="text-gray-600" component="i" style="body3">
-              Restored from {formatTime(version.restoration_date)}
-            </Typography>
+            <TooltipWrapper
+              disabled
+              content={`Restored from ${formatTime(version.restoration_date)}`}
+              position="bottom"
+            >
+              <Typography className="text-gray-600" component="i" style="body3">
+                Restoration!
+              </Typography>
+            </TooltipWrapper>
           )}
         </div>
         <Button
           className="text-indigo-500"
-          label={getButtonLabel(version)}
+          label={`${getButtonLabel(version)}`}
           style="link"
           onClick={() => handleClick(version.id)}
         />

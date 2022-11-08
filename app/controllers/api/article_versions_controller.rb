@@ -34,11 +34,13 @@ class Api::ArticleVersionsController < Api::ArticlesController
         assigned_category: versioned_article.assigned_category,
         status: versioned_article.status,
         time: versioned_article.updated_at,
-        restoration_date: version.restored_from ? get_article_date_of_version(version) : nil
+        restoration_date: versioned_article.restored_from
+        ? get_article_date_of_version(versioned_article.restored_from)
+        : nil
       }
     end
 
-    def get_article_date_of_version(version)
-      restored_version_date = PaperTrail::Version.find(version.restored_from).reify.updated_at
+    def get_article_date_of_version(version_id)
+      restored_version_date = PaperTrail::Version.find(version_id).reify.updated_at
     end
 end
