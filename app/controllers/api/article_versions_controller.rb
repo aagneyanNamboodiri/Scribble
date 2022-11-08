@@ -34,9 +34,8 @@ class Api::ArticleVersionsController < Api::ArticlesController
         assigned_category: versioned_article.assigned_category,
         status: versioned_article.status,
         time: versioned_article.updated_at,
-        restoration_date: versioned_article.restored_from
-        ? get_article_date_of_version(versioned_article.restored_from)
-        : nil
+        restoration_date: versioned_article.restored_from ?
+        get_article_date_of_version(versioned_article.restored_from) : nil
       }
     end
 
