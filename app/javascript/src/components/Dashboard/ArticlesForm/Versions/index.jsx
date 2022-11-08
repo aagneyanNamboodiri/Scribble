@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { Typography, Button } from "neetoui";
+import { Typography } from "neetoui";
 import { useParams } from "react-router-dom";
 
 import article_versionsApi from "apis/Api/article_versions";
 
-import { formatTime, getButtonLabel } from "./utils";
-import VersionModal from "./VersionModal";
+import Card from "./Card";
+import VersionModal from "./Modal";
 
 const VersionList = ({ fetchData, article, categories }) => {
   const [loading, setLoading] = useState(true);
@@ -48,25 +48,19 @@ const VersionList = ({ fetchData, article, categories }) => {
       <Typography className="text-gray-600" style="body2">
         {`Version history of ${article.title}`}
       </Typography>
-      <div className="flex space-x-4 p-2">
-        <Typography className="text-gray-600" style="body2">
-          {formatTime(article.created_at)}
-        </Typography>
-        <Typography style="body2">Article Created</Typography>
+      <div className="my-2">
+        <Card isCurrentVersion article={article} className="p-2" />
       </div>
-      {versions.map(version => (
-        <div className="flex space-x-4 p-2" key={version.id}>
-          <Typography className="text-gray-600" style="body2">
-            {formatTime(version.time)}
-          </Typography>
-          <Button
-            className="text-indigo-500"
-            label={getButtonLabel(version)}
-            style="link"
-            onClick={() => handleClick(version.id)}
-          />
-        </div>
-      ))}
+      <div
+        className="overflow-y-scroll"
+        style={{ height: "calc(100vh - 220px)" }}
+      >
+        {versions.map(version => (
+          <div className="mb-2" key={version.id}>
+            <Card handleClick={handleClick} version={version} />
+          </div>
+        ))}
+      </div>
       {showVersionModal && (
         <VersionModal
           articleId={id}

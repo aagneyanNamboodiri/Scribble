@@ -52,6 +52,20 @@ const Eui = () => {
     fetchData();
   }, []);
 
+  const onKeyDown = e => {
+    if (e.metaKey && e.which === 75) {
+      setIsSearchModalOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
   if (loading) {
     return (
       <div className="h-screen w-full">

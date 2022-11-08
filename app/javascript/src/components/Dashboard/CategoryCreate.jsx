@@ -3,6 +3,7 @@ import React from "react";
 import { Formik, Form } from "formik";
 import { Check, Close } from "neetoicons";
 import { Input as FormikInput, Button } from "neetoui/formik";
+import TooltipWrapper from "tooltipwrapper";
 
 import categoriesApi from "apis/Api/categories";
 
@@ -10,8 +11,6 @@ import {
   NEW_CATEGORY_FORM_VALIDATION_SCHEMA,
   NEW_CATEGORY_INITIAL_VALUE,
 } from "./constants";
-
-import TooltipWrapper from "../TooltipWrapper";
 
 const CategoryCreate = ({ setIsCreating, refetch }) => {
   const handleSubmit = async values => {

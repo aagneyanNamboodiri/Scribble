@@ -2,11 +2,10 @@ import React, { useState } from "react";
 
 import { Reorder, Delete, Edit } from "neetoicons";
 import { Button, Typography } from "neetoui";
+import TooltipWrapper from "tooltipwrapper";
 
 import DeleteModal from "./DeleteModal";
 import Form from "./Form";
-
-import TooltipWrapper from "../../TooltipWrapper";
 
 const Card = ({ category, refetch, categoryList, provided }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);

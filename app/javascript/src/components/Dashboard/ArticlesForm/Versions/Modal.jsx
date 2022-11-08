@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 import { Modal, Typography, Button, Input, Textarea, Select } from "neetoui";
+import TooltipWrapper from "tooltipwrapper";
 
 import versionsApi from "apis/Api/article_versions";
 import articlesApi from "apis/Api/articles";
 
-import { buildCategoryList } from "./utils";
-
-import TooltipWrapper from "../../TooltipWrapper";
+import { buildCategoryList } from "../utils";
 
 const VersionModal = ({
   showVersionModal,
@@ -46,7 +45,7 @@ const VersionModal = ({
         ...article,
         status: "draft",
         assigned_category_id: selectedCategory,
-        is_restoration: true,
+        restored_from: versionId,
       };
       await articlesApi.update({ id: articleId, payload });
     } catch (error) {
@@ -54,7 +53,6 @@ const VersionModal = ({
     } finally {
       fetchData();
       setLoading(false);
-      //window.location.reload();
       setShowVersionModal(false);
     }
   };
@@ -64,7 +62,7 @@ const VersionModal = ({
   }, []);
 
   if (loading) {
-    return <div>loading</div>;
+    return <div />;
   }
 
   return (

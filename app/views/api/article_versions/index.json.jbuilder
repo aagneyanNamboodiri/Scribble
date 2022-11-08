@@ -5,5 +5,5 @@ json.versions @versions_data do |version|
     :id,
     :status,
     :time,
-    :is_restoration
+    :restoration_date
 end

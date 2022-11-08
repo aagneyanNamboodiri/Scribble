@@ -151,19 +151,4 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal @article.id, response_json["id"]
   end
-
-  def test_restoring_article_sets_version_event_as_restored
-    new_title = "#{@article.title}-(updated)"
-    article_params = {
-      article: {
-        title: new_title, assigned_category_id: @category.id, body: "New Body",
-        status: "published", is_restoration: true
-      }
-    }
-    put api_article_path(@article.id), params: article_params, headers: headers
-
-    assert_response :success
-    @article.reload
-    assert_equal "restored", @article.versions.last.event
-  end
 end

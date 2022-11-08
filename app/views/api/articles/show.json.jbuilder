@@ -7,4 +7,5 @@ json.extract! @article,
   :slug,
   :assigned_category,
   :status,
-  :created_at
+  :created_at,
+  :updated_at

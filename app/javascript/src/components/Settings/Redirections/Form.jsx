@@ -4,13 +4,12 @@ import { Formik, Form as FormikForm } from "formik";
 import { Check, Close } from "neetoicons";
 import { Typography } from "neetoui";
 import { Button, Input } from "neetoui/formik";
+import TooltipWrapper from "tooltipwrapper";
 
 import redirectionsApi from "apis/Api/redirections";
 
 import { INITIAL_VALUES, validationSchema } from "./constants";
 import { buildInitialValues } from "./utils";
-
-import TooltipWrapper from "../../TooltipWrapper";
 
 const Form = ({ isEditing, setAction, redirection, refetch }) => {
   const handleSubmit = async redirections => {

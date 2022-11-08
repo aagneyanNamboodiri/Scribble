@@ -8,7 +8,7 @@ import categoriesApi from "apis/Api/categories";
 import { useArticleStatusDispatchContext } from "contexts/articleStatus";
 
 import Form from "./Form";
-import VersionList from "./VersionList";
+import VersionList from "./Versions";
 
 const CreateAndEdit = () => {
   const [loading, setLoading] = useState(true);
@@ -76,7 +76,7 @@ const CreateAndEdit = () => {
         <VersionList
           article={fetchedArticle}
           categories={categories}
-          className="w-1/3"
+          className="h-24 w-1/3"
           fetchData={fetchData}
         />
       )}
