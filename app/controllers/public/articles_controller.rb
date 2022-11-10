@@ -15,7 +15,6 @@ class Public::ArticlesController < Public::BaseController
       respond_with_error(t("doesnt_exist", entity: "Article"))
     end
     @article.article_visits.create!(visit_date: Time.zone.now.to_date)
-    @article.increment!(:visits)
   end
 
   def get_published_articles

@@ -5,6 +5,7 @@ json.articles @articles do |article|
     :id,
     :title,
     :updated_at,
-    :visits
+    :slug
+  json.visits article.article_visits.count
   json.category_name article.assigned_category.name
 end

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { PageLoader, Table, Typography } from "neetoui";
 
-import articlesApi from "apis/Api/articles";
+import analyticsApi from "apis/Api/analytics";
 
 import { COLUMN_DATA } from "./constants";
 
@@ -18,7 +18,7 @@ const Analytics = () => {
       setLoading(true);
       const {
         data: { articles },
-      } = await articlesApi.list({ article_status: "published" });
+      } = await analyticsApi.list();
       setArticles(articles);
     } catch (error) {
       logger.error(error);
