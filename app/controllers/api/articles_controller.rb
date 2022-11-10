@@ -39,10 +39,6 @@ class Api::ArticlesController < ApplicationController
     respond_with_success(t("successfully_destroyed", entity: "Article"))
   end
 
-  def visits
-    @visits = { visit_count: @article.article_visits.group(:visit_date).count }
-  end
-
   private
 
     def search_params
