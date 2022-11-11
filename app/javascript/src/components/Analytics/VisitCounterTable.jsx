@@ -12,8 +12,8 @@ const VisitCounterTable = ({ record }) => {
   const [visits, setVisits] = useState({});
 
   const fetchAnalytics = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       if (!visits[record.id]) {
         const {
           data: { visit_count },

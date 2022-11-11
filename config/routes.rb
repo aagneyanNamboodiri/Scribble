@@ -5,9 +5,6 @@ Rails.application.routes.draw do
     namespace :api do
       resources :articles, except: %i[new edit], param: :id do
         resources :article_versions, only: %i[index show]
-        member do
-          get "visits"
-        end
       end
       resources :categories, except: %i[show new edit] do
         member do
