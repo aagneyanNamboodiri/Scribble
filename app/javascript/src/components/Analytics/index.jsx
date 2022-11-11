@@ -13,6 +13,7 @@ const Analytics = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [currentTablePage, setCurrentTablePage] = useState(1);
+
   const fetchArticles = async () => {
     try {
       setLoading(true);

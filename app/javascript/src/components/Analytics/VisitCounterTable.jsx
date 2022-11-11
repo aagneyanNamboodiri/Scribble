@@ -4,7 +4,7 @@ import { Table } from "neetoui";
 
 import analyticsApi from "apis/Api/analytics";
 
-import { MINI_VISITS_TABLE_COLUMN_DATA } from "./constants";
+import { VISITS_SUBTABLE_COLUMN_DATA } from "./constants";
 import { buildRowData } from "./utils";
 
 const VisitCounterTable = ({ record }) => {
@@ -14,10 +14,12 @@ const VisitCounterTable = ({ record }) => {
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
-      const {
-        data: { visit_count },
-      } = await analyticsApi.show(record.id);
-      setVisits({ ...visits, [record.id]: visit_count });
+      if (!visits[record.id]) {
+        const {
+          data: { visit_count },
+        } = await analyticsApi.show(record.id);
+        setVisits({ ...visits, [record.id]: visit_count });
+      }
     } catch (error) {
       logger.error(error);
     } finally {
@@ -35,7 +37,7 @@ const VisitCounterTable = ({ record }) => {
 
   return (
     <Table
-      columnData={MINI_VISITS_TABLE_COLUMN_DATA}
+      columnData={VISITS_SUBTABLE_COLUMN_DATA}
       rowData={buildRowData(record, visits)}
     />
   );

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::AnalyticsController < ApplicationController
-  before_action :load_article!, only: %i[show update destroy visits]
+  before_action :load_article!, only: %i[show]
 
   def index
     @articles = current_user.articles.where(status: "published")

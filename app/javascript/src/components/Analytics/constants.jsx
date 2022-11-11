@@ -52,7 +52,7 @@ export const COLUMN_DATA = [
   },
 ];
 
-export const MINI_VISITS_TABLE_COLUMN_DATA = [
+export const VISITS_SUBTABLE_COLUMN_DATA = [
   {
     dataIndex: "visit_date",
     key: "Date",
