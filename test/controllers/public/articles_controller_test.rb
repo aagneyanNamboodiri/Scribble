@@ -48,24 +48,21 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_showing_article_increments_visits
     slug_to_get = @article.slug
-    visits_previously = @article.visits
     post api_login_path, params: { password: "admin1" },
       headers: headers
-    get public_article_path(slug_to_get), headers: headers
-    assert_response :success
-
-    @article.reload
-    assert_equal visits_previously + 1, @article.visits
+    assert_difference "@article.article_visits.count", 1 do
+      get public_article_path(slug_to_get), headers: headers
+    end
   end
 
   def test_unauthorized_user_doesnt_increment_visits
     slug_to_get = @article.slug
-    visits_previously = @article.visits
+    visits_previously = @article.article_visits.count
     get public_article_path(slug_to_get), headers: headers
     assert_response :unauthorized
 
     @article.reload
-    assert_equal visits_previously, @article.visits
+    assert_equal visits_previously, @article.article_visits.count
   end
 
   def test_lists_articles_when_searched
