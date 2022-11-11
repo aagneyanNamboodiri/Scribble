@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       end
       resource :organization, only: %i[show update]
       resources :redirections, except: %i[new edit show]
+      resources :analytics, only: %i[index show]
       post "/login", to: "login#create"
     end
     namespace :public do

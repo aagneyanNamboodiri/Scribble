@@ -12,11 +12,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_07_153102) do
+ActiveRecord::Schema.define(version: 2022_11_11_095445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "article_visits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.date "visit_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "article_id"
+    t.index ["article_id"], name: "index_article_visits_on_article_id"
+  end
 
   create_table "articles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "title", null: false
@@ -27,7 +35,6 @@ ActiveRecord::Schema.define(version: 2022_11_07_153102) do
     t.string "status", default: "draft", null: false
     t.uuid "user_id", null: false
     t.uuid "assigned_category_id", null: false
-    t.integer "visits", default: 0, null: false
     t.integer "restored_from"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
@@ -84,6 +91,7 @@ ActiveRecord::Schema.define(version: 2022_11_07_153102) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "article_visits", "articles"
   add_foreign_key "articles", "categories", column: "assigned_category_id"
   add_foreign_key "articles", "users"
   add_foreign_key "categories", "users"

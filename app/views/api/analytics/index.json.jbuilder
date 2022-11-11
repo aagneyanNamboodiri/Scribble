@@ -3,12 +3,9 @@
 json.articles @articles do |article|
   json.extract! article,
     :id,
-    :slug,
     :title,
     :updated_at,
-    :created_at,
-    :status
-  json.user_name article.user.name
+    :slug
+  json.visits article.article_visits.count
   json.category_name article.assigned_category.name
-
 end
