@@ -51,3 +51,18 @@ export const COLUMN_DATA = [
     render: visits => <Typography style="body2">{visits}</Typography>,
   },
 ];
+
+export const MINI_VISITS_TABLE_COLUMN_DATA = [
+  {
+    dataIndex: "visit_date",
+    key: "Date",
+    title: "Date",
+    width: 100,
+  },
+  {
+    dataIndex: "visit_count",
+    key: "Visits",
+    title: "Visits",
+    width: 100,
+  },
+];

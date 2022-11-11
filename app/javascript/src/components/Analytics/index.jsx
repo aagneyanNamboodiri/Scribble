@@ -5,6 +5,7 @@ import { PageLoader, Table, Typography } from "neetoui";
 import analyticsApi from "apis/Api/analytics";
 
 import { COLUMN_DATA } from "./constants";
+import VisitCounterTable from "./VisitCounterTable";
 
 import Navbar from "../Navbar";
 
@@ -12,7 +13,6 @@ const Analytics = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [currentTablePage, setCurrentTablePage] = useState(1);
-
   const fetchArticles = async () => {
     try {
       setLoading(true);
@@ -51,6 +51,14 @@ const Analytics = () => {
               defaultPageSize={10}
               handlePageChange={e => setCurrentTablePage(e)}
               rowData={articles}
+              expandable={{
+                rowExpandable: record => record.visits > 0,
+                expandedRowRender: record => (
+                  <div>
+                    <VisitCounterTable record={record} />
+                  </div>
+                ),
+              }}
             />
           </div>
         ) : (
