@@ -9,7 +9,7 @@ class Article < ApplicationRecord
 
   belongs_to :assigned_category, class_name: "Category", counter_cache: true
   belongs_to :user
-  has_many :article_visits
+  has_many :article_visits, dependent: :destroy
 
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }, format: VALID_TITLE_REGEX
   validates :body, presence: true, length: { maximum: MAX_BODY_LENGTH }
