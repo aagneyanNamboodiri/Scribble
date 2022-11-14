@@ -53,6 +53,6 @@ class RedirctionTest < ActiveSupport::TestCase
     FrontendRoute.create!(route: "settings")
     @redirection_two.from_path = "settings"
     assert_not @redirection_two.valid?
-    assert_includes "This FROM PATH cannot be used.", @redirection_two.errors.full_messages[0]
+    assert_includes t("invalid_from_path"), @redirection_two.errors.full_messages[0]
   end
 end

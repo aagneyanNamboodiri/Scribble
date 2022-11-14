@@ -11,7 +11,7 @@ const Header = ({ setIsSearchModalOpen, isSearchEnabled }) => {
   return (
     <div className="border-b flex justify-center py-2">
       {isSearchEnabled && (
-        <div className="flex">
+        <div>
           <Input
             className="pl-2"
             placeholder="CMD + K to search"

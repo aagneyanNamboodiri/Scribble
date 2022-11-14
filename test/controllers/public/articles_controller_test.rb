@@ -91,6 +91,6 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
 
     response_json = response.parsed_body
-    assert_equal "Article doesn't exist!", response_json["error"]
+    assert_equal t("doesnt_exist", entity: "Article"), response_json["error"]
   end
 end
