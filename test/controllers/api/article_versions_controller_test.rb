@@ -84,6 +84,6 @@ class Api::ArticleVersionsControllerTest < ActionDispatch::IntegrationTest
 
     response_json = response.parsed_body
     versions = response_json["versions"]
-    assert_not nil, versions[0]
+    assert_not nil, versions[0]["restoration_date"]
   end
 end

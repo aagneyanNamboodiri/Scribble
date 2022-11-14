@@ -81,4 +81,16 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal response_json["articles"].count, articles_with_search.count
     assert_equal response_json["articles"].first["id"], articles_with_search.first.id
   end
+
+  def test_invalid_slug_gives_error_message
+    @article.save!
+    slug_to_get = @article.slug + "extra string"
+    post api_login_path, params: { password: "admin1" },
+      headers: headers
+    get public_article_path(slug_to_get), headers: headers
+    assert_response :unprocessable_entity
+
+    response_json = response.parsed_body
+    assert_equal "Article doesn't exist!", response_json["error"]
+  end
 end
