@@ -32,7 +32,7 @@ const VisitCounterTable = ({ record }) => {
   }, []);
 
   if (loading) {
-    return <div />;
+    return <div>Loading</div>;
   }
 
   return (

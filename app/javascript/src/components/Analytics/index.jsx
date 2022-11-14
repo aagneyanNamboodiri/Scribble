@@ -18,9 +18,11 @@ const Analytics = () => {
   const fetchArticles = async () => {
     try {
       setLoading(true);
-      const { data } = await analyticsApi.list(currentTablePage);
-      setArticles(data.articles);
-      setTotalArticleCount(data.article_count);
+      const {
+        data: { articles, article_count },
+      } = await analyticsApi.list(currentTablePage);
+      setArticles(articles);
+      setTotalArticleCount(article_count);
     } catch (error) {
       logger.error(error);
     } finally {
