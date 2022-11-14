@@ -13,14 +13,14 @@ const Analytics = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [currentTablePage, setCurrentTablePage] = useState(1);
+  const [totalArticleCount, setTotalArticleCount] = useState(0);
 
   const fetchArticles = async () => {
     try {
       setLoading(true);
-      const {
-        data: { articles },
-      } = await analyticsApi.list();
-      setArticles(articles);
+      const { data } = await analyticsApi.list(currentTablePage);
+      setArticles(data.articles);
+      setTotalArticleCount(data.article_count);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -30,7 +30,7 @@ const Analytics = () => {
 
   useEffect(() => {
     fetchArticles();
-  }, []);
+  }, [currentTablePage]);
 
   if (loading) {
     return (
@@ -52,6 +52,7 @@ const Analytics = () => {
               defaultPageSize={10}
               handlePageChange={e => setCurrentTablePage(e)}
               rowData={articles}
+              totalCount={totalArticleCount}
               expandable={{
                 rowExpandable: record => record.visits > 0,
                 expandedRowRender: record => (

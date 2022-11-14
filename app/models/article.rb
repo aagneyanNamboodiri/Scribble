@@ -3,6 +3,7 @@
 class Article < ApplicationRecord
   MAX_TITLE_LENGTH = 200
   MAX_BODY_LENGTH = 5000
+  PAGE_LIMIT = 10
   VALID_TITLE_REGEX = /[a-zA-Z0-9]+/
 
   enum status: { published: "published", draft: "draft" }

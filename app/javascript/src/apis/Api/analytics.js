@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const list = () => axios.get("api/analytics");
+const list = currentTablePage =>
+  axios.get(`api/analytics?page_number=${currentTablePage}`);
 
 const show = id => axios.get(`api/analytics/${id}`);
 
