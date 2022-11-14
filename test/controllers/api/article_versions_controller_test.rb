@@ -21,27 +21,13 @@ class Api::ArticleVersionsControllerTest < ActionDispatch::IntegrationTest
     put api_article_path(@article.id), params: article_params, headers: headers
     assert_response :success
 
-    article_params = {
-      article: {
-        title: "Title tested again", assigned_category_id: @category.id, body: "New Body",
-        status: "published"
-      }
-    }
-    put api_article_path(@article.id), params: article_params, headers: headers
-    assert_response :success
-
-    article_params = {
-      article: {
-        title: "Tested title 3", assigned_category_id: @category.id, body: "New Body",
-        status: "published"
-      }
-    }
-    put api_article_path(@article.id), params: article_params, headers: headers
-    assert_response :success
+    @article.update!(
+      title: "Tested title 3", assigned_category_id: @category.id, body: "New Body",
+      status: "published", restored_from: @article.versions.last.id)
   end
 
   def test_updating_article_creates_paper_trail_entries
-    assert_difference "@article.versions.count", 3 do
+    assert_difference "@article.versions.count", 2 do
       update_articles_for_creating_versions
     end
   end
@@ -64,5 +50,40 @@ class Api::ArticleVersionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     response_json = response.parsed_body
     assert_equal versioned_article.title, response_json["title"]
+  end
+
+  def test_article_update_doesnt_store_restoration_information
+    new_title = "#{@article.title}-(updated)"
+    article_params = {
+      article: {
+        title: new_title, assigned_category_id: @category.id, body: "New Body",
+        status: "published"
+      }
+    }
+    put api_article_path(@article.id), params: article_params, headers: headers
+
+    assert_response :success
+    @article.reload
+    assert_nil @article.restored_from
+  end
+
+  def test_restoring_article_stores_restored_from_version_id
+    update_articles_for_creating_versions
+    new_title = "#{@article.title}-(updated)"
+    article_params = {
+      article: {
+        title: new_title, assigned_category_id: @category.id, body: "New Body",
+        status: "published", restored_from: nil
+      }
+    }
+    put api_article_path(@article.id), params: article_params, headers: headers
+    assert_response :success
+
+    get api_article_article_versions_path(@article.id), headers: headers
+    assert_response :success
+
+    response_json = response.parsed_body
+    versions = response_json["versions"]
+    assert_not nil, versions[0]
   end
 end
