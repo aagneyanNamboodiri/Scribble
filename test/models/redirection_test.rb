@@ -48,4 +48,11 @@ class RedirctionTest < ActiveSupport::TestCase
     "redirection. Loop path : another->something->another",
       @redirection_two.errors.full_messages[0]
   end
+
+  def test_redirection_from_path_cannot_be_app_frontend_route
+    FrontendRoute.create!(route: "settings")
+    @redirection_two.from_path = "settings"
+    assert_not @redirection_two.valid?
+    assert_includes t("invalid_from_path"), @redirection_two.errors.full_messages[0]
+  end
 end

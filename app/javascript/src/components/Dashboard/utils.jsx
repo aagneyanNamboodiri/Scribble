@@ -48,7 +48,7 @@ export const buildColumns = handleDelete => {
       dataIndex: "updated_at",
       key: "Date",
       title: "Last published at",
-      width: 170,
+      width: 180,
       render: (udpated_at, { slug }) => (
         <Typography style="body2">
           {slug ? formatTime(udpated_at) : "-"}

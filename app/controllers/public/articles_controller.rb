@@ -13,8 +13,9 @@ class Public::ArticlesController < Public::BaseController
     @article = get_published_articles.find_by(slug: params[:slug])
     if !@article
       respond_with_error(t("doesnt_exist", entity: "Article"))
+    else
+      @article.article_visits.create!(visit_date: Time.zone.now.to_date)
     end
-    @article.article_visits.create!(visit_date: Time.zone.now.to_date)
   end
 
   def get_published_articles

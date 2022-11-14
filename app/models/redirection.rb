@@ -43,7 +43,7 @@ class Redirection < ApplicationRecord
       if frontend_routes.include?(from_path) || from_path.start_with?("settings?") || from_path.start_with?("public/")
         errors.add(
           :base,
-          "This FROM PATH cannot be used.")
+          t("invalid_from_path"))
       end
     end
 end

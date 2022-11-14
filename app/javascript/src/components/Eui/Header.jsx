@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Search } from "neetoicons";
 import { Typography, Input } from "neetoui";
 
 import { useOrganizationState } from "contexts/organization";
@@ -13,7 +14,8 @@ const Header = ({ setIsSearchModalOpen, isSearchEnabled }) => {
         <div>
           <Input
             className="pl-2"
-            placeholder="Search for article title"
+            placeholder="CMD + K to search"
+            prefix={<Search />}
             onClick={() => setIsSearchModalOpen(true)}
           />
         </div>

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import article_versionsApi from "apis/Api/article_versions";
 
 import Card from "./Card";
-import VersionModal from "./Modal";
+import Modal from "./Modal";
 
 const VersionList = ({ fetchData, article, categories }) => {
   const [loading, setLoading] = useState(true);
@@ -39,7 +39,7 @@ const VersionList = ({ fetchData, article, categories }) => {
   }, []);
 
   if (loading) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -62,7 +62,7 @@ const VersionList = ({ fetchData, article, categories }) => {
         ))}
       </div>
       {showVersionModal && (
-        <VersionModal
+        <Modal
           articleId={id}
           categories={categories}
           fetchData={fetchData}

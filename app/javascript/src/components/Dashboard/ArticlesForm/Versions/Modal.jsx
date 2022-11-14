@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import { Modal, Typography, Button, Input, Textarea, Select } from "neetoui";
+import {
+  Modal as NeetoUIModal,
+  Typography,
+  Button,
+  Input,
+  Textarea,
+  Select,
+} from "neetoui";
 import TooltipWrapper from "tooltipwrapper";
 
 import versionsApi from "apis/Api/article_versions";
@@ -8,7 +15,7 @@ import articlesApi from "apis/Api/articles";
 
 import { buildCategoryList } from "../utils";
 
-const VersionModal = ({
+const Modal = ({
   showVersionModal,
   setShowVersionModal,
   versionId,
@@ -66,20 +73,20 @@ const VersionModal = ({
   }
 
   return (
-    <Modal
+    <NeetoUIModal
       isOpen={showVersionModal}
       size="large"
       onClose={() => setShowVersionModal(false)}
     >
-      <Modal.Header description="Article versions cannot be edited here! Please restore to edit.">
+      <NeetoUIModal.Header description="Article versions cannot be edited here! Please restore to edit.">
         <Typography id="dialog1Title" style="h2">
           Version History
         </Typography>
         <Typography className="text-gray-500" id="dialogue2body" style="body2">
           {`Version history of ${article.title} in Scribble`}
         </Typography>
-      </Modal.Header>
-      <Modal.Body className="h-full space-y-2">
+      </NeetoUIModal.Header>
+      <NeetoUIModal.Body className="h-full space-y-2">
         <div className="flex space-x-2">
           <Input
             disabled
@@ -112,8 +119,8 @@ const VersionModal = ({
           size="large"
           value={article.body}
         />
-      </Modal.Body>
-      <Modal.Footer className="flex space-x-2">
+      </NeetoUIModal.Body>
+      <NeetoUIModal.Footer className="flex space-x-2">
         <TooltipWrapper
           content="Previous category doesnt exist. Please select new category from the list"
           disabled={!selectedCategory}
@@ -130,9 +137,9 @@ const VersionModal = ({
           style="text"
           onClick={() => setShowVersionModal(false)}
         />
-      </Modal.Footer>
-    </Modal>
+      </NeetoUIModal.Footer>
+    </NeetoUIModal>
   );
 };
 
-export default VersionModal;
+export default Modal;
