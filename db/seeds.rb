@@ -73,4 +73,4 @@ def seed_frontend_routes!
   FrontendRoute.create!(route: "public")
 end
 
-create_sample_data
+create_sample_data!
