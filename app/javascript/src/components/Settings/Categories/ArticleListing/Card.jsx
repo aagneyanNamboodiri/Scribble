@@ -13,7 +13,9 @@ const Card = ({ article }) => {
     <div className="border m-3 w-full space-y-2 p-4 hover:shadow-md">
       <Checkbox checked={checked} onChange={() => setChecked(prev => !prev)} />
       <div className="flex justify-between">
-        <Typography style="h3">{article.title}</Typography>
+        <Typography style="h3" weight="medium">
+          {article.title}
+        </Typography>
       </div>
       <div className="text-gray-800">
         <Typography style="body2">{article.body}</Typography>

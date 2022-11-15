@@ -124,7 +124,10 @@ const Categories = () => {
         </div>
       </div>
       <div className="w-2/3">
-        <ArticleListing selectedCategory={selectedCategory} />
+        <ArticleListing
+          categories={categories}
+          selectedCategory={selectedCategory}
+        />
       </div>
     </div>
   );

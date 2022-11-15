@@ -26,3 +26,9 @@ export const buildDeleteModalSelectValidationSchema = categoryList => {
 
   return validationSchema;
 };
+
+export const buildCategoryList = categories =>
+  categories.map(category => ({
+    value: category.id,
+    label: category.name,
+  }));
