@@ -1,4 +1,12 @@
+import dayjs from "dayjs";
 import * as yup from "yup";
+
+var advancedFormat = require("dayjs/plugin/advancedFormat");
+
+dayjs.extend(advancedFormat);
+
+export const formatTime = dateTime =>
+  dateTime === "-" ? "-" : dayjs(dateTime).format("MMMM Do, YYYY");
 
 export const buildDeleteModalSelectValidationSchema = categoryList => {
   const validationSchema = yup.object().shape({

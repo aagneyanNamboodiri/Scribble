@@ -4,6 +4,8 @@ import { PageLoader } from "neetoui";
 
 import categoriesApi from "apis/Api/categories";
 
+import Card from "./Card";
+
 const ArticleListing = ({ selectedCategory }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
@@ -34,7 +36,15 @@ const ArticleListing = ({ selectedCategory }) => {
     );
   }
 
-  return <div>{JSON.stringify(articles)}</div>;
+  return (
+    <div>
+      {articles.map(item => (
+        <div className="p-2" key={item.id}>
+          <Card article={item} />
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default ArticleListing;
