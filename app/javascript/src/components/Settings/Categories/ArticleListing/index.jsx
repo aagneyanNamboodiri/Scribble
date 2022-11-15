@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 const ArticleListing = ({ selectedCategory }) => {
-  const [bruh, setBruh] = useState("something");
+  const [placeholder, setPlaceholder] = useState("something");
   useEffect(() => {
-    setBruh("Articles");
+    setPlaceholder("Articles");
   }, []);
 
   return (
     <div>
-      {bruh}, {JSON.stringify(selectedCategory)}
+      {placeholder}, {JSON.stringify(selectedCategory)}
     </div>
   );
 };
