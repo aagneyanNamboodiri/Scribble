@@ -7,7 +7,14 @@ import TooltipWrapper from "tooltipwrapper";
 import DeleteModal from "./DeleteModal";
 import Form from "./Form";
 
-const Card = ({ category, refetch, categoryList, provided }) => {
+const Card = ({
+  category,
+  refetch,
+  categoryList,
+  provided,
+  setSelectedCategory,
+  selectedCategory,
+}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState({});
   const [isEditing, setIsEditing] = useState(false);
@@ -30,10 +37,13 @@ const Card = ({ category, refetch, categoryList, provided }) => {
     </div>
   ) : (
     <div
-      className="rounded mt-2 flex w-full justify-between p-2 hover:bg-indigo-100"
       ref={provided.innerRef}
+      className={`rounded mt-2 flex w-full justify-between p-2 hover:bg-indigo-100 ${
+        selectedCategory.id === category.id ? "bg-indigo-100" : ""
+      }`}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
+      onClick={() => setSelectedCategory(category)}
     >
       <div className="flex-col">
         <Typography style="h4" weight="medium">

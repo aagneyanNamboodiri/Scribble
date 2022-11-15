@@ -6,6 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/Api/categories";
 
+import ArticleListing from "./ArticleListing";
 import Card from "./Card";
 import Form from "./Form";
 
@@ -13,6 +14,7 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState({});
 
   const handleOnDragEnd = result => {
     if (!result.destination) return;
@@ -42,6 +44,7 @@ const Categories = () => {
         data: { categories },
       } = await categoriesApi.list();
       setCategories(categories);
+      setSelectedCategory(categories[0]);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -62,14 +65,13 @@ const Categories = () => {
   }
 
   return (
-    <div className="flex w-full justify-center py-4">
-      <div className="w-1/2 flex-col">
-        <div className="flex justify-between">
+    <div className="flex w-full px-4">
+      <div className="border-r w-1/3 flex-col p-2">
+        <div className="flex justify-between px-2 pt-1">
           <Typography style="h2" weight="medium">
             Manage Categories
           </Typography>
           <Button
-            className="pt-3"
             icon={() => <Plus size={16} />}
             size="small"
             onClick={() => setIsCreating(true)}
@@ -108,6 +110,8 @@ const Categories = () => {
                           key={category.id}
                           provided={provided}
                           refetch={fetchCategories}
+                          selectedCategory={selectedCategory}
+                          setSelectedCategory={setSelectedCategory}
                         />
                       )}
                     </Draggable>
@@ -119,6 +123,7 @@ const Categories = () => {
           </DragDropContext>
         </div>
       </div>
+      <ArticleListing selectedCategory={selectedCategory} />
     </div>
   );
 };
