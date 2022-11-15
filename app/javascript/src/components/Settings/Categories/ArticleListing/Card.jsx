@@ -6,11 +6,16 @@ import TooltipWrapper from "tooltipwrapper";
 
 import { daysFromNowFormat, formatTime } from "../utils";
 
-const Card = ({ article }) => {
+const Card = ({ article, provided }) => {
   const [checked, setChecked] = useState(false);
 
   return (
-    <div className="border m-3 w-full space-y-2 p-4 hover:shadow-md">
+    <div
+      className="border m-3 w-full space-y-2 p-4 hover:shadow-md"
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+    >
       <Checkbox checked={checked} onChange={() => setChecked(prev => !prev)} />
       <div className="flex justify-between">
         <Typography style="h3" weight="medium">

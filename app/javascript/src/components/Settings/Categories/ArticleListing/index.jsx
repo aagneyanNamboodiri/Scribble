@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { PageLoader, Typography, Select } from "neetoui";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/Api/categories";
 
@@ -11,6 +12,15 @@ import { buildCategoryList } from "../utils";
 const ArticleListing = ({ selectedCategory, categories }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
+
+  const handleOnDragEnd = result => {
+    if (!result.destination) return;
+    const items = Array.from(articles);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setArticles(items);
+  };
 
   const fetchCategories = async () => {
     try {
@@ -63,11 +73,33 @@ const ArticleListing = ({ selectedCategory, categories }) => {
           </span>
         </Typography>
       </div>
-      {articles.map(item => (
+      {/* {articles.map(item => (
         <div key={item.id}>
           <Card article={item} />
         </div>
-      ))}
+      ))} */}
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="articles">
+          {provided => (
+            <ul
+              className="articles"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {articles.map((article, index) => (
+                <Draggable
+                  draggableId={article.id.toString()}
+                  index={index}
+                  key={article.id}
+                >
+                  {provided => <Card article={article} provided={provided} />}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };
