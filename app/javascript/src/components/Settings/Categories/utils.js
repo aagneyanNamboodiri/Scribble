@@ -32,3 +32,6 @@ export const buildCategoryList = categories =>
     value: category.id,
     label: category.name,
   }));
+
+export const getArticleStatusString = status =>
+  status === "published" ? "Published" : "Drafted";

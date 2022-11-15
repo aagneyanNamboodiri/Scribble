@@ -4,7 +4,11 @@ import { Clock } from "neetoicons";
 import { Checkbox, Typography, Tag } from "neetoui";
 import TooltipWrapper from "tooltipwrapper";
 
-import { daysFromNowFormat, formatTime } from "../utils";
+import {
+  daysFromNowFormat,
+  formatTime,
+  getArticleStatusString,
+} from "../utils";
 
 const Card = ({ article, provided }) => {
   const [checked, setChecked] = useState(false);
@@ -35,14 +39,14 @@ const Card = ({ article, provided }) => {
           position="bottom"
         >
           <Typography className="pr-2 text-gray-500" style="body3">
-            {`${
-              article.status === "published" ? "Published" : "Drafted"
-            } ${daysFromNowFormat(article.updated_at)}`}
+            {`${getArticleStatusString(article.status)} ${daysFromNowFormat(
+              article.updated_at
+            )}`}
           </Typography>
         </TooltipWrapper>
         <Tag
           className="bg-gray-100"
-          label={article.status === "published" ? "Published" : "Drafted"}
+          label={getArticleStatusString(article.status)}
           style={article.status === "published" ? "success" : "warning"}
           type="solid"
         />

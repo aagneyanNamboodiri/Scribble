@@ -22,7 +22,7 @@ const ArticleListing = ({ selectedCategory, categories }) => {
     setArticles(items);
   };
 
-  const fetchCategories = async () => {
+  const fetchArticles = async () => {
     try {
       setLoading(true);
       const {
@@ -37,10 +37,8 @@ const ArticleListing = ({ selectedCategory, categories }) => {
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchArticles();
   }, [selectedCategory]);
-
-  const handleHideInfo = () => {};
 
   if (loading) {
     return (
@@ -68,7 +66,7 @@ const ArticleListing = ({ selectedCategory, categories }) => {
         <Typography className="rounded bg-indigo-100 p-2" style="body3">
           You can reorder articles or categories by dragging and dropping here.
           You can also multiselect articles and move them to another category.{" "}
-          <span className="cursor-pointer underline" onClick={handleHideInfo}>
+          <span className="cursor-pointer underline">
             Dont show this info again
           </span>
         </Typography>
