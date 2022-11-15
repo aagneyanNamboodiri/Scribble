@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import { Plus } from "neetoicons";
-import { Typography, PageLoader } from "neetoui";
+import { Typography, PageLoader, Button } from "neetoui";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/Api/categories";
 
+import ArticleListing from "./ArticleListing";
 import Card from "./Card";
 import Form from "./Form";
 
@@ -13,6 +14,7 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState({});
 
   const handleOnDragEnd = result => {
     if (!result.destination) return;
@@ -42,6 +44,7 @@ const Categories = () => {
         data: { categories },
       } = await categoriesApi.list();
       setCategories(categories);
+      setSelectedCategory(categories[0]);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -62,73 +65,65 @@ const Categories = () => {
   }
 
   return (
-    <div className="flex w-full justify-center py-4">
-      <div className="w-1/2 flex-col">
-        <div className="space-y-10">
-          <div className="flex-col space-y-2">
-            <Typography style="h2" weight="medium">
-              Manage Categories
-            </Typography>
-            <Typography className="text-gray-600" style="body2">
-              Create and configure categories inside your scribble
-            </Typography>
-          </div>
-          <div className="w-full flex-col space-y-1">
-            <div className=" flex w-full justify-between py-3">
-              <div className="flex space-x-2">
-                {isCreating ? (
-                  <Form
-                    isEditing={!isCreating}
-                    refetch={fetchCategories}
-                    setAction={setIsCreating}
-                  />
-                ) : (
-                  <>
-                    <Plus
-                      color="#3182ce"
-                      size="20"
-                      onClick={() => setIsCreating(true)}
-                    />
-                    <Typography className="text-indigo-500" style="body2">
-                      Add new category
-                    </Typography>
-                  </>
-                )}
-              </div>
+    <div className="flex w-full px-4">
+      <div className="border-r w-1/3 flex-col p-2">
+        <div className="flex justify-between px-2 pt-1">
+          <Typography style="h2" weight="medium">
+            Manage Categories
+          </Typography>
+          <Button
+            icon={() => <Plus size={16} />}
+            size="small"
+            onClick={() => setIsCreating(true)}
+          />
+        </div>
+        <div className="w-full flex-col space-y-1">
+          <div className=" flex w-full justify-between py-3">
+            <div className="flex space-x-2">
+              {isCreating && (
+                <Form
+                  isEditing={!isCreating}
+                  refetch={fetchCategories}
+                  setAction={setIsCreating}
+                />
+              )}
             </div>
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="categories">
-                {provided => (
-                  <ul
-                    className="categories"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {categories.map((category, index) => (
-                      <Draggable
-                        draggableId={category.id.toString()}
-                        index={index}
-                        key={category.id}
-                      >
-                        {provided => (
-                          <Card
-                            category={category}
-                            categoryList={categories}
-                            key={category.id}
-                            provided={provided}
-                            refetch={fetchCategories}
-                          />
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-            </DragDropContext>
           </div>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="categories">
+              {provided => (
+                <ul
+                  className="categories"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {categories.map((category, index) => (
+                    <Draggable
+                      draggableId={category.id.toString()}
+                      index={index}
+                      key={category.id}
+                    >
+                      {provided => (
+                        <Card
+                          category={category}
+                          categoryList={categories}
+                          key={category.id}
+                          provided={provided}
+                          refetch={fetchCategories}
+                          selectedCategory={selectedCategory}
+                          setSelectedCategory={setSelectedCategory}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
       </div>
+      <ArticleListing selectedCategory={selectedCategory} />
     </div>
   );
 };

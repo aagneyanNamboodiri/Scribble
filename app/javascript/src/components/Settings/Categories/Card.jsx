@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 
-import { Reorder, Delete, Edit } from "neetoicons";
-import { Button, Typography } from "neetoui";
+import { MenuVertical } from "neetoicons";
+import { Typography, Dropdown } from "neetoui";
 import TooltipWrapper from "tooltipwrapper";
 
 import DeleteModal from "./DeleteModal";
 import Form from "./Form";
 
-const Card = ({ category, refetch, categoryList, provided }) => {
+const Card = ({
+  category,
+  refetch,
+  categoryList,
+  provided,
+  setSelectedCategory,
+  selectedCategory,
+}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+
+  const { Menu, MenuItem, Divider } = Dropdown;
 
   const handleDelete = () => {
     setCategoryToDelete(category);
@@ -18,8 +27,7 @@ const Card = ({ category, refetch, categoryList, provided }) => {
   };
 
   return isEditing ? (
-    <div className="border-t flex space-x-2 pt-2">
-      <Reorder size="20" />
+    <div className="flex space-x-2 pt-2">
       <Form
         category={category}
         isEditing={isEditing}
@@ -29,35 +37,50 @@ const Card = ({ category, refetch, categoryList, provided }) => {
     </div>
   ) : (
     <div
-      className="border-t flex w-full justify-between pt-3"
       ref={provided.innerRef}
+      className={`rounded mt-2 flex w-full justify-between p-2 hover:bg-indigo-100 ${
+        selectedCategory.id === category.id ? "bg-indigo-100" : ""
+      }`}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
+      onClick={() => setSelectedCategory(category)}
     >
-      <div className="flex space-x-2">
-        <Reorder size="20" />
-        <Typography style="body2">{category.name}</Typography>
+      <div className="flex-col">
+        <Typography style="h4" weight="medium">
+          {category.name}
+        </Typography>
+        <Typography className="text-gray-600" style="body3">
+          {`${category.articles_count} article${
+            category.articles_count > 1 ? "s" : ""
+          }`}
+        </Typography>
       </div>
-      <div className="flex space-x-1">
-        <TooltipWrapper
-          content="General category cannot be deleted"
-          disabled={categoryList.length === 1 && category.name === "General"}
-          position="bottom"
-        >
-          <Button
-            disabled={categoryList.length === 1 && category.name === "General"}
-            icon={() => <Delete size="18" />}
-            size="smal"
-            style="text"
-            onClick={() => handleDelete(category)}
-          />
-        </TooltipWrapper>
-        <Button
-          icon={() => <Edit size="18" />}
-          size="small"
-          style="text"
-          onClick={() => setIsEditing(true)}
-        />
+      <div className="flex space-x-1 pt-1">
+        <Dropdown customTarget={<MenuVertical />}>
+          <Menu>
+            <MenuItem.Button onClick={() => setIsEditing(true)}>
+              Edit
+            </MenuItem.Button>
+            <Divider />
+            <TooltipWrapper
+              content="General category cannot be deleted"
+              position="bottom"
+              disabled={
+                categoryList.length === 1 && category.name === "General"
+              }
+            >
+              <MenuItem.Button
+                style="danger"
+                disabled={
+                  categoryList.length === 1 && category.name === "General"
+                }
+                onClick={handleDelete}
+              >
+                Delete
+              </MenuItem.Button>
+            </TooltipWrapper>
+          </Menu>
+        </Dropdown>
       </div>
       {showDeleteModal && (
         <DeleteModal
