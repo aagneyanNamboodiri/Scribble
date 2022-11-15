@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-import { Reorder, Delete, Edit } from "neetoicons";
-import { Button, Typography } from "neetoui";
-import TooltipWrapper from "tooltipwrapper";
+import { MenuVertical } from "neetoicons";
+import { Typography, Dropdown } from "neetoui";
 
 import DeleteModal from "./DeleteModal";
 import Form from "./Form";
@@ -12,6 +11,8 @@ const Card = ({ category, refetch, categoryList, provided }) => {
   const [categoryToDelete, setCategoryToDelete] = useState({});
   const [isEditing, setIsEditing] = useState(false);
 
+  const { Menu, MenuItem, Divider } = Dropdown;
+
   const handleDelete = () => {
     setCategoryToDelete(category);
     setShowDeleteModal(true);
@@ -19,7 +20,6 @@ const Card = ({ category, refetch, categoryList, provided }) => {
 
   return isEditing ? (
     <div className="border-t flex space-x-2 pt-2">
-      <Reorder size="20" />
       <Form
         category={category}
         isEditing={isEditing}
@@ -29,35 +29,31 @@ const Card = ({ category, refetch, categoryList, provided }) => {
     </div>
   ) : (
     <div
-      className="border-t flex w-full justify-between pt-3"
+      className="border-t mt-2 flex w-2/3 justify-between pt-2"
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
     >
-      <div className="flex space-x-2">
-        <Reorder size="20" />
-        <Typography style="body2">{category.name}</Typography>
+      <div className="flex-col">
+        <Typography style="h4" weight="medium">
+          {category.name}
+        </Typography>
+        <Typography className="text-gray-500" style="body3">
+          2 articles
+        </Typography>
       </div>
-      <div className="flex space-x-1">
-        <TooltipWrapper
-          content="General category cannot be deleted"
-          disabled={categoryList.length === 1 && category.name === "General"}
-          position="bottom"
-        >
-          <Button
-            disabled={categoryList.length === 1 && category.name === "General"}
-            icon={() => <Delete size="18" />}
-            size="smal"
-            style="text"
-            onClick={() => handleDelete(category)}
-          />
-        </TooltipWrapper>
-        <Button
-          icon={() => <Edit size="18" />}
-          size="small"
-          style="text"
-          onClick={() => setIsEditing(true)}
-        />
+      <div className="flex space-x-1 pt-1">
+        <Dropdown customTarget={<MenuVertical />}>
+          <Menu>
+            <MenuItem.Button onClick={() => setIsEditing(true)}>
+              Edit
+            </MenuItem.Button>
+            <Divider />
+            <MenuItem.Button style="danger" onClick={handleDelete}>
+              Delete
+            </MenuItem.Button>
+          </Menu>
+        </Dropdown>
       </div>
       {showDeleteModal && (
         <DeleteModal

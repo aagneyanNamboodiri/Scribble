@@ -38,8 +38,10 @@ const Form = ({ category = {}, setAction, refetch, isEditing }) => {
       {({ isValid, dirty }) => (
         <FormikForm onKeyDown={e => handleEscapeKeyPress(e)}>
           <FormikInput
+            nakedInput
             name="name"
             placeholder="Category Name"
+            size="large"
             type="text"
             suffix={
               <div className="flex">
