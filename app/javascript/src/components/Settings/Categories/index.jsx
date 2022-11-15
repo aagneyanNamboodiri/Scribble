@@ -123,7 +123,12 @@ const Categories = () => {
           </DragDropContext>
         </div>
       </div>
-      <ArticleListing selectedCategory={selectedCategory} />
+      <div className="w-2/3">
+        <ArticleListing
+          categories={categories}
+          selectedCategory={selectedCategory}
+        />
+      </div>
     </div>
   );
 };

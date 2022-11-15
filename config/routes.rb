@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :categories, except: %i[show new edit] do
         member do
           put "reorder"
+          put "show_articles"
         end
       end
       resource :organization, only: %i[show update]
