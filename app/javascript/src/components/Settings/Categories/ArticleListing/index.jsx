@@ -1,16 +1,40 @@
 import React, { useState, useEffect } from "react";
 
-const ArticleListing = ({ selectedCategory }) => {
-  const [placeholder, setPlaceholder] = useState("something");
-  useEffect(() => {
-    setPlaceholder("Articles");
-  }, []);
+import { PageLoader } from "neetoui";
 
-  return (
-    <div>
-      {placeholder}, {JSON.stringify(selectedCategory)}
-    </div>
-  );
+import categoriesApi from "apis/Api/categories";
+
+const ArticleListing = ({ selectedCategory }) => {
+  const [loading, setLoading] = useState(true);
+  const [articles, setArticles] = useState([]);
+
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
+      const {
+        data: { articles },
+      } = await categoriesApi.show(selectedCategory.id);
+      setArticles(articles);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, [selectedCategory]);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full">
+        <PageLoader />
+      </div>
+    );
+  }
+
+  return <div>{JSON.stringify(articles)}</div>;
 };
 
 export default ArticleListing;

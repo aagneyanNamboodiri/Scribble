@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :articles, except: %i[new edit], param: :id do
         resources :article_versions, only: %i[index show]
       end
-      resources :categories, except: %i[show new edit] do
+      resources :categories, except: %i[new edit] do
         member do
           put "reorder"
         end

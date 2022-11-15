@@ -7,6 +7,10 @@ class Api::CategoriesController < ApplicationController
     @categories = current_user.categories.all.order(position: :asc)
   end
 
+  def show
+    @articles_belonging_to_category = @category.articles
+  end
+
   def create
     category = current_user.categories.create!(category_params)
     respond_with_success(t("successfully_created", entity: "Category"))

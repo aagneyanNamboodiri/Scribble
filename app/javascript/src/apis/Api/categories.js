@@ -2,6 +2,8 @@ import axios from "axios";
 
 const list = () => axios.get("api/categories");
 
+const show = id => axios.get(`api/categories/${id}`);
+
 const create = payload =>
   axios.post("api/categories", {
     category: payload,
@@ -20,6 +22,6 @@ const reorder = (id, payload) =>
     reorder: payload,
   });
 
-const categoriesApi = { list, create, destroy, update, reorder };
+const categoriesApi = { list, create, destroy, update, reorder, show };
 
 export default categoriesApi;
