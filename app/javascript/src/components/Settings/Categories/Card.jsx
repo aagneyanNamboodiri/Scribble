@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { MenuVertical } from "neetoicons";
 import { Typography, Dropdown } from "neetoui";
+import TooltipWrapper from "tooltipwrapper";
 
 import DeleteModal from "./DeleteModal";
 import Form from "./Form";
@@ -19,7 +20,7 @@ const Card = ({ category, refetch, categoryList, provided }) => {
   };
 
   return isEditing ? (
-    <div className="border-t flex space-x-2 pt-2">
+    <div className="flex space-x-2 pt-2">
       <Form
         category={category}
         isEditing={isEditing}
@@ -29,7 +30,7 @@ const Card = ({ category, refetch, categoryList, provided }) => {
     </div>
   ) : (
     <div
-      className="border-t mt-2 flex w-2/3 justify-between pt-2"
+      className="mt-2 flex w-2/3 justify-between pt-2"
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
@@ -39,7 +40,9 @@ const Card = ({ category, refetch, categoryList, provided }) => {
           {category.name}
         </Typography>
         <Typography className="text-gray-500" style="body3">
-          2 articles
+          {`${category.articles_count} article${
+            category.articles_count > 1 ? "s" : ""
+          }`}
         </Typography>
       </div>
       <div className="flex space-x-1 pt-1">
@@ -49,9 +52,23 @@ const Card = ({ category, refetch, categoryList, provided }) => {
               Edit
             </MenuItem.Button>
             <Divider />
-            <MenuItem.Button style="danger" onClick={handleDelete}>
-              Delete
-            </MenuItem.Button>
+            <TooltipWrapper
+              content="General category cannot be deleted"
+              position="bottom"
+              disabled={
+                categoryList.length === 1 && category.name === "General"
+              }
+            >
+              <MenuItem.Button
+                style="danger"
+                disabled={
+                  categoryList.length === 1 && category.name === "General"
+                }
+                onClick={handleDelete}
+              >
+                Delete
+              </MenuItem.Button>
+            </TooltipWrapper>
           </Menu>
         </Dropdown>
       </div>
