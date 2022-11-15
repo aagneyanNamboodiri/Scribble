@@ -73,11 +73,6 @@ const ArticleListing = ({ selectedCategory, categories }) => {
           </span>
         </Typography>
       </div>
-      {/* {articles.map(item => (
-        <div key={item.id}>
-          <Card article={item} />
-        </div>
-      ))} */}
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="articles">
           {provided => (

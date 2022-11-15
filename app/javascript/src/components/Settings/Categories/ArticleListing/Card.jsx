@@ -35,7 +35,9 @@ const Card = ({ article, provided }) => {
           position="bottom"
         >
           <Typography className="pr-2 text-gray-500" style="body3">
-            {daysFromNowFormat(article.updated_at)}
+            {`${
+              article.status === "published" ? "Published" : "Drafted"
+            } ${daysFromNowFormat(article.updated_at)}`}
           </Typography>
         </TooltipWrapper>
         <Tag
