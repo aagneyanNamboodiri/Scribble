@@ -30,7 +30,7 @@ const Card = ({ category, refetch, categoryList, provided }) => {
     </div>
   ) : (
     <div
-      className="mt-2 flex w-2/3 justify-between pt-2"
+      className="rounded mt-2 flex w-full justify-between p-2 hover:bg-indigo-100"
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
@@ -39,7 +39,7 @@ const Card = ({ category, refetch, categoryList, provided }) => {
         <Typography style="h4" weight="medium">
           {category.name}
         </Typography>
-        <Typography className="text-gray-500" style="body3">
+        <Typography className="text-gray-600" style="body3">
           {`${category.articles_count} article${
             category.articles_count > 1 ? "s" : ""
           }`}
