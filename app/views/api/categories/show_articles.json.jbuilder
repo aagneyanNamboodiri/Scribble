@@ -8,5 +8,3 @@ json.articles @articles_belonging_to_category do |article|
     :updated_at,
     :status
 end
-
-json.category_name @category.name

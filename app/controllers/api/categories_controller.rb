@@ -7,7 +7,7 @@ class Api::CategoriesController < ApplicationController
     @categories = current_user.categories.all.order(position: :asc)
   end
 
-  def show
+  def show_articles
     @articles_belonging_to_category = @category.articles
   end
 

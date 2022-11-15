@@ -13,7 +13,7 @@ const ArticleListing = ({ selectedCategory }) => {
       setLoading(true);
       const {
         data: { articles },
-      } = await categoriesApi.show(selectedCategory.id);
+      } = await categoriesApi.show_articles(selectedCategory.id);
       setArticles(articles);
     } catch (error) {
       logger.error(error);
