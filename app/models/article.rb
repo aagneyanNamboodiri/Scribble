@@ -18,6 +18,7 @@ class Article < ApplicationRecord
   validate :slug_not_changed
 
   has_paper_trail ignore: [:slug, :id, :user_id, :visits]
+  acts_as_list scope: :categories, order: :position
 
   before_save :set_slug
 
