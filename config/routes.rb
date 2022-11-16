@@ -9,6 +9,9 @@ Rails.application.routes.draw do
           put "reorder"
           get "articles_of_category"
         end
+        collection do
+          put "bulk_category_update"
+        end
       end
       resources :categories, except: %i[show new edit] do
         member do

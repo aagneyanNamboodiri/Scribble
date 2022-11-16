@@ -14,6 +14,7 @@ const ArticleListing = ({ selectedCategory, categories }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [showInfo, setShowInfo] = useState(localStorage.getItem("info"));
+  const [selectedArticles, setSelectedArticles] = useState([]);
 
   const fetchArticles = async () => {
     try {
@@ -105,7 +106,14 @@ const ArticleListing = ({ selectedCategory, categories }) => {
                   index={index}
                   key={article.id}
                 >
-                  {provided => <Card article={article} provided={provided} />}
+                  {provided => (
+                    <Card
+                      article={article}
+                      provided={provided}
+                      selectedArticles={selectedArticles}
+                      setSelectedArticles={setSelectedArticles}
+                    />
+                  )}
                 </Draggable>
               ))}
               {provided.placeholder}
