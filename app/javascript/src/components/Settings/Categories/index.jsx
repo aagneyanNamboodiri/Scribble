@@ -126,6 +126,7 @@ const Categories = () => {
       <div className="w-2/3">
         <ArticleListing
           categories={categories}
+          fetchCategories={fetchCategories}
           selectedCategory={selectedCategory}
         />
       </div>

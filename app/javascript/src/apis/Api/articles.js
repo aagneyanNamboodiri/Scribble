@@ -22,6 +22,9 @@ const reorder = ({ id, position }) =>
 const articles_of_category = id =>
   axios.get(`api/articles/${id}/articles_of_category`);
 
+const bulk_category_update = payload =>
+  axios.put("api/articles/bulk_category_update", payload);
+
 const articlesApi = {
   list,
   create,
@@ -30,6 +33,7 @@ const articlesApi = {
   destroy,
   reorder,
   articles_of_category,
+  bulk_category_update,
 };
 
 export default articlesApi;

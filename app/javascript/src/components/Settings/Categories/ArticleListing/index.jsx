@@ -10,7 +10,7 @@ import Card from "./Card";
 import { INFO_STRING } from "../constants";
 import { buildCategoryList } from "../utils";
 
-const ArticleListing = ({ selectedCategory, categories }) => {
+const ArticleListing = ({ selectedCategory, categories, fetchCategories }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [showInfo, setShowInfo] = useState(localStorage.getItem("info"));
@@ -56,6 +56,18 @@ const ArticleListing = ({ selectedCategory, categories }) => {
     setShowInfo("false");
   };
 
+  const handleBulkUpdate = async value => {
+    const payload = { article_ids: selectedArticles, to_category: value };
+    try {
+      await articlesApi.bulk_category_update(payload);
+    } catch (err) {
+      logger.log(err);
+    } finally {
+      setSelectedArticles([]);
+      fetchCategories();
+    }
+  };
+
   useEffect(() => {
     fetchArticles();
   }, [selectedCategory]);
@@ -80,6 +92,7 @@ const ArticleListing = ({ selectedCategory, categories }) => {
               isSearchable
               options={buildCategoryList(categories)}
               placeholder="Move to"
+              onChange={({ value }) => handleBulkUpdate(value)}
             />
           </div>
         </div>

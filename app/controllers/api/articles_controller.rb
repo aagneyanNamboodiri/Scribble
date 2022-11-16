@@ -42,6 +42,10 @@ class Api::ArticlesController < ApplicationController
     @articles_of_category = @category.articles.order(:position)
   end
 
+  def bulk_category_update
+    byebug
+  end
+
   private
 
     def search_params
