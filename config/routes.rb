@@ -10,7 +10,7 @@ Rails.application.routes.draw do
           get "articles_of_category"
         end
         collection do
-          put "bulk_category_update"
+          put "bulk_articles_category_update"
         end
       end
       resources :categories, except: %i[show new edit] do

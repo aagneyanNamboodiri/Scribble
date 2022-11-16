@@ -42,7 +42,7 @@ class Api::ArticlesController < ApplicationController
     @articles_of_category = @category.articles.order(:position)
   end
 
-  def bulk_category_update
+  def bulk_articles_category_update
     SwitchArticlesToNewCategoryService.new(params[:article_ids], params[:to_category]).process
   end
 

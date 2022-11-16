@@ -59,7 +59,7 @@ const ArticleListing = ({ selectedCategory, categories, fetchCategories }) => {
   const handleBulkUpdate = async value => {
     const payload = { article_ids: selectedArticles, to_category: value };
     try {
-      await articlesApi.bulk_category_update(payload);
+      await articlesApi.bulk_articles_category_update(payload);
     } catch (err) {
       logger.log(err);
     } finally {
