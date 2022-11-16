@@ -2,6 +2,7 @@
 
 class Api::CategoriesController < ApplicationController
   before_action :load_category!, except: %i[index create]
+  before_action :set_to_category, only: %i[destroy]
 
   def index
     @categories = current_user.categories.all.order(position: :asc)
@@ -13,7 +14,9 @@ class Api::CategoriesController < ApplicationController
   end
 
   def destroy
-    SwitchArticlesToNewCategoryService.new(params[:id], params[:new_category]).process
+    if @category.articles.count > 0
+      SwitchArticlesToNewCategoryService.new(@category.articles.ids, @to_category_id).process
+    end
     @category.destroy!
     respond_with_success(t("successfully_destroyed", entity: "Category"))
   end
@@ -44,5 +47,12 @@ class Api::CategoriesController < ApplicationController
 
     def reorder_positions
       params.require(:reorder).permit(:positions)
+    end
+
+    def set_to_category
+      @to_category_id = params[:new_category]
+      if current_user.categories.count == 1
+        @to_category_id = current_user.categories.create!(name: "General").id
+      end
     end
 end

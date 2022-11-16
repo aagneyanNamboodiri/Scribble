@@ -10,8 +10,20 @@ import {
   getArticleStatusString,
 } from "../utils";
 
-const Card = ({ article, provided }) => {
+const Card = ({ article, provided, selectedArticles, setSelectedArticles }) => {
   const [checked, setChecked] = useState(false);
+
+  const handleChecked = () => {
+    setChecked(prev => !prev);
+    const indexOfArticle = selectedArticles?.indexOf(article.id);
+    if (indexOfArticle === -1) {
+      setSelectedArticles(prev => [...prev, article.id]);
+    } else {
+      setSelectedArticles(prev =>
+        prev.filter(prevArticleId => prevArticleId !== article.id)
+      );
+    }
+  };
 
   return (
     <div
@@ -20,7 +32,7 @@ const Card = ({ article, provided }) => {
       {...provided.draggableProps}
       {...provided.dragHandleProps}
     >
-      <Checkbox checked={checked} onChange={() => setChecked(prev => !prev)} />
+      <Checkbox checked={checked} onChange={handleChecked} />
       <div className="flex justify-between">
         <Typography style="h3" weight="medium">
           {article.title}

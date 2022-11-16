@@ -56,6 +56,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
   end
 
   def test_from_category_and_to_category_cannot_be_same
+    @article.save!
     assert_raises Exception do
       delete api_category_path(@category.id),
         params: {
