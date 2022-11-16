@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[show update destroy]
+  before_action :load_article!, only: %i[show update destroy reorder]
   before_action :search_params, only: %i[index]
 
   def index
@@ -35,6 +35,10 @@ class Api::ArticlesController < ApplicationController
   def destroy
     @article.destroy!
     respond_with_success(t("successfully_destroyed", entity: "Article"))
+  end
+
+  def reorder
+    @article.update!(position: params["position"])
   end
 
   private

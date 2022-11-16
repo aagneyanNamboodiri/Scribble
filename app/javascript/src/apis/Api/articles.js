@@ -16,6 +16,9 @@ const update = ({ id, payload }) =>
 
 const destroy = id => axios.delete(`api/articles/${id}`);
 
-const articlesApi = { list, create, show, update, destroy };
+const reorder = ({ id, position }) =>
+  axios.put(`api/articles/${id}/reorder`, { position });
+
+const articlesApi = { list, create, show, update, destroy, reorder };
 
 export default articlesApi;

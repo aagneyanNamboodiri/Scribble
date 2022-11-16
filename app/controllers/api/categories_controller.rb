@@ -8,7 +8,7 @@ class Api::CategoriesController < ApplicationController
   end
 
   def show_articles
-    @articles_belonging_to_category = @category.articles
+    @articles_belonging_to_category = @category.articles.order(:position)
   end
 
   def create
