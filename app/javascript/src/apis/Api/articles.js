@@ -19,6 +19,17 @@ const destroy = id => axios.delete(`api/articles/${id}`);
 const reorder = ({ id, position }) =>
   axios.put(`api/articles/${id}/reorder`, { position });
 
-const articlesApi = { list, create, show, update, destroy, reorder };
+const articles_of_category = id =>
+  axios.get(`api/articles/${id}/articles_of_category`);
+
+const articlesApi = {
+  list,
+  create,
+  show,
+  update,
+  destroy,
+  reorder,
+  articles_of_category,
+};
 
 export default articlesApi;

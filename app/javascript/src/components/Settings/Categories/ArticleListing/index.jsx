@@ -4,7 +4,6 @@ import { PageLoader, Typography, Select } from "neetoui";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import articlesApi from "apis/Api/articles";
-import categoriesApi from "apis/Api/categories";
 
 import Card from "./Card";
 
@@ -19,7 +18,7 @@ const ArticleListing = ({ selectedCategory, categories }) => {
       setLoading(true);
       const {
         data: { articles },
-      } = await categoriesApi.show_articles(selectedCategory.id);
+      } = await articlesApi.articles_of_category(selectedCategory.id);
       setArticles(articles);
     } catch (error) {
       logger.error(error);

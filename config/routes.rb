@@ -7,6 +7,7 @@ Rails.application.routes.draw do
         resources :article_versions, only: %i[index show]
         member do
           put "reorder"
+          get "articles_of_category"
         end
       end
       resources :categories, except: %i[show new edit] do
