@@ -20,7 +20,7 @@ const Card = ({ article, provided, selectedArticles, setSelectedArticles }) => {
       setSelectedArticles(prev => [...prev, article.id]);
     } else {
       setSelectedArticles(prev =>
-        prev.filter(prev_article => prev_article !== article.id)
+        prev.filter(prevArticleId => prevArticleId !== article.id)
       );
     }
   };
