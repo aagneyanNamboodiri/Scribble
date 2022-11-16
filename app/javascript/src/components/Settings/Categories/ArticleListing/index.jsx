@@ -7,11 +7,13 @@ import articlesApi from "apis/Api/articles";
 
 import Card from "./Card";
 
+import { INFO_STRING } from "../constants";
 import { buildCategoryList } from "../utils";
 
 const ArticleListing = ({ selectedCategory, categories }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
+  const [showInfo, setShowInfo] = useState(localStorage.getItem("info"));
 
   const fetchArticles = async () => {
     try {
@@ -48,6 +50,11 @@ const ArticleListing = ({ selectedCategory, categories }) => {
     setArticles(items);
   };
 
+  const handleHideInfo = () => {
+    localStorage.setItem("info", "false");
+    setShowInfo("false");
+  };
+
   useEffect(() => {
     fetchArticles();
   }, [selectedCategory]);
@@ -75,13 +82,14 @@ const ArticleListing = ({ selectedCategory, categories }) => {
             />
           </div>
         </div>
-        <Typography className="rounded bg-indigo-100 p-2" style="body3">
-          You can reorder articles or categories by dragging and dropping here.
-          You can also multiselect articles and move them to another category.{" "}
-          <span className="cursor-pointer underline">
-            Dont show this info again
-          </span>
-        </Typography>
+        {(showInfo === null || showInfo === "true") && (
+          <Typography className="rounded bg-indigo-100 p-2" style="body3">
+            {INFO_STRING}
+            <span className="cursor-pointer underline" onClick={handleHideInfo}>
+              Dont show this info again
+            </span>
+          </Typography>
+        )}
       </div>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="articles">

@@ -2,6 +2,9 @@ import * as yup from "yup";
 
 const AT_LEAST_ONE_ALPHANUMERIC_REGEX = /[a-zA-Z0-9]+/;
 
+export const INFO_STRING =
+  "You can reorder articles or categories by dragging and dropping here.You can also multiselect articles and move them to another category. ";
+
 export const buildInitialValue = category => {
   const initialValue = {
     name: Object.keys(category).length === 0 ? "" : category.name,
