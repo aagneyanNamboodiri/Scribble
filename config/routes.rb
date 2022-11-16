@@ -5,11 +5,14 @@ Rails.application.routes.draw do
     namespace :api do
       resources :articles, except: %i[new edit], param: :id do
         resources :article_versions, only: %i[index show]
+        member do
+          put "reorder"
+          get "articles_of_category"
+        end
       end
       resources :categories, except: %i[show new edit] do
         member do
           put "reorder"
-          put "show_articles"
         end
       end
       resource :organization, only: %i[show update]

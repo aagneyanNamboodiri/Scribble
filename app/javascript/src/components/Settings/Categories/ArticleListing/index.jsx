@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { PageLoader, Typography, Select } from "neetoui";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import categoriesApi from "apis/Api/categories";
+import articlesApi from "apis/Api/articles";
 
 import Card from "./Card";
 
@@ -13,27 +13,39 @@ const ArticleListing = ({ selectedCategory, categories }) => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
 
-  const handleOnDragEnd = result => {
-    if (!result.destination) return;
-    const items = Array.from(articles);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setArticles(items);
-  };
-
   const fetchArticles = async () => {
     try {
       setLoading(true);
       const {
         data: { articles },
-      } = await categoriesApi.show_articles(selectedCategory.id);
+      } = await articlesApi.articles_of_category(selectedCategory.id);
       setArticles(articles);
     } catch (error) {
       logger.error(error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleReorder = async ({ id, position }) => {
+    try {
+      await articlesApi.reorder({ id, position });
+    } catch (err) {
+      logger.log(err);
+    }
+  };
+
+  const handleOnDragEnd = result => {
+    if (!result.destination) return;
+    handleReorder({
+      id: result.draggableId,
+      position: result.destination.index + 1,
+    });
+    const items = Array.from(articles);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setArticles(items);
   };
 
   useEffect(() => {
