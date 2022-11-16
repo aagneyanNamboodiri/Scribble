@@ -82,7 +82,7 @@ const ArticleListing = ({ selectedCategory, categories }) => {
             />
           </div>
         </div>
-        {(showInfo === null || showInfo === "true") && (
+        {showInfo === null && (
           <Typography className="rounded bg-indigo-100 p-2" style="body3">
             {INFO_STRING}
             <span className="cursor-pointer underline" onClick={handleHideInfo}>
