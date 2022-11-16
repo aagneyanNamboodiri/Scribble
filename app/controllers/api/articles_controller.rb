@@ -43,7 +43,7 @@ class Api::ArticlesController < ApplicationController
   end
 
   def bulk_category_update
-    byebug
+    SwitchArticlesToNewCategoryService.new(params[:article_ids], params[:to_category]).process
   end
 
   private
