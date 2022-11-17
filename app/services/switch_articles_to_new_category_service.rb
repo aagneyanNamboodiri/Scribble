@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteCategoryService
+class SwitchArticlesToNewCategoryService
   def initialize(article_ids, to_category_id)
     @current_user = User.first
     @article_ids = article_ids
