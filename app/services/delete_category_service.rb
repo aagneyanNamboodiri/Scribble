@@ -6,7 +6,7 @@ class DeleteCategoryService
     @category_to_be_deleted = category_to_be_deleted
     @category_to_put_articles_to = category_to_put_articles_to
     if @category_to_be_deleted == @category_to_put_articles_to
-      raise Exception.new "Cannot delete the category to switch articles to."
+      raise Exception.new t("invalid_from_category")
     end
   end
 
@@ -19,7 +19,7 @@ class DeleteCategoryService
     def delete_category_service
       if @current_user.categories.count == 1
         if @current_user.categories.first.name == "General"
-          raise Exception.new t("cannot_delete_general_category")
+          raise Exception.new "Cannot delete General category if it is the only existing category"
         else
           @category_to_put_articles_to = @current_user.categories.create!(name: "General").id
         end

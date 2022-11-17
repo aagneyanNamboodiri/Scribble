@@ -31,7 +31,6 @@
 
 en:
   moved_articles_to_another_category: "Moved articles successfully"
-  cannot_delete_general_category: "Cannot delete General category if it is the only existing category"
   invalid_from_category: "From category cannot be the to category"
   invalid_from_path: "This FROM PATH cannot be used."
   successfully_created: "%{entity} was successfully added!"
