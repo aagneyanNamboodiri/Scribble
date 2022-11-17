@@ -151,4 +151,44 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal @article.id, response_json["id"]
   end
+
+  def test_should_reorder_articles
+    @article_two = create(:article, user: @user, assigned_category: @category, position: 2)
+    @article.position = 1
+    @article.save!
+    put reorder_api_article_path(@article_two.id), params: { position: 1 }, headers: headers
+    assert_response :no_content
+
+    @article_two.reload
+    assert_equal 1, @article_two.position
+  end
+
+  def test_lists_articles_belonging_to_a_category
+    article_two = create(:article, user: @user, assigned_category: @category, position: 2)
+    category_two = create(:category, user: @user)
+    article_three = create(:article, user: @user, assigned_category: category_two, position: 2)
+
+    get articles_of_category_api_article_path(@category.id), headers: headers
+    assert_response :success
+
+    response_json = response.parsed_body
+    assert_equal 2, response_json["articles"].length
+    assert_equal @article.id, response_json["articles"][0]["id"]
+  end
+
+  def test_changes_categories_of_multiple_articles
+    article_two = create(:article, user: @user, assigned_category: @category)
+    article_three = create(:article, user: @user, assigned_category: @category)
+    category_two = create(:category, user: @user)
+    put bulk_articles_category_update_api_articles_path,
+      params: { article_ids: [@article.id, article_two.id, article_three.id], to_category: category_two.id },
+      headers: headers
+    assert_response :success
+    @article.reload
+    article_two.reload
+    article_three.reload
+    assert_equal category_two.id, @article.assigned_category_id
+    assert_equal category_two.id, article_two.assigned_category_id
+    assert_equal category_two.id, article_three.assigned_category_id
+  end
 end
