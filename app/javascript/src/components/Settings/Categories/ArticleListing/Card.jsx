@@ -38,8 +38,16 @@ const Card = ({ article, provided, selectedArticles, setSelectedArticles }) => {
           {article.title}
         </Typography>
       </div>
-      <div className="text-gray-800">
-        <Typography style="body2">{article.body}</Typography>
+      <div
+        className="text-gray-600"
+        style={{
+          overflow: "hidden",
+          display: "-webkit-box",
+          WebkitBoxOrient: "vertical",
+          WebkitLineClamp: 2,
+        }}
+      >
+        {article.body}
       </div>
       <hr />
       <div className="flex justify-end space-x-2 pt-1">
