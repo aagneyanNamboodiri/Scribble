@@ -11,9 +11,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     @organization.save!
     post api_login_path, params: { password: "notadmin123" },
       headers: headers
-    response_json = response.parsed_body
-
-    assert_equal t("incorrect_credentials"), "Incorrect credentials, try again."
+    assert_equal t("incorrect_credentials"), response_to_json(response)["error"]
   end
 
   def test_correct_password_should_send_correct_response
@@ -36,9 +34,8 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     @organization.save!
     post api_login_path, params: { password: "notadmin123" },
       headers: headers
-    response_json = response.parsed_body
 
-    assert_equal t("incorrect_credentials"), "Incorrect credentials, try again."
+    assert_equal t("incorrect_credentials"), response_to_json(response)["error"]
     assert_equal true, session[:auth].nil?
   end
 
@@ -46,10 +43,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     @organization.is_password = false
     @organization.save!
     post api_login_path, params: {}, headers: headers
-    response_json = response.parsed_body
 
-    assert_equal t("login_successful", entity: @organization.site_name),
-      "Welcome to #{@organization.site_name}"
     assert_equal true, session[:auth].nil?
   end
 end

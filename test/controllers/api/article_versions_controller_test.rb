@@ -37,8 +37,7 @@ class Api::ArticleVersionsControllerTest < ActionDispatch::IntegrationTest
     @article.reload
     get api_article_article_versions_path(@article.id), headers: headers
     assert_response :success
-    response_json = response.parsed_body
-    assert_equal @article.versions.count, response_json["versions"].length + 1
+    assert_equal @article.versions.count, response_to_json(response)["versions"].length + 1
   end
 
   def test_gets_versioned_article
@@ -48,8 +47,7 @@ class Api::ArticleVersionsControllerTest < ActionDispatch::IntegrationTest
     versioned_article_id = @article.versions[1].id
     get api_article_article_version_path(@article.id, versioned_article_id), headers: headers
     assert_response :success
-    response_json = response.parsed_body
-    assert_equal versioned_article.title, response_json["title"]
+    assert_equal versioned_article.title, response_to_json(response)["title"]
   end
 
   def test_article_update_doesnt_store_restoration_information
@@ -82,8 +80,7 @@ class Api::ArticleVersionsControllerTest < ActionDispatch::IntegrationTest
     get api_article_article_versions_path(@article.id), headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    versions = response_json["versions"]
+    versions = response_to_json(response)["versions"]
     assert_not nil, versions[0]["restoration_date"]
   end
 end

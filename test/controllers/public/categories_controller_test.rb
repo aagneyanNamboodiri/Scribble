@@ -16,8 +16,7 @@ class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
     get public_categories_path, headers: headers
     assert_response :unauthorized
 
-    response_json = response.parsed_body
-    assert_equal t("not_authorized"), response_json["error"]
+    assert_equal t("not_authorized"), response_to_json(response)["error"]
   end
 
   def test_authorized_user_can_access_categories_with_atleast_one_published_article
@@ -25,10 +24,9 @@ class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
     get public_categories_path, headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
     all_categories = @user.categories.order(position: :asc)
     categories_with_published_articles = all_categories.select { |category| category.articles.published.count > 0 }
-    assert_equal categories_with_published_articles.count, response_json["categories"].count
+    assert_equal categories_with_published_articles.count, response_to_json(response)["categories"].count
   end
 
   def test_only_categories_with_published_articles_are_shown_to_authorized_user
@@ -37,10 +35,10 @@ class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
     post api_login_path, params: { password: "admin1" }, headers: headers
     get public_categories_path, headers: headers
     assert_response :success
-    response_json = response.parsed_body
+
     all_categories = @user.categories.order(position: :asc)
     categories_with_published_articles = all_categories.select { |category| category.articles.published.count > 0 }
-    assert_equal categories_with_published_articles.count, response_json["categories"].count
-    assert_equal 0, response_json["categories"].count
+    assert_equal categories_with_published_articles.count, response_to_json(response)["categories"].count
+    assert_equal 0, response_to_json(response)["categories"].count
   end
 end

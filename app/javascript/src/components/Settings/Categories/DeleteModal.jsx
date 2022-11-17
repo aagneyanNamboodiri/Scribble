@@ -16,7 +16,10 @@ import { buildDeleteModalSelectValidationSchema } from "./utils";
 const DeleteModal = ({ refetch, onClose, category, categoryList }) => {
   const handleDelete = async values => {
     try {
-      await categoriesApi.destroy(category.id, values?.category?.value);
+      await categoriesApi.destroy({
+        id: category.id,
+        new_category: values?.category?.value,
+      });
       onClose();
       refetch();
     } catch (error) {

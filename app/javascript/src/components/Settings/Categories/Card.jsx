@@ -50,7 +50,7 @@ const Card = ({
           {category.name}
         </Typography>
         <Typography className="text-gray-600" style="body3">
-          {`${category.articles_count} article${
+          {`${category.articles_count || "No"} article${
             category.articles_count > 1 ? "s" : ""
           }`}
         </Typography>

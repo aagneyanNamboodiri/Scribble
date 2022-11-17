@@ -11,8 +11,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     get api_organization_path, headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    assert_equal @organization.site_name, response_json["site_name"]
+    assert_equal @organization.site_name, response_to_json(response)["site_name"]
   end
 
   def test_organization_should_get_updated_with_all_fields_passed
@@ -25,10 +24,9 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
       }
     }
     put api_organization_path, params: organization_params, headers: headers
-    response_json = response.parsed_body
 
     assert_response :success
-    assert_equal "Settings was successfully updated!", response_json["notice"]
+    assert_equal "Settings was successfully updated!", response_to_json(response)["notice"]
 end
 
   def test_only_organization_name_should_get_updated
@@ -39,9 +37,8 @@ end
       }
     }
     put api_organization_path, params: organization_params, headers: headers
-    response_json = response.parsed_body
 
     assert_response :success
-    assert_equal "Settings was successfully updated!", response_json["notice"]
+    assert_equal "Settings was successfully updated!", response_to_json(response)["notice"]
   end
 end

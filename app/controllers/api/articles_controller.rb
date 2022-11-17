@@ -35,7 +35,7 @@ class Api::ArticlesController < ApplicationController
   end
 
   def reorder
-    @article.update!(position: params["position"])
+    @article.update!(position: params[:position])
   end
 
   def articles_of_category
