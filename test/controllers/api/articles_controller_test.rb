@@ -20,13 +20,13 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     response_json = response.parsed_body
     all_articles = response_json["articles"]
-    published_articles_count = Article.where(status: "published").count
-    draft_articles_count = Article.where(status: "draft").count
-    all_articles_count = Article.count
+    published_articles_count = @user.articles.where(status: "published").count
+    draft_articles_count = @user.articles.where(status: "draft").count
+    all_articles_count = @user.articles.count
 
     assert_equal all_articles.count, all_articles_count
-    assert_equal published_articles_count, Article.where(status: :published).count
-    assert_equal draft_articles_count, Article.where(status: :draft).count
+    assert_equal published_articles_count, @user.articles.where(status: :published).count
+    assert_equal draft_articles_count, @user.articles.where(status: :draft).count
   end
 
   def test_lists_articles_with_all_filters
@@ -43,7 +43,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     response_articles = response_json["articles"]
 
-    search_filtered_articles = Article.all.where("title like ?", "%test%")
+    search_filtered_articles = @user.articles.all.where("title like ?", "%test%")
     status_filtered_articles = search_filtered_articles.where("status like ?", "%published%")
     fully_filtered_articles = status_filtered_articles.select { |article|
       [filter_category_one.name, filter_category_two.name].include? article.assigned_category.name }
@@ -58,7 +58,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     response_json = response.parsed_body
     response_articles = response_json["articles"]
-    actual_articles = Article.where("title like ?", "%test%")
+    actual_articles = @user.articles.where("title like ?", "%test%")
 
     assert_equal actual_articles.count, response_articles.count
     assert_equal actual_articles[0].id, response_articles[0]["id"]
@@ -75,7 +75,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     response_json = response.parsed_body
     response_articles = response_json["articles"]
-    actual_articles = Article.all.select { |article|
+    actual_articles = @user.articles.all.select { |article|
       [filter_category_one.name].include? article.assigned_category.name }
 
     assert_equal actual_articles.count, response_articles.count
