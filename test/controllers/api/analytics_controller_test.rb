@@ -16,10 +16,9 @@ class Api::AnalyticsControllerTest < ActionDispatch::IntegrationTest
     article3 = create(:article, user: @user, assigned_category: @category, status: :draft)
 
     get api_analytics_path, headers: headers
-    assert_response :success
 
-    response_json = response.parsed_body
-    all_articles = response_json["articles"]
+    assert_response :success
+    all_articles = response_to_json(response)["articles"]
     assert_equal @user.articles.where(status: :published).count, all_articles.count
   end
 
@@ -39,8 +38,7 @@ class Api::AnalyticsControllerTest < ActionDispatch::IntegrationTest
 
     get api_analytic_path(@article.id), headers: headers
     assert_response :success
-    response_json = response.parsed_body
-    visit_count = response_json["visit_count"]
+    visit_count = response_to_json(response)["visit_count"]
     assert_equal @article.article_visits.count, visit_count[Time.zone.now.strftime("%Y-%m-%d")]
   end
 end

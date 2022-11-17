@@ -16,8 +16,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     get api_categories_path, headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    all_categories = response_json["categories"]
+    all_categories = response_to_json(response)["categories"]
     existing_categories_count = @user.categories.count
 
     assert_equal existing_categories_count, all_categories.count
@@ -31,17 +30,15 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     }, headers: headers
 
     assert_response :success
-    response_json = response.parsed_body
-    assert_equal t("successfully_created", entity: "Category"), response_json["notice"]
+    assert_equal t("successfully_created", entity: "Category"), response_to_json(response)["notice"]
   end
 
   def test_should_delete_category_if_it_has_no_articles_under_it
     @category_2.save!
     delete api_category_path(@category_2.id), headers: headers
-    response_json = response.parsed_body
 
     assert_response :success
-    assert_equal t("successfully_destroyed", entity: "Category"), response_json["notice"]
+    assert_equal t("successfully_destroyed", entity: "Category"), response_to_json(response)["notice"]
   end
 
   def test_should_switch_article_category_to_new_category_when_deleting

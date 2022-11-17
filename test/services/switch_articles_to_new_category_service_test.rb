@@ -24,10 +24,9 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
   def test_should_delete_category_if_it_has_no_articles_under_it
     @category_2.save!
     delete api_category_path(@category_2.id), headers: headers
-    response_json = response.parsed_body
 
     assert_response :success
-    assert_equal t("successfully_destroyed", entity: "Category"), response_json["notice"]
+    assert_equal t("successfully_destroyed", entity: "Category"), response_to_json(response)["notice"]
   end
 
   def test_should_switch_article_category_to_new_category_when_deleting
@@ -73,8 +72,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
       },
       headers: headers
 
-    response_json = response.parsed_body
-    assert_includes response_json["error"], "Couldn't find Category with 'id'="
+    assert_includes response_to_json(response)["error"], "Couldn't find Category with 'id'="
   end
 
   def test_to_category_has_to_be_a_valid_category
@@ -85,7 +83,6 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
       },
       headers: headers
 
-    response_json = response.parsed_body
-    assert_equal "Assigned category must exist", response_json["error"]
+    assert_equal "Assigned category must exist", response_to_json(response)["error"]
   end
 end

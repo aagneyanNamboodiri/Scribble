@@ -32,6 +32,10 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
+def response_to_json(response)
+  response.parsed_body
+end
+
 def headers(options = {})
   {
     Accept: "application/json",

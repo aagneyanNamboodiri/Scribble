@@ -13,8 +13,8 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def test_listing_all_redirections
     get api_redirections_path, headers: headers
     assert_response :success
-    response_json = response.parsed_body
-    fetched_redirections = response_json["redirections"]
+
+    fetched_redirections = response_to_json(response)["redirections"]
     assert_equal fetched_redirections.length, Redirection.count
   end
 
@@ -27,8 +27,8 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
                                 },
       headers: headers
     assert_response :success
-    response_json = response.parsed_body
-    assert_equal t("successfully_created", entity: "Redirection"), response_json["notice"]
+
+    assert_equal t("successfully_created", entity: "Redirection"), response_to_json(response)["notice"]
   end
 
   def test_should_update_redirection
@@ -42,8 +42,8 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
                                                },
       headers: headers
     assert_response :success
-    response_json = response.parsed_body
-    assert_equal response_json["notice"], t("successfully_updated", entity: "Redirection")
+
+    assert_equal response_to_json(response)["notice"], t("successfully_updated", entity: "Redirection")
     @redirection.reload
     assert_equal @redirection.from_path, new_from_path
     assert_equal @redirection.to_path, new_to_path
@@ -53,9 +53,8 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
     assert_difference "Redirection.count", -1 do
       delete api_redirection_path(@redirection.id), headers: headers()
     end
-    response_json = response.parsed_body
 
     assert_response :ok
-    assert_equal t("successfully_destroyed", entity: "Redirection"), response_json["notice"]
+    assert_equal t("successfully_destroyed", entity: "Redirection"), response_to_json(response)["notice"]
   end
 end

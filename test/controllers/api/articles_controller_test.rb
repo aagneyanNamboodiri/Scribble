@@ -18,8 +18,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_articles_path, params: {}, headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    all_articles = response_json["articles"]
+    all_articles = response_to_json(response)["articles"]
     published_articles_count = @user.articles.where(status: "published").count
     draft_articles_count = @user.articles.where(status: "draft").count
     all_articles_count = @user.articles.count
@@ -40,8 +39,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       article_status: "published",
       selected_category_fiter: [filter_category_one.name, filter_category_two.name]
     }, headers: headers
-    response_json = response.parsed_body
-    response_articles = response_json["articles"]
+    response_articles = response_to_json(response)["articles"]
 
     search_filtered_articles = @user.articles.all.where("title like ?", "%test%")
     status_filtered_articles = search_filtered_articles.where("status like ?", "%published%")
@@ -56,8 +54,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_articles_path, params: { search_query: "test" }, headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    response_articles = response_json["articles"]
+    response_articles = response_to_json(response)["articles"]
     actual_articles = @user.articles.where("title like ?", "%test%")
 
     assert_equal actual_articles.count, response_articles.count
@@ -73,8 +70,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    response_articles = response_json["articles"]
+    response_articles = response_to_json(response)["articles"]
     actual_articles = @user.articles.all.select { |article|
       [filter_category_one.name].include? article.assigned_category.name }
 
@@ -88,8 +84,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_articles_path, params: { article_status: "draft" }, headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    response_articles = response_json["articles"]
+    response_articles = response_to_json(response)["articles"]
     actual_articles = @user.articles.where("status like ?", "%draft%")
 
     assert_equal actual_articles.count, response_articles.count
@@ -105,17 +100,15 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       headers: headers
 
     assert_response :success
-    response_json = response.parsed_body
 
-    assert_equal t("successfully_created", entity: "Article"), response_json["notice"]
+    assert_equal t("successfully_created", entity: "Article"), response_to_json(response)["notice"]
   end
 
   def test_should_destroy_article
     delete api_article_path(@article.id), headers: headers
     assert_response :ok
 
-    response_json = response.parsed_body
-    assert_equal t("successfully_destroyed", entity: "Article"), response_json["notice"]
+    assert_equal t("successfully_destroyed", entity: "Article"), response_to_json(response)["notice"]
   end
 
   def test_should_give_article_not_found_for_invalid_article_id
@@ -123,8 +116,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_article_path(invalid_id), headers: headers
 
     assert_response :not_found
-    response_json = response.parsed_body
-    assert_includes response_json["error"], "Couldn't find Article with 'id'=#{invalid_id}"
+
+    assert_includes response_to_json(response)["error"], "Couldn't find Article with 'id'=#{invalid_id}"
   end
 
   def test_article_should_get_updated_successfully
@@ -148,8 +141,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_article_path(@article.id), headers: headers
 
     assert_response :ok
-    response_json = response.parsed_body
-    assert_equal @article.id, response_json["id"]
+
+    assert_equal @article.id, response_to_json(response)["id"]
   end
 
   def test_should_reorder_articles
@@ -171,9 +164,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get articles_of_category_api_article_path(@category.id), headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    assert_equal 2, response_json["articles"].length
-    assert_equal @article.id, response_json["articles"][0]["id"]
+    assert_equal 2, response_to_json(response)["articles"].length
+    assert_equal @article.id, response_to_json(response)["articles"][0]["id"]
   end
 
   def test_changes_categories_of_multiple_articles

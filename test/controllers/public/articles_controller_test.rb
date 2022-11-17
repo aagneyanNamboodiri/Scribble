@@ -18,8 +18,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get public_articles_path, params: { search_term: "" }, headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    all_articles = response_json["articles"]
+    all_articles = response_to_json(response)["articles"]
     published_articles_count = @user.articles.where(status: "published").count
 
     assert_equal published_articles_count, all_articles.count
@@ -33,8 +32,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get public_article_path(slug_to_get), headers: headers
     assert_response :success
 
-    response_json = response.parsed_body
-    article_title = response_json["title"]
+    article_title = response_to_json(response)["title"]
     assert_equal @article.title, article_title
   end
 
@@ -42,8 +40,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get public_articles_path, headers: headers
     assert_response :unauthorized
 
-    response_json = response.parsed_body
-    assert_equal t("not_authorized"), response_json["error"]
+    assert_equal t("not_authorized"), response_to_json(response)["error"]
   end
 
   def test_showing_article_increments_visits
@@ -76,10 +73,9 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     articles_with_search = @user.articles.where(
       "title like ?",
       title_to_search)
-    response_json = response.parsed_body
 
-    assert_equal response_json["articles"].count, articles_with_search.count
-    assert_equal response_json["articles"].first["id"], articles_with_search.first.id
+    assert_equal response_to_json(response)["articles"].count, articles_with_search.count
+    assert_equal response_to_json(response)["articles"].first["id"], articles_with_search.first.id
   end
 
   def test_invalid_slug_gives_error_message
@@ -90,7 +86,6 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get public_article_path(slug_to_get), headers: headers
     assert_response :unprocessable_entity
 
-    response_json = response.parsed_body
-    assert_equal t("doesnt_exist", entity: "Article"), response_json["error"]
+    assert_equal t("doesnt_exist", entity: "Article"), response_to_json(response)["error"]
   end
 end
