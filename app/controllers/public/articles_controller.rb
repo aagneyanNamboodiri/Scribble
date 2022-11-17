@@ -6,7 +6,7 @@ class Public::ArticlesController < Public::BaseController
   def index
     @articles = get_published_articles.where(
       "lower(title) like ?",
-      "%#{params[:search_term].downcase}%")
+      "%#{params[:search_term].downcase}%").order(:position)
   end
 
   def show
