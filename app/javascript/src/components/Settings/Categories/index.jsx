@@ -124,11 +124,22 @@ const Categories = () => {
         </div>
       </div>
       <div className="w-2/3">
-        <ArticleListing
-          categories={categories}
-          fetchCategories={fetchCategories}
-          selectedCategory={selectedCategory}
-        />
+        {selectedCategory.articles_count > 0 ? (
+          <ArticleListing
+            categories={categories}
+            fetchCategories={fetchCategories}
+            selectedCategory={selectedCategory}
+          />
+        ) : (
+          <div className="grid place-items-center">
+            <Typography style="h1" weight="medium">
+              :/
+            </Typography>
+            <Typography style="h2" weight="medium">
+              This category has no articles
+            </Typography>
+          </div>
+        )}
       </div>
     </div>
   );
