@@ -18,10 +18,10 @@ const Categories = () => {
 
   const handleOnDragEnd = result => {
     if (!result.destination) return;
-    handleReorder(
-      result.draggableId,
-      result.source.index - result.destination.index
-    );
+    handleReorder({
+      id: result.draggableId,
+      position: result.destination.index + 1,
+    });
     const items = Array.from(categories);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
@@ -29,9 +29,9 @@ const Categories = () => {
     setCategories(items);
   };
 
-  const handleReorder = async (id, positions) => {
+  const handleReorder = async ({ id, position }) => {
     try {
-      await categoriesApi.reorder(id, { positions });
+      await categoriesApi.reorder({ id, position });
     } catch (err) {
       logger.log(err);
     }

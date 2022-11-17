@@ -15,7 +15,10 @@ const Form = ({ isEditing, setAction, redirection, refetch }) => {
   const handleSubmit = async redirections => {
     try {
       isEditing
-        ? await redirectionsApi.update(redirection.id, { redirections })
+        ? await redirectionsApi.update({
+            id: redirection.id,
+            payload: { redirections },
+          })
         : await redirectionsApi.create({ redirections });
       refetch();
     } catch (err) {

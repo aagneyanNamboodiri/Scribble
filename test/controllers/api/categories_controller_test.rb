@@ -88,7 +88,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     @category_2.position = 2
     @category.save!
     @category_2.save!
-    put reorder_api_category_path(@category_2.id), params: { reorder: { positions: 2 } }, headers: headers
+    put reorder_api_category_path(@category_2.id), params: { position: 1 }, headers: headers
     @category.reload
     @category_2.reload
     assert_equal 1, @category_2.position

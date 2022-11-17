@@ -15,7 +15,7 @@ const Form = ({ category = {}, setAction, refetch, isEditing }) => {
     try {
       Object.keys(category).length === 0
         ? await categoriesApi.create(name)
-        : await categoriesApi.update(category.id, name);
+        : await categoriesApi.update({ id: category.id, payload: name });
     } catch (err) {
       Logger.log(err);
     }

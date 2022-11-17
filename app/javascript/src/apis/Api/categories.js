@@ -9,18 +9,16 @@ const create = payload =>
     category: payload,
   });
 
-const destroy = (id, new_category) =>
+const destroy = ({ id, new_category }) =>
   axios.delete(`api/categories/${id}?new_category=${new_category}`);
 
-const update = (id, payload) =>
+const update = ({ id, payload }) =>
   axios.put(`api/categories/${id}`, {
     category: payload,
   });
 
-const reorder = (id, payload) =>
-  axios.put(`api/categories/${id}/reorder/`, {
-    reorder: payload,
-  });
+const reorder = ({ id, position }) =>
+  axios.put(`api/categories/${id}/reorder/`, { position });
 
 const categoriesApi = { list, create, destroy, update, reorder, show_articles };
 
