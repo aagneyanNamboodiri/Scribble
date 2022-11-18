@@ -11,83 +11,16 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     @headers = headers()
   end
 
-  def test_list_all_articles_without_any_filters
+  def test_lists_articles
     5.times do
       @article = create(:article, user: @user, assigned_category: @category)
     end
+
     get api_articles_path, params: {}, headers: headers
     assert_response :success
 
-    all_articles = response_to_json(response)["articles"]
-    published_articles_count = @user.articles.where(status: "published").count
-    draft_articles_count = @user.articles.where(status: "draft").count
-    all_articles_count = @user.articles.count
-
-    assert_equal all_articles.count, all_articles_count
-    assert_equal published_articles_count, @user.articles.where(status: :published).count
-    assert_equal draft_articles_count, @user.articles.where(status: :draft).count
-  end
-
-  def test_lists_articles_with_all_filters
-    filter_category_one = create(:category, user: @user)
-    filter_category_two = create(:category, user: @user)
-    titled_article = create(:article, user: @user, assigned_category: @category, title: "test", status: "published")
-    category_one_article = create(:article, user: @user, assigned_category: filter_category_one)
-    category_two_article = create(:article, user: @user, assigned_category: filter_category_two)
-    get api_articles_path, params: {
-      search_query: "test",
-      article_status: "published",
-      selected_category_fiter: [filter_category_one.name, filter_category_two.name]
-    }, headers: headers
-    response_articles = response_to_json(response)["articles"]
-
-    search_filtered_articles = @user.articles.all.where("title like ?", "%test%")
-    status_filtered_articles = search_filtered_articles.where("status like ?", "%published%")
-    fully_filtered_articles = status_filtered_articles.select { |article|
-      [filter_category_one.name, filter_category_two.name].include? article.assigned_category.name }
-
-    assert_equal fully_filtered_articles.count, response_articles.count
-  end
-
-  def test_lists_only_article_with_search_term
-    titled_article = create(:article, user: @user, assigned_category: @category, title: "test", status: "published")
-    get api_articles_path, params: { search_query: "test" }, headers: headers
-    assert_response :success
-
-    response_articles = response_to_json(response)["articles"]
-    actual_articles = @user.articles.where("title like ?", "%test%")
-
-    assert_equal actual_articles.count, response_articles.count
-    assert_equal actual_articles[0].id, response_articles[0]["id"]
-  end
-
-  def test_lists_articles_with_a_category_filter
-    filter_category_one = create(:category, user: @user)
-    filter_category_two = create(:category, user: @user)
-    category_one_article = create(:article, user: @user, assigned_category: filter_category_one)
-    category_two_article = create(:article, user: @user, assigned_category: filter_category_two)
-    get api_articles_path, params: { selected_category_fiter: [filter_category_one.name] },
-      headers: headers
-    assert_response :success
-
-    response_articles = response_to_json(response)["articles"]
-    actual_articles = @user.articles.all.select { |article|
-      [filter_category_one.name].include? article.assigned_category.name }
-
-    assert_equal actual_articles.count, response_articles.count
-    assert_equal actual_articles[0].id, response_articles[0]["id"]
-  end
-
-  def test_lists_only_article_with_provided_status
-    published_article = create(:article, user: @user, assigned_category: @category, status: "published")
-    drafted_article = create(:article, user: @user, assigned_category: @category, status: "draft")
-    get api_articles_path, params: { article_status: "draft" }, headers: headers
-    assert_response :success
-
-    response_articles = response_to_json(response)["articles"]
-    actual_articles = @user.articles.where("status like ?", "%draft%")
-
-    assert_equal actual_articles.count, response_articles.count
+    articles = response_to_json(response)["articles"]
+    assert_equal @user.articles.count, articles.count
   end
 
   def test_should_be_able_to_create_a_valid_article_with_params
