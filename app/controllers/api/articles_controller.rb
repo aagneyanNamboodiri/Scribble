@@ -6,13 +6,9 @@ class Api::ArticlesController < ApplicationController
   before_action :load_category!, only: %i[articles_of_category]
 
   def index
-    @articles = filter_articles
-    if @categories_to_filter_with.length == 0
-      render
-    end
-
-    @articles = @articles.select { |article|
-      @categories_to_filter_with.include? article.assigned_category.name }
+    @articles = ArticleFilteringService.new(
+      @categories_to_filter_with, @status_to_filter, @search_term,
+      current_user).process
   end
 
   def create
