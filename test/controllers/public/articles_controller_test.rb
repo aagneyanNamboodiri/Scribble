@@ -32,7 +32,7 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get public_article_path(slug_to_get), headers: headers
     assert_response :success
 
-    article_title = response_to_json(response)["title"]
+    article_title = response_to_json(response)["article"]["title"]
     assert_equal @article.title, article_title
   end
 

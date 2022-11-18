@@ -30,8 +30,10 @@ const CreateAndEdit = () => {
   };
   const fetchArticle = async () => {
     try {
-      const { data } = await articlesApi.show(id);
-      setFetchedArticle(data);
+      const {
+        data: { article },
+      } = await articlesApi.show(id);
+      setFetchedArticle(article);
     } catch (error) {
       logger.error(error);
     }

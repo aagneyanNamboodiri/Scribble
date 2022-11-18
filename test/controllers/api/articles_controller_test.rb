@@ -142,7 +142,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
 
-    assert_equal @article.id, response_to_json(response)["id"]
+    assert_equal @article.id, response_to_json(response)["article"]["id"]
   end
 
   def test_should_reorder_articles
