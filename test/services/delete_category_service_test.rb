@@ -14,7 +14,9 @@ class DeleteCategoryServiceTest < ActionDispatch::IntegrationTest
 
   def test_should_delete_category_if_it_has_no_articles_under_it
     @category_2.save!
-    delete api_category_path(@category_2.id), headers: headers
+    assert_difference "Category.count", -1 do
+      delete api_category_path(@category_2.id), headers: headers
+    end
 
     assert_response :success
     assert_equal t("successfully_destroyed", entity: "Category"), response_to_json(response)["notice"]
@@ -22,11 +24,13 @@ class DeleteCategoryServiceTest < ActionDispatch::IntegrationTest
 
   def test_should_switch_article_category_to_new_category_when_deleting
     @article.save!
-    delete api_category_path(@category.id),
-      params: {
-        new_category: @category_2.id
-      },
-      headers: headers
+    assert_difference "Category.count", -1 do
+      delete api_category_path(@category.id),
+        params: {
+          new_category: @category_2.id
+        },
+        headers: headers
+    end
 
     assert_response :success
     @article.reload
@@ -41,8 +45,8 @@ class DeleteCategoryServiceTest < ActionDispatch::IntegrationTest
     delete api_category_path(@category.id), headers: headers
 
     assert_response :success
-    assert_equal 1, Category.all.count
-    assert_equal "General", Category.first.name
+    assert_equal 1, @user.categories.all.count
+    assert_equal "General", @user.categories.first.name
   end
 
   def test_from_category_and_to_category_cannot_be_same

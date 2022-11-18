@@ -8,7 +8,43 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
     @user = create(:user, organization: @organization)
     @category = create(:category, user: @user)
     @category_2 = create(:category, user: @user)
-    @article = build(:article, user: @user, assigned_category: @category)
+    @article = create(:article, user: @user, assigned_category: @category)
+    @article_two = create(:article, user: @user, assigned_category: @category)
+    @article_three = create(:article, user: @user, assigned_category: @category)
     @headers = headers()
+  end
+
+  def test_switches_articles_categories
+    SwitchArticlesToNewCategoryService.new(
+      [@article.id, @article_two.id, @article_three.id], @category_2.id
+    ).process
+    [@article, @article_two, @article_three].each { |article|
+      article.reload
+      assert_equal @category_2.id, article.assigned_category_id
+    }
+  end
+
+  def test_to_category_cannot_be_the_from_category
+    assert_raises Exception do
+      SwitchArticlesToNewCategoryService.new(
+        [@article.id, @article_two.id, @article_three.id], @category.id
+      ).process
+    end
+  end
+
+  def test_to_category_needs_to_be_a_valid_category_id
+    assert_raises ActiveRecord::RecordInvalid do
+      SwitchArticlesToNewCategoryService.new(
+        [@article.id, @article_two.id, @article_three.id], @category_2.id + "invalid-id"
+      ).process
+    end
+  end
+
+  def test_article_ids_passed_must_be_valid
+    assert_raises ActiveRecord::RecordNotFound do
+      SwitchArticlesToNewCategoryService.new(
+        [@article.id + "invalid-id"], @category_2.id
+      ).process
+    end
   end
 end
