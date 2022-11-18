@@ -6,7 +6,7 @@ class SwitchArticlesToNewCategoryService
     @article_ids = article_ids
     @to_category = to_category_id
     if @current_user.articles.find(article_ids[0]).assigned_category_id == @to_category
-      raise Exception.new "From category cannot be the to category"
+      raise Exception.new t("invalid_from_category")
     end
   end
 

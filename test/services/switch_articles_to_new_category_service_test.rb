@@ -8,81 +8,43 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
     @user = create(:user, organization: @organization)
     @category = create(:category, user: @user)
     @category_2 = create(:category, user: @user)
-    @article = build(:article, user: @user, assigned_category: @category)
+    @article = create(:article, user: @user, assigned_category: @category)
+    @article_two = create(:article, user: @user, assigned_category: @category)
+    @article_three = create(:article, user: @user, assigned_category: @category)
     @headers = headers()
   end
 
-  def test_shouldnt_delete_category_if_it_has_article_assigned_to_it
-    some_category = build(:category)
-    @article.assigned_category = some_category
-    @article.save!
-    assert_raises NoMethodError do
-      delete api_category_path(@some_category.id.to_i), headers: headers
+  def test_switches_articles_categories
+    SwitchArticlesToNewCategoryService.new(
+      [@article.id, @article_two.id, @article_three.id], @category_2.id
+    ).process
+    [@article, @article_two, @article_three].each do |article|
+      article.reload
+      assert_equal @category_2.id, article.assigned_category_id
     end
   end
 
-  def test_should_delete_category_if_it_has_no_articles_under_it
-    @category_2.save!
-    delete api_category_path(@category_2.id), headers: headers
-
-    assert_response :success
-    assert_equal t("successfully_destroyed", entity: "Category"), response_to_json(response)["notice"]
-  end
-
-  def test_should_switch_article_category_to_new_category_when_deleting
-    @article.save!
-    delete api_category_path(@category.id),
-      params: {
-        new_category: @category_2.id
-      },
-      headers: headers
-
-    assert_response :success
-    @article.reload
-    assert_equal @category_2.id, @article.assigned_category_id
-  end
-
-  def test_should_create_general_category_when_deleting_last_category
-    delete api_category_path(@category_2.id), headers: headers
-    assert_response :success
-
-    @article.save!
-    delete api_category_path(@category.id), headers: headers
-
-    assert_response :success
-    assert_equal 1, Category.all.count
-    assert_equal "General", Category.first.name
-  end
-
-  def test_from_category_and_to_category_cannot_be_same
-    @article.save!
+  def test_to_category_cannot_be_the_from_category
     assert_raises Exception do
-      delete api_category_path(@category.id),
-        params: {
-          new_category: @category.id
-        },
-        headers: headers
+      SwitchArticlesToNewCategoryService.new(
+        [@article.id, @article_two.id, @article_three.id], @category.id
+      ).process
     end
   end
 
-  def test_from_category_has_to_be_a_valid_category
-    delete api_category_path(@category.id + "test"),
-      params: {
-        new_category: @category.id
-      },
-      headers: headers
-
-    assert_includes response_to_json(response)["error"], "Couldn't find Category with 'id'="
+  def test_to_category_needs_to_be_a_valid_category_id
+    assert_raises ActiveRecord::RecordInvalid do
+      SwitchArticlesToNewCategoryService.new(
+        [@article.id, @article_two.id, @article_three.id], @category_2.id + "invalid-id"
+      ).process
+    end
   end
 
-  def test_to_category_has_to_be_a_valid_category
-    @article.save!
-    delete api_category_path(@category.id),
-      params: {
-        new_category: "test"
-      },
-      headers: headers
-
-    assert_equal "Assigned category must exist", response_to_json(response)["error"]
+  def test_article_ids_passed_must_be_valid
+    assert_raises ActiveRecord::RecordNotFound do
+      SwitchArticlesToNewCategoryService.new(
+        [@article.id + "invalid-id"], @category_2.id
+      ).process
+    end
   end
 end
