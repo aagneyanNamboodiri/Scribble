@@ -14,7 +14,7 @@ class DeleteCategoryServiceTest < ActionDispatch::IntegrationTest
 
   def test_should_delete_category_if_it_has_no_articles_under_it
     assert_difference "Category.count", -1 do
-      DeleteCategoryService.new(@category_2.id, @category.id).process
+      DeleteCategoryService.new(@category_2.id, "").process
     end
   end
 
