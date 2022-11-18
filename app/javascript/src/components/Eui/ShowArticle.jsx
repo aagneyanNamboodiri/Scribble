@@ -18,8 +18,10 @@ const ShowArticle = () => {
   const fetchArticle = async () => {
     try {
       setLoading(true);
-      const data = await publicArticlesApi.show(slug);
-      setArticle(data.data);
+      const {
+        data: { article },
+      } = await publicArticlesApi.show(slug);
+      setArticle(article);
       setArticleFound(true);
     } catch (error) {
       if (error.response.status) setArticleFound(false);
