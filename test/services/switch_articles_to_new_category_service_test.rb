@@ -18,10 +18,10 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
     SwitchArticlesToNewCategoryService.new(
       [@article.id, @article_two.id, @article_three.id], @category_2.id
     ).process
-    [@article, @article_two, @article_three].each { |article|
+    [@article, @article_two, @article_three].each do |article|
       article.reload
       assert_equal @category_2.id, article.assigned_category_id
-    }
+    end
   end
 
   def test_to_category_cannot_be_the_from_category

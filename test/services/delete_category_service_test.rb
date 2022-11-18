@@ -13,38 +13,26 @@ class DeleteCategoryServiceTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_delete_category_if_it_has_no_articles_under_it
-    @category_2.save!
     assert_difference "Category.count", -1 do
-      delete api_category_path(@category_2.id), headers: headers
+      DeleteCategoryService.new(@category_2.id, @category.id).process
     end
-
-    assert_response :success
-    assert_equal t("successfully_destroyed", entity: "Category"), response_to_json(response)["notice"]
   end
 
   def test_should_switch_article_category_to_new_category_when_deleting
     @article.save!
     assert_difference "Category.count", -1 do
-      delete api_category_path(@category.id),
-        params: {
-          new_category: @category_2.id
-        },
-        headers: headers
+      DeleteCategoryService.new(@category.id, @category_2.id).process
     end
 
-    assert_response :success
     @article.reload
     assert_equal @category_2.id, @article.assigned_category_id
   end
 
   def test_should_create_general_category_when_deleting_last_category
-    delete api_category_path(@category_2.id), headers: headers
-    assert_response :success
-
+    @category_2.destroy!
     @article.save!
-    delete api_category_path(@category.id), headers: headers
+    DeleteCategoryService.new(@category.id, "").process
 
-    assert_response :success
     assert_equal 1, @user.categories.all.count
     assert_equal "General", @user.categories.first.name
   end
@@ -52,40 +40,28 @@ class DeleteCategoryServiceTest < ActionDispatch::IntegrationTest
   def test_from_category_and_to_category_cannot_be_same
     @article.save!
     assert_raises Exception do
-      delete api_category_path(@category.id),
-        params: {
-          new_category: @category.id
-        },
-        headers: headers
+      DeleteCategoryService.new(@category.id, @category.id).process
     end
   end
 
   def test_from_category_has_to_be_a_valid_category
-    delete api_category_path(@category.id + "test"),
-      params: {
-        new_category: @category.id
-      },
-      headers: headers
-
-    assert_includes response_to_json(response)["error"], "Couldn't find Category with 'id'="
+    assert_raises ActiveRecord::RecordNotFound do
+      DeleteCategoryService.new(@category.id + "test", @category_2.id).process
+    end
   end
 
   def test_to_category_has_to_be_a_valid_category
     @article.save!
-    delete api_category_path(@category.id),
-      params: {
-        new_category: "test"
-      },
-      headers: headers
-
-    assert_equal "Assigned category must exist", response_to_json(response)["error"]
+    assert_raises ActiveRecord::RecordInvalid do
+      DeleteCategoryService.new(@category.id, "test").process
+    end
   end
 
   def test_shouldnt_delete_if_general_category_is_only_existing_category
     @category_2.destroy!
     @category.update!(name: "General")
     assert_raises Exception do
-      delete api_category_path(@category.id), headers: headers
+      DeleteCategoryService.new(@category.id, "").process
     end
   end
 end

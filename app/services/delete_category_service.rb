@@ -27,8 +27,7 @@ class DeleteCategoryService
       articles_to_switch_categories =
         @current_user.articles.where(assigned_category_id: @category_to_be_deleted)
       articles_to_switch_categories.each do |article|
-        article.assigned_category_id = @category_to_put_articles_to
-        article.save!
+        article.update!(assigned_category_id: @category_to_put_articles_to)
       end
       @current_user.categories.find(@category_to_be_deleted).destroy!
     end
