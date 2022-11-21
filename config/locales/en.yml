@@ -30,6 +30,7 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  general_category_cant_be_deleted: "Cannot delete General category if it is the only existing category"
   moved_articles_to_another_category: "Moved articles successfully"
   invalid_from_category: "From category cannot be the to category"
   invalid_from_path: "This FROM PATH cannot be used."
