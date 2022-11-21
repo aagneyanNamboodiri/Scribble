@@ -17,7 +17,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
   def test_switches_articles_categories
     SwitchArticlesToNewCategoryService.new(
       [@article.id, @article_two.id, @article_three.id], @category_2.id, @user
-    ).process
+    ).process!
     [@article, @article_two, @article_three].each do |article|
       article.reload
       assert_equal @category_2.id, article.assigned_category_id
@@ -28,7 +28,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
     assert_raises ArgumentError do
       SwitchArticlesToNewCategoryService.new(
         [@article.id, @article_two.id, @article_three.id], @category.id, @user
-      ).process
+      ).process!
     end
   end
 
@@ -36,7 +36,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
     assert_raises ActiveRecord::RecordInvalid do
       SwitchArticlesToNewCategoryService.new(
         [@article.id, @article_two.id, @article_three.id], @category_2.id + "invalid-id", @user
-      ).process
+      ).process!
     end
   end
 
@@ -44,7 +44,7 @@ class SwitchArticlesToNewCategoryServiceTest < ActionDispatch::IntegrationTest
     assert_raises ActiveRecord::RecordNotFound do
       SwitchArticlesToNewCategoryService.new(
         [@article.id + "invalid-id"], @category_2.id, @user
-      ).process
+      ).process!
     end
   end
 end

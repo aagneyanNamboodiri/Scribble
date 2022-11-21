@@ -12,7 +12,7 @@ class SwitchArticlesToNewCategoryService
     end
   end
 
-  def process
+  def process!
     switch_articles_to_new_category_service
   end
 

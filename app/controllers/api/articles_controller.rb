@@ -41,7 +41,7 @@ class Api::ArticlesController < ApplicationController
   def bulk_articles_category_update
     SwitchArticlesToNewCategoryService.new(
       params[:article_ids], params[:to_category], current_user
-    ).process
+    ).process!
     respond_with_success(t("moved_articles_to_another_category"))
   end
 
