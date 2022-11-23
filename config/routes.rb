@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       resource :organization, only: %i[show update]
       resources :redirections, except: %i[new edit show]
       resources :analytics, only: %i[index show]
-      resources :article_status_schedules, only: %i[index, create, delete]
+      resources :article_status_schedules, only: %i[index create destroy]
       post "/login", to: "login#create"
     end
     namespace :public do
