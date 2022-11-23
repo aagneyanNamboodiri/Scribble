@@ -5,7 +5,7 @@ class Api::ArticleStatusSchedulesController < ApplicationController
 
   def create
     @article.article_status_schedules.create!(schedule_params)
-    respond_with_success("Article successfully scheduled to #{params[:schedule][:status]}")
+    respond_with_success("Article successfully scheduled to #{params[:schedule][:article_status]}")
   end
 
   private
@@ -15,6 +15,6 @@ class Api::ArticleStatusSchedulesController < ApplicationController
     end
 
     def schedule_params
-      params.require(:schedule).permit([:schedule_time, :status])
+      params.require(:schedule).permit([:scheduled_time, :article_status])
     end
 end
