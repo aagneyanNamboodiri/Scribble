@@ -6,17 +6,13 @@ Rails.application.routes.draw do
       resources :articles, except: %i[new edit], param: :id do
         resources :article_versions, only: %i[index show]
         member do
-          put "reorder"
-          get "articles_of_category"
+          put :reorder
+          get :articles_of_category
         end
-        collection do
-          put "bulk_articles_category_update"
-        end
+        put :bulk_articles_category_update, on: :collection
       end
       resources :categories, except: %i[show new edit] do
-        member do
-          put "reorder"
-        end
+        put :reorder, on: :member
       end
       resource :organization, only: %i[show update]
       resources :redirections, except: %i[new edit show]

@@ -62,6 +62,9 @@ gem "kaminari"
 gem "paper_trail"
 gem "react-rails"
 gem "responders"
+gem "sidekiq", "<7"
+# For periodic sidekiq jobs
+gem "sidekiq-cron"
 
 group :development, :test do
     # Rails integration for factory_bot, a replacement for fixtures

@@ -12,11 +12,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_16_042651) do
+ActiveRecord::Schema.define(version: 2022_11_23_055821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "article_status_schedules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "status"
+    t.datetime "schedule_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "article_id"
+    t.index ["article_id"], name: "index_article_status_schedules_on_article_id"
+  end
 
   create_table "article_visits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.date "visit_date"
@@ -92,6 +101,7 @@ ActiveRecord::Schema.define(version: 2022_11_16_042651) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "article_status_schedules", "articles"
   add_foreign_key "article_visits", "articles"
   add_foreign_key "articles", "categories", column: "assigned_category_id"
   add_foreign_key "articles", "users"
