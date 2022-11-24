@@ -25,6 +25,7 @@ const Main = () => {
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [articleStatusCounts, setArticleStatusCounts] = useState({});
+  const [articlesCount, setArticlesCount] = useState(0);
 
   const handleDelete = id => {
     setArticleIdToDelete(id);
@@ -33,14 +34,14 @@ const Main = () => {
   const fetchArticles = async () => {
     try {
       const {
-        data: { articles },
+        data: { articles, counts },
       } = await articlesApi.list();
       setArticleStatusCounts({
-        all: articles.length,
-        published: articles.filter(article => article.status === "published")
-          .length,
-        draft: articles.filter(article => article.status === "draft").length,
+        all: counts.all,
+        published: counts.published,
+        draft: counts.draft,
       });
+      setArticlesCount(counts.articles_count);
       setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
@@ -64,9 +65,10 @@ const Main = () => {
     };
     try {
       const {
-        data: { articles },
+        data: { articles, counts },
       } = await articlesApi.list(payload);
       setFilteredArticles(articles);
+      setArticlesCount(counts.articles_count);
     } catch (error) {
       logger.error(error);
     }
@@ -133,9 +135,9 @@ const Main = () => {
         {articleStatusCounts.all > 0 && (
           <>
             <Typography className="font-semibold" style="h3">
-              {filteredArticles.length === 1
-                ? `${filteredArticles.length} Article`
-                : `${filteredArticles.length} Articles`}
+              {articlesCount === 1
+                ? `${articlesCount} Article`
+                : `${articlesCount} Articles`}
             </Typography>
             <Table
               columnData={filterColumnData(handleDelete, columnList)}

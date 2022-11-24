@@ -9,8 +9,14 @@ class Api::ArticlesController < ApplicationController
     all_articles = ArticleFilteringService.new(
       @categories_to_filter_with, @status_to_filter, @search_term,
       current_user).process
-    @articles_count = all_articles.count
     @articles = all_articles.page(1).per(10)
+    articles_count = all_articles.count
+    status_counts = current_user.articles.group(:status).distinct.count
+    @counts = {
+      **status_counts,
+      "articles_count": articles_count,
+      "all": status_counts.values.sum
+    }
   end
 
   def create
