@@ -19,8 +19,9 @@ ActiveRecord::Schema.define(version: 2022_11_23_055821) do
   enable_extension "plpgsql"
 
   create_table "article_status_schedules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "status"
-    t.datetime "schedule_time"
+    t.string "article_status"
+    t.datetime "scheduled_time"
+    t.string "schedule_status", default: "pending"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.uuid "article_id"
