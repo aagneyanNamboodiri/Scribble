@@ -6,10 +6,10 @@ class ArticleStatusSchedule < ApplicationRecord
   enum article_status: { published: "published", draft: "draft" }
 
   validates :scheduled_time, presence: true
-  validate :scheduled_time_cannot_be_in_the_past
   validate :scheduled_time_is_valid
-  validate :article_status_change_should_be_different_from_a_pending_schedule
+  validate :scheduled_time_cannot_be_in_the_past
   validate :article_cannot_be_scheduled_earlier_than_any_existing_schedules
+  validate :article_status_change_should_be_different_from_the_last_pending_schedule
 
   private
 
@@ -36,7 +36,7 @@ class ArticleStatusSchedule < ApplicationRecord
       end
     end
 
-    def article_status_change_should_be_different_from_a_pending_schedule
+    def article_status_change_should_be_different_from_the_last_pending_schedule
       if article_status == get_latest_schedule_for_an_article.article_status
         errors.add(:base, "This schedule already exists at a different time")
       end
