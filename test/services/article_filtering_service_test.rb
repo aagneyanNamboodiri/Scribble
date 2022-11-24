@@ -33,13 +33,13 @@ class ArticleFilteringServiceTest < ActionDispatch::IntegrationTest
       :article, user: @user, assigned_category: filter_category_two,
       title: "Something else ")
     articles = ArticleFilteringService.new(
-      [filter_category_one.name, filter_category_two.name], "published", "test", @user
+      [filter_category_one.id, filter_category_two.id], "published", "test", @user
     ).process
 
     search_filtered_articles = @user.articles.all.where("title like ?", "test")
     status_filtered_articles = search_filtered_articles.where("status like ?", "published")
     fully_filtered_articles = status_filtered_articles.select { |article|
-      [filter_category_one.name, filter_category_two.name].include? article.assigned_category.name }
+      [filter_category_one.id, filter_category_two.id].include? article.assigned_category.id }
     assert_equal fully_filtered_articles.count, articles.count
   end
 
@@ -57,10 +57,10 @@ class ArticleFilteringServiceTest < ActionDispatch::IntegrationTest
     filter_category_two = create(:category, user: @user)
     category_one_article = create(:article, user: @user, assigned_category: filter_category_one)
     category_two_article = create(:article, user: @user, assigned_category: filter_category_two)
-    articles = ArticleFilteringService.new([filter_category_one.name], "all", "", @user).process
+    articles = ArticleFilteringService.new([filter_category_one.id], "all", "", @user).process
 
     actual_articles = @user.articles.all.select { |article|
-      [filter_category_one.name].include? article.assigned_category.name }
+      [filter_category_one.id].include? article.assigned_category.id }
 
     assert_equal actual_articles.count, articles.count
     assert_equal actual_articles[0].id, articles[0]["id"]
