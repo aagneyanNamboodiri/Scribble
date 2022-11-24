@@ -6,9 +6,11 @@ class Api::ArticlesController < ApplicationController
   before_action :load_category!, only: %i[articles_of_category]
 
   def index
-    @articles = ArticleFilteringService.new(
+    all_articles = ArticleFilteringService.new(
       @categories_to_filter_with, @status_to_filter, @search_term,
       current_user).process
+    @articles_count = all_articles.count
+    @articles = all_articles.page(1).per(10)
   end
 
   def create
