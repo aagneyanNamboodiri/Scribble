@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class ArticleStatusSchedule < ApplicationRecord
-  belongs_to :article
   enum schedule_status: { pending: "pending", done: "done" }
   enum article_status: { published: "published", draft: "draft" }
+
+  belongs_to :article
 
   validates :scheduled_time, presence: true
   validate :scheduled_time_is_valid
