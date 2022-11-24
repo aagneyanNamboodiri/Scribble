@@ -19,15 +19,15 @@ const SideMenu = ({
   const [categorySearch, setCategorySearch] = useState("");
   const [isCreating, setIsCreating] = useState(false);
 
-  const handleCategoryFiltering = categoryName => {
-    const indexOfCategory = selectedCategoryFilter?.indexOf(categoryName);
+  const handleCategoryFiltering = categoryId => {
+    const indexOfCategory = selectedCategoryFilter?.indexOf(categoryId);
     setIsSearchCollapsed(true);
     setCategorySearch("");
     if (indexOfCategory === -1) {
-      setSelectedCategoryFilter(prev => [...prev, categoryName]);
+      setSelectedCategoryFilter(prev => [...prev, categoryId]);
     } else {
       setSelectedCategoryFilter(prev =>
-        prev.filter(prev_category => prev_category !== categoryName)
+        prev.filter(prev_category => prev_category !== categoryId)
       );
     }
   };
@@ -92,11 +92,11 @@ const SideMenu = ({
         )
         .map(category => (
           <MenuBar.Block
-            active={selectedCategoryFilter.includes(category.name)}
+            active={selectedCategoryFilter.includes(category.id)}
             count={category.articles_count || 0}
             key={category.id}
             label={category.name}
-            onClick={() => handleCategoryFiltering(category.name)}
+            onClick={() => handleCategoryFiltering(category.id)}
           />
         ))}
     </MenuBar>
