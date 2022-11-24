@@ -7,16 +7,16 @@ class ArticleStatusSchedule < ApplicationRecord
   belongs_to :article
 
   validates :scheduled_time, presence: true
-  validate :scheduled_time_is_valid
-  validate :scheduled_time_cannot_be_in_the_past
-  validate :article_cannot_be_scheduled_earlier_than_any_existing_schedules
-  validate :article_status_change_should_be_different_from_the_last_pending_schedule
+  validate :scheduled_time_is_valid, on: :create
+  validate :scheduled_time_cannot_be_in_the_past, on: :create
+  validate :article_cannot_be_scheduled_earlier_than_any_existing_schedules, on: :create
+  validate :article_status_change_should_be_different_from_the_last_pending_schedule, on: :create
 
   private
 
     def scheduled_time_cannot_be_in_the_past
       if scheduled_time.present? &&
-          scheduled_time < Time.zone.now.hour
+          scheduled_time < Time.zone.now
         errors.add(:scheduled_time, "can't be in the past")
       end
     end
@@ -38,7 +38,9 @@ class ArticleStatusSchedule < ApplicationRecord
     end
 
     def article_status_change_should_be_different_from_the_last_pending_schedule
-      if article_status == get_latest_schedule_for_an_article.article_status
+      latest_schedule = get_latest_schedule_for_an_article
+      if !latest_schedule.nil? &&
+        article_status == get_latest_schedule_for_an_article.article_status
         errors.add(:base, "This schedule already exists at a different time")
       end
     end

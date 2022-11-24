@@ -43,7 +43,7 @@ const VersionList = ({ fetchData, article, categories }) => {
   }
 
   return (
-    <div className="border-l w-1/4 p-4">
+    <div className="p-4">
       <Typography style="h3">Version History</Typography>
       <Typography className="text-gray-600" style="body2">
         {`Version history of ${article.title}`}
