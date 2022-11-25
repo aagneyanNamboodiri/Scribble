@@ -9,15 +9,29 @@ import TooltipWrapper from "tooltipwrapper";
 import articlesApi from "apis/Api/articles";
 
 import { INITIAL_ARTICLES_FORM_VALUES } from "./constants";
+import SchedulerModal from "./SchedulerModal";
 import {
   buildArticlesFormValidationSchema,
   buildInitialValuesForEditArticle,
   buildCategoryList,
+  getArticleSchedulingStatus,
 } from "./utils";
 
-const Form = ({ id, isEdit, articleData, categories }) => {
+const Form = ({
+  id,
+  isEdit,
+  articleData,
+  categories,
+  schedules,
+  fetchSchedules,
+}) => {
   const [status, setStatus] = useState(articleData?.status);
   const [noChangesMade, setNoChangesMade] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const statusToScheduleTo = getArticleSchedulingStatus({
+    schedules,
+    articleData,
+  });
 
   const history = useHistory();
   const statusList = ["Save Draft", "Publish"];
@@ -83,57 +97,83 @@ const Form = ({ id, isEdit, articleData, categories }) => {
             placeholder="What do you wish to write"
             rows="15"
           />
-          <div className="mr-4 flex space-x-2">
-            <TooltipWrapper
-              disabled={!(isValid && dirty) && noChangesMade}
-              position="bottom"
-              content={
-                isEdit
-                  ? "Please edit article to save"
-                  : "Please type in all the fields to add article"
-              }
-            >
-              <ActionDropdown
-                label={status === "published" ? "Publish" : "Save Draft"}
-                loading={isSubmitting}
-                type="submit"
-                buttonProps={{
-                  disabled: !(isValid && dirty) && noChangesMade,
-                }}
-                onClick={handleSubmit}
+          <div className="flex-col space-y-6">
+            <div className="mr-4 flex space-x-2">
+              <TooltipWrapper
+                disabled={!(isValid && dirty) && noChangesMade}
+                position="bottom"
+                content={
+                  isEdit
+                    ? "Please edit article to save"
+                    : "Please type in all the fields to add article"
+                }
               >
-                <ul>
-                  {statusList.map((item, idx) => (
-                    <li
-                      key={idx}
-                      onClick={() => {
-                        if (
-                          (item === "Save Draft" &&
-                            articleData.status === "published") ||
-                          (item === "Publish" && articleData.status === "draft")
-                        ) {
-                          setNoChangesMade(false);
-                        } else {
-                          setNoChangesMade(true);
-                        }
-                        item === "Save Draft"
-                          ? setStatus("draft")
-                          : setStatus("published");
-                      }}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </ActionDropdown>
-            </TooltipWrapper>
-            <Button
-              label="Cancel"
-              size="large"
-              style="text"
-              type="reset"
-              onClick={() => history.push("/articles")}
-            />
+                <ActionDropdown
+                  loading={isSubmitting}
+                  type="submit"
+                  buttonProps={{
+                    disabled: !(isValid && dirty) && noChangesMade,
+                  }}
+                  label={
+                    status === "published" ? "Publish Now" : "Save as Draft"
+                  }
+                  onClick={handleSubmit}
+                >
+                  <ul>
+                    {statusList.map((item, idx) => (
+                      <li
+                        key={idx}
+                        onClick={() => {
+                          if (
+                            (item === "Save Draft" &&
+                              articleData.status === "published") ||
+                            (item === "Publish" &&
+                              articleData.status === "draft")
+                          ) {
+                            setNoChangesMade(false);
+                          } else {
+                            setNoChangesMade(true);
+                          }
+                          item === "Save Draft"
+                            ? setStatus("draft")
+                            : setStatus("published");
+                        }}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </ActionDropdown>
+              </TooltipWrapper>
+              <Button
+                label="Cancel"
+                size="large"
+                style="text"
+                type="reset"
+                onClick={() => history.push("/articles")}
+              />
+            </div>
+            {isEdit && (
+              <div className="flex space-x-2">
+                <Button
+                  label={
+                    statusToScheduleTo === "published"
+                      ? "Publish later"
+                      : "Save to draft later"
+                  }
+                  onClick={() => setShowModal(true)}
+                />
+                {showModal && (
+                  <SchedulerModal
+                    articleId={articleData.id}
+                    fetchSchedules={fetchSchedules}
+                    setShowModal={setShowModal}
+                    showModal={showModal}
+                    statusToScheduleTo={statusToScheduleTo}
+                  />
+                )}
+              </div>
+            )}
           </div>
         </FormikForm>
       )}

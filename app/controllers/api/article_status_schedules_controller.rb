@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class Api::ArticleStatusSchedulesController < ApplicationController
-  before_action :load_article!, only: %i[create]
+  before_action :load_article!, only: %i[create index]
+
+  def index
+    @schedules = @article.article_status_schedules.order(scheduled_time: :desc)
+  end
 
   def create
     @article.article_status_schedules.create!(schedule_params)
@@ -11,7 +15,7 @@ class Api::ArticleStatusSchedulesController < ApplicationController
   private
 
     def load_article!
-      @article = current_user.articles.find(params[:schedule][:article_id])
+      @article = current_user.articles.find(params[:article_id])
     end
 
     def schedule_params

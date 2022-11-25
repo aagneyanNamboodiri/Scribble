@@ -10,6 +10,8 @@ dayjs.extend(advancedFormat);
 export const formatTime = dateTime =>
   dayjs(dateTime).format("h:mm A,  MM/DD/YYYY");
 
+export const getHour = dateTime => dayjs(dateTime).format("h A,  MM/DD/YYYY");
+
 export const buildArticlesFormValidationSchema = categoryList => {
   const validationSchema = yup.object().shape({
     title: yup
@@ -59,3 +61,13 @@ export const buildCategoryList = categories =>
     value: category.id,
     label: category.name,
   }));
+
+export const getArticleSchedulingStatus = ({ schedules, articleData }) => {
+  if (schedules.length) {
+    return schedules[0]["article_status"] === "published"
+      ? "draft"
+      : "published";
+  }
+
+  return articleData.status === "published" ? "draft" : "published";
+};
