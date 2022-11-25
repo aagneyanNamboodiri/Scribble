@@ -57,8 +57,10 @@ const CreateAndEdit = () => {
   };
   const fetchData = async () => {
     setLoading(true);
-    await Promise.all([fetchCategories(), fetchSchedules()]);
-    if (typeof id !== "undefined") await fetchArticle();
+    await fetchCategories();
+    if (typeof id !== "undefined") {
+      await Promise.all([fetchArticle(), fetchSchedules()]);
+    }
     setLoading(false);
   };
 

@@ -16,8 +16,7 @@ const SchedulerModal = ({
   const handleScheduleCreate = async () => {
     const payload = {
       schedule: {
-        article_status:
-          statusToScheduleTo === "published" ? "published" : "draft",
+        article_status: statusToScheduleTo,
         scheduled_time: time,
       },
       article_id: articleId,
@@ -35,11 +34,11 @@ const SchedulerModal = ({
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
       <Modal.Header>
-        <Typography style="h2">Modal</Typography>
+        <Typography style="h2">Schedule article</Typography>
       </Modal.Header>
       <Modal.Body className="space-y-6">
         <div>
-          <Typography>Date</Typography>
+          <Typography>Pick a date and hour</Typography>
           <DatePicker
             showTime
             dateFormat="DD/MM/YYYY"

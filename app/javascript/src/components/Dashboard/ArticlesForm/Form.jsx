@@ -153,26 +153,27 @@ const Form = ({
                 onClick={() => history.push("/articles")}
               />
             </div>
-            <div className="flex space-x-2">
-              <Button
-                label={
-                  statusToScheduleTo === "published"
-                    ? "Publish later"
-                    : "Save to draft later"
-                }
-                onClick={() => setShowModal(true)}
-              />
-              {showModal && (
-                <SchedulerModal
-                  articleId={articleData.id}
-                  articleStatus={articleData.status}
-                  fetchSchedules={fetchSchedules}
-                  setShowModal={setShowModal}
-                  showModal={showModal}
-                  statusToScheduleTo={statusToScheduleTo}
+            {isEdit && (
+              <div className="flex space-x-2">
+                <Button
+                  label={
+                    statusToScheduleTo === "published"
+                      ? "Publish later"
+                      : "Save to draft later"
+                  }
+                  onClick={() => setShowModal(true)}
                 />
-              )}
-            </div>
+                {showModal && (
+                  <SchedulerModal
+                    articleId={articleData.id}
+                    fetchSchedules={fetchSchedules}
+                    setShowModal={setShowModal}
+                    showModal={showModal}
+                    statusToScheduleTo={statusToScheduleTo}
+                  />
+                )}
+              </div>
+            )}
           </div>
         </FormikForm>
       )}
