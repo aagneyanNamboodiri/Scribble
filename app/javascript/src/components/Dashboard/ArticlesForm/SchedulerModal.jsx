@@ -50,12 +50,7 @@ const SchedulerModal = ({
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          label="Continue"
-          onClick={() => {
-            handleScheduleCreate(false);
-          }}
-        />
+        <Button label="Continue" onClick={handleScheduleCreate} />
         <Button
           label="Cancel"
           style="text"
