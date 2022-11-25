@@ -17,9 +17,9 @@ class DeleteScheduleService
     def delete_schedule_service
       schedule = ArticleStatusSchedule.find(id)
       article = current_user.articles.find(schedule.article_id)
-      schedules_for_article = article.article_status_schedules.all.order(scheduled_time: :desc)
-      duplicate_schedule = schedules_for_article.find_by!(scheduled_time: schedule.scheduled_time..)
-      if schedule.id != duplicate_schedule.id
+      schedules_for_article = article.article_status_schedules.all.order(scheduled_time: :asc)
+      duplicate_schedule = schedules_for_article.find_by("scheduled_time > ?", schedule.scheduled_time)
+      if !duplicate_schedule.nil?
         duplicate_schedule.destroy!
       end
       schedule.destroy!

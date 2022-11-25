@@ -115,7 +115,7 @@ const CreateAndEdit = () => {
               fetchData={fetchData}
             />
           ) : (
-            <Schedules schedules={schedules} />
+            <Schedules refetch={fetchSchedules} schedules={schedules} />
           )}
         </div>
       )}

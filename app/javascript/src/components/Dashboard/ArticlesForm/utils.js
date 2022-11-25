@@ -71,3 +71,15 @@ export const getArticleSchedulingStatus = ({ schedules, articleData }) => {
 
   return articleData.status === "published" ? "draft" : "published";
 };
+
+export const buildDeleteAlertMessage = ({ status }) => `Deleting this ${
+  status === "draft" ? "drafting" : "publishing"
+}
+      schedule will delete the next ${
+        status === "draft" ? "publishing" : "drafting"
+      } schedule with it to prevent a
+      duplicate article ${
+        status === "draft" ? "publishing" : "drafting"
+      }. Donot worry! Your article will stay in it's current status. Which is, ${
+  status === "draft" ? "published" : "draft"
+}.`;
