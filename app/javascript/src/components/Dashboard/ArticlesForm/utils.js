@@ -10,6 +10,8 @@ dayjs.extend(advancedFormat);
 export const formatTime = dateTime =>
   dayjs(dateTime).format("h:mm A,  MM/DD/YYYY");
 
+export const getHour = dateTime => dayjs(dateTime).format("h A,  MM/DD/YYYY");
+
 export const buildArticlesFormValidationSchema = categoryList => {
   const validationSchema = yup.object().shape({
     title: yup
