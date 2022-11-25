@@ -61,3 +61,13 @@ export const buildCategoryList = categories =>
     value: category.id,
     label: category.name,
   }));
+
+export const getArticleSchedulingStatus = ({ schedules, articleData }) => {
+  if (schedules.length) {
+    return schedules[0]["article_status"] === "published"
+      ? "draft"
+      : "published";
+  }
+
+  return articleData.status === "published" ? "draft" : "published";
+};

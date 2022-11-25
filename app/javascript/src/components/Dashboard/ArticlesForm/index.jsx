@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 import articlesApi from "apis/Api/articles";
 import categoriesApi from "apis/Api/categories";
+import schedulesApi from "apis/Api/schedules";
 import { useArticleStatusDispatchContext } from "contexts/articleStatus";
 
 import Form from "./Form";
@@ -14,11 +15,11 @@ import Versions from "./Versions";
 const CreateAndEdit = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [schedules, setSchedules] = useState([]);
   const [fetchedArticle, setFetchedArticle] = useState({});
   const [showVersionList, setShowVersionList] = useState(true);
 
   const { id } = useParams();
-
   const articleStatusDispatch = useArticleStatusDispatchContext();
 
   const fetchCategories = async () => {
@@ -41,9 +42,22 @@ const CreateAndEdit = () => {
       logger.error(error);
     }
   };
+  const fetchSchedules = async () => {
+    const payload = {
+      article_id: id,
+    };
+    try {
+      const {
+        data: { schedules },
+      } = await schedulesApi.list(payload);
+      setSchedules(schedules);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
   const fetchData = async () => {
     setLoading(true);
-    await fetchCategories();
+    await Promise.all([fetchCategories(), fetchSchedules()]);
     if (typeof id !== "undefined") await fetchArticle();
     setLoading(false);
   };
@@ -74,8 +88,10 @@ const CreateAndEdit = () => {
         articleData={fetchedArticle}
         categories={categories}
         className="w-2/4"
+        fetchSchedules={fetchSchedules}
         id={id}
         isEdit={!!id}
+        schedules={schedules}
       />
       {id && (
         <div className="border-l h-screen w-1/4 flex-col">
@@ -97,7 +113,7 @@ const CreateAndEdit = () => {
               fetchData={fetchData}
             />
           ) : (
-            <Schedules />
+            <Schedules schedules={schedules} />
           )}
         </div>
       )}

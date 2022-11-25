@@ -8,14 +8,16 @@ const SchedulerModal = ({
   setShowModal,
   showModal,
   articleId,
-  articleStatus,
+  fetchSchedules,
+  statusToScheduleTo,
 }) => {
   const [time, setTime] = useState("");
 
   const handleScheduleCreate = async () => {
     const payload = {
       schedule: {
-        article_status: articleStatus === "published" ? "draft" : "published",
+        article_status:
+          statusToScheduleTo === "published" ? "published" : "draft",
         scheduled_time: time,
       },
       article_id: articleId,
@@ -25,6 +27,7 @@ const SchedulerModal = ({
     } catch (error) {
       logger.error(error);
     } finally {
+      fetchSchedules();
       setShowModal(false);
     }
   };

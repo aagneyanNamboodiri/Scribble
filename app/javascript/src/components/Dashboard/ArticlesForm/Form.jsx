@@ -14,12 +14,24 @@ import {
   buildArticlesFormValidationSchema,
   buildInitialValuesForEditArticle,
   buildCategoryList,
+  getArticleSchedulingStatus,
 } from "./utils";
 
-const Form = ({ id, isEdit, articleData, categories }) => {
+const Form = ({
+  id,
+  isEdit,
+  articleData,
+  categories,
+  schedules,
+  fetchSchedules,
+}) => {
   const [status, setStatus] = useState(articleData?.status);
   const [noChangesMade, setNoChangesMade] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const statusToScheduleTo = getArticleSchedulingStatus({
+    schedules,
+    articleData,
+  });
 
   const history = useHistory();
   const statusList = ["Save Draft", "Publish"];
@@ -144,9 +156,9 @@ const Form = ({ id, isEdit, articleData, categories }) => {
             <div className="flex space-x-2">
               <Button
                 label={
-                  articleData.status === "published"
-                    ? "Save to draft later"
-                    : "Publish later"
+                  statusToScheduleTo === "published"
+                    ? "Publish later"
+                    : "Save to draft later"
                 }
                 onClick={() => setShowModal(true)}
               />
@@ -154,8 +166,10 @@ const Form = ({ id, isEdit, articleData, categories }) => {
                 <SchedulerModal
                   articleId={articleData.id}
                   articleStatus={articleData.status}
+                  fetchSchedules={fetchSchedules}
                   setShowModal={setShowModal}
                   showModal={showModal}
+                  statusToScheduleTo={statusToScheduleTo}
                 />
               )}
             </div>
