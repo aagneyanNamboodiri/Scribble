@@ -5,9 +5,12 @@ const list = payload =>
 
 const create = payload => axios.post("api/article_status_schedules", payload);
 
+const destroy = id => axios.delete(`api/article_status_schedules/${id}`);
+
 const schedulesApi = {
   list,
   create,
+  destroy,
 };
 
 export default schedulesApi;

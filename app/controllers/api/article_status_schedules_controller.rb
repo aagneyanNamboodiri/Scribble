@@ -12,6 +12,11 @@ class Api::ArticleStatusSchedulesController < ApplicationController
     respond_with_success("Article successfully scheduled to #{params[:schedule][:article_status]}")
   end
 
+  def destroy
+    DeleteScheduleService.new(params[:id], current_user).process
+    respond_with_success("The schedule has been deleted")
+  end
+
   private
 
     def load_article!
