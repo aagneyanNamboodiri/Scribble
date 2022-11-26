@@ -16,10 +16,13 @@ class DeleteScheduleOnArticleUpdateService
 
     def delete_schedule_on_article_update
       article = Article.find(article_id)
-      article_schedules = article.article_status_schedules.order(scheduled_time: :asc)
-      if article_schedules.exists?
-        if article.status != article_params[:status]
-          article_schedules.first.destroy!
+      pending_article_schedules = article.article_status_schedules
+        .where(schedule_status: :pending).order(scheduled_time: :asc)
+      if pending_article_schedules.exists?
+        if !article.restored_from.nil? && pending_article_schedules.first.article_status == "draft"
+          pending_article_schedules.first.destroy!
+        elsif article.status != article_params[:status]
+          pending_article_schedules.first.destroy!
         end
       end
     end
