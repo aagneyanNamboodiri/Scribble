@@ -5,7 +5,7 @@ class Api::ArticleStatusSchedulesController < ApplicationController
 
   def index
     @pending_schedules = @article.article_status_schedules.where(schedule_status: :pending)
-      .order(scheduled_time: :desc)
+      .order(scheduled_time: :asc)
     @completed_schedules = @article.article_status_schedules.where(schedule_status: :done)
       .order(scheduled_time: :desc)
   end

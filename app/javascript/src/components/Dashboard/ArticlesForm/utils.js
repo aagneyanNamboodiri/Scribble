@@ -64,7 +64,7 @@ export const buildCategoryList = categories =>
 
 export const getArticleSchedulingStatus = ({ schedules, articleData }) => {
   if (schedules.length) {
-    return schedules[0]["article_status"] === "published"
+    return schedules[schedules.length - 1]["article_status"] === "published"
       ? "draft"
       : "published";
   }
@@ -81,5 +81,12 @@ export const buildDeleteAlertMessage = ({ status }) => `Deleting this ${
       duplicate article ${
         status === "draft" ? "publishing" : "drafting"
       }. Donot worry! Your article will stay in it's current status. Which is, ${
-  status === "draft" ? "published" : "draft"
+  status === "draft" ? "draft" : "published"
 }.`;
+
+export const buildUpdateAlertMessage = ({ status, time }) =>
+  `This update will remove the upcoming article ${
+    status === "draft" ? "prafting" : "publishing"
+  } schedule which is scheduled at ${getHour(
+    time
+  )} are you sure you want to continue?`;

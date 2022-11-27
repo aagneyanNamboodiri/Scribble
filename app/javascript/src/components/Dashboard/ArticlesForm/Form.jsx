@@ -8,6 +8,7 @@ import TooltipWrapper from "tooltipwrapper";
 
 import articlesApi from "apis/Api/articles";
 
+import Alert from "./Alert";
 import { INITIAL_ARTICLES_FORM_VALUES } from "./constants";
 import SchedulerModal from "./SchedulerModal";
 import {
@@ -28,6 +29,7 @@ const Form = ({
   const [status, setStatus] = useState(articleData?.status);
   const [noChangesMade, setNoChangesMade] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const statusToScheduleTo = getArticleSchedulingStatus({
     schedules,
     articleData,
@@ -36,7 +38,15 @@ const Form = ({
   const history = useHistory();
   const statusList = ["Save Draft", "Publish"];
 
-  const handleSubmit = async values => {
+  const handleSubmit = values => {
+    if (schedules[0]?.article_status === status) {
+      setShowAlert(true);
+    } else {
+      submitValues(values);
+    }
+  };
+
+  const submitValues = async values => {
     try {
       const modifiedValues = await {
         ...values,
@@ -67,7 +77,7 @@ const Form = ({
       }
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, handleSubmit, isValid, dirty }) => (
+      {({ isSubmitting, handleSubmit, isValid, dirty, ...props }) => (
         <FormikForm
           className={
             isEdit
@@ -170,6 +180,16 @@ const Form = ({
                     setShowModal={setShowModal}
                     showModal={showModal}
                     statusToScheduleTo={statusToScheduleTo}
+                  />
+                )}
+                {showAlert && (
+                  <Alert
+                    setShowAlert={setShowAlert}
+                    showAlert={showAlert}
+                    statusToScheduleTo={statusToScheduleTo}
+                    submitValues={submitValues}
+                    time={schedules[0].scheduled_time}
+                    values={props.values}
                   />
                 )}
               </div>
