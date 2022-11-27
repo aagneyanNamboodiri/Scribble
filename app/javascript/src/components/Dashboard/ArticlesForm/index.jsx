@@ -17,7 +17,7 @@ const CreateAndEdit = () => {
   const [categories, setCategories] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [fetchedArticle, setFetchedArticle] = useState({});
-  const [showVersionList, setShowVersionList] = useState(true);
+  const [showVersions, setShowVersions] = useState(true);
 
   const { id } = useParams();
   const articleStatusDispatch = useArticleStatusDispatchContext();
@@ -93,21 +93,18 @@ const CreateAndEdit = () => {
         fetchSchedules={fetchSchedules}
         id={id}
         isEdit={!!id}
-        schedules={schedules}
+        schedules={schedules.pending_schedules}
       />
       {id && (
         <div className="border-l h-screen w-1/4 flex-col">
           <div className="flex justify-between p-4">
             <Button
               label="Version list"
-              onClick={() => setShowVersionList(true)}
+              onClick={() => setShowVersions(true)}
             />
-            <Button
-              label="Schedules"
-              onClick={() => setShowVersionList(false)}
-            />
+            <Button label="Schedules" onClick={() => setShowVersions(false)} />
           </div>
-          {showVersionList ? (
+          {showVersions ? (
             <Versions
               article={fetchedArticle}
               categories={categories}

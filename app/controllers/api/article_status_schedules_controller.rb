@@ -4,7 +4,10 @@ class Api::ArticleStatusSchedulesController < ApplicationController
   before_action :load_article!, only: %i[create index]
 
   def index
-    @schedules = @article.article_status_schedules.order(scheduled_time: :desc)
+    @pending_schedules = @article.article_status_schedules.where(schedule_status: :pending)
+      .order(scheduled_time: :desc)
+    @completed_schedules = @article.article_status_schedules.where(schedule_status: :done)
+      .order(scheduled_time: :desc)
   end
 
   def create
