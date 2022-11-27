@@ -90,3 +90,10 @@ export const buildUpdateAlertMessage = ({ status, time }) =>
   } schedule which is scheduled at ${getHour(
     time
   )} are you sure you want to continue?`;
+
+export const convertTimeToUTC = time => {
+  var customParseFormat = require("dayjs/plugin/customParseFormat");
+  dayjs.extend(customParseFormat);
+
+  return dayjs(time, "DD/MM/YYYY HH");
+};

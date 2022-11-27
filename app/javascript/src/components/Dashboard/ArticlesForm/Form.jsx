@@ -30,16 +30,12 @@ const Form = ({
   const [noChangesMade, setNoChangesMade] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const statusToScheduleTo = getArticleSchedulingStatus({
-    schedules,
-    articleData,
-  });
 
   const history = useHistory();
   const statusList = ["Save Draft", "Publish"];
 
   const handleSubmit = values => {
-    if (schedules[0]?.article_status === status) {
+    if (!(schedules === undefined) && schedules[0]?.article_status === status) {
       setShowAlert(true);
     } else {
       submitValues(values);
@@ -167,7 +163,10 @@ const Form = ({
               <div className="flex space-x-2">
                 <Button
                   label={
-                    statusToScheduleTo === "published"
+                    getArticleSchedulingStatus({
+                      schedules,
+                      articleData,
+                    }) === "published"
                       ? "Publish later"
                       : "Save to draft later"
                   }
@@ -179,14 +178,16 @@ const Form = ({
                     fetchSchedules={fetchSchedules}
                     setShowModal={setShowModal}
                     showModal={showModal}
-                    statusToScheduleTo={statusToScheduleTo}
+                    statusToScheduleTo={getArticleSchedulingStatus({
+                      schedules,
+                      articleData,
+                    })}
                   />
                 )}
                 {showAlert && (
                   <Alert
                     setShowAlert={setShowAlert}
                     showAlert={showAlert}
-                    statusToScheduleTo={statusToScheduleTo}
                     submitValues={submitValues}
                     time={schedules[0].scheduled_time}
                     values={props.values}
