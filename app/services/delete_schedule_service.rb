@@ -8,7 +8,7 @@ class DeleteScheduleService
     @current_user = current_user
   end
 
-  def process
+  def process!
     delete_schedule_service
   end
 

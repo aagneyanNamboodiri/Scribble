@@ -8,7 +8,7 @@ class DeleteScheduleOnArticleUpdateService
     @article_id = article_id
   end
 
-  def process
+  def process!
     delete_schedule_on_article_update
   end
 
