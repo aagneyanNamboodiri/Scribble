@@ -28,7 +28,7 @@ class DeleteScheduleOnArticleUpdateServiceTest < ActionDispatch::IntegrationTest
 
   def test_doesnt_delete_upcoming_publish_schedule_on_article_restoration
     @pending_schedule.article_status = "published"
-    @pending_schedule.save!
+    @pending_schedule.save(validate: false)
     @article_params[:restored_from] = 22
     schedules_count = @article.article_status_schedules.count
     DeleteScheduleOnArticleUpdateService.new(@article_params, @article.id).process!

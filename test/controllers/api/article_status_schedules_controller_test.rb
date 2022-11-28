@@ -18,7 +18,7 @@ class Api::ArticleStatusSchedulesControllerTest < ActionDispatch::IntegrationTes
       :article_status_schedule, article: @article, article_status: "published",
       schedule_status: "done", scheduled_time: @current_time - 100)
     another_article_schedule = create(
-      :article_status_schedule, article: @article_two, article_status: "published",
+      :article_status_schedule, article: @article_two, article_status: "draft",
       schedule_status: "pending", scheduled_time: @current_time)
     pending_schedule_one = create(
       :article_status_schedule, article: @article, article_status: "published",
@@ -39,13 +39,13 @@ class Api::ArticleStatusSchedulesControllerTest < ActionDispatch::IntegrationTes
   end
 
   def test_creates_schedule_with_valid_parameters
-    schedule_params = { scheduled_time: @current_time, article_status: "draft" }
+    schedule_params = { scheduled_time: @current_time, article_status: "published" }
     post api_article_status_schedules_path, params: {
       article_id: @article.id, schedule: schedule_params
     }, headers: headers
 
     assert_response :success
-    assert_equal "Article successfully scheduled to draft", response_to_json(response)["notice"]
+    assert_equal "Article successfully scheduled to published", response_to_json(response)["notice"]
   end
 
   def test_deletes_schedule_with_valid_parameters

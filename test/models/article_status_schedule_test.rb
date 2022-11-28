@@ -73,4 +73,14 @@ class ArticleStatusScheduleTest < ActiveSupport::TestCase
     end
     assert_includes "Scheduled time cannot be changed", new_schedule.errors.full_messages[0]
   end
+
+  def test_article_status_cannot_be_first_schedule
+    test_article = create(:article, assigned_category: @category, user: @user, status: "published")
+    test_schedule = build(:article_status_schedule, article: test_article, article_status: "published")
+    assert_not test_schedule.valid?
+    assert_raises ActiveRecord::RecordInvalid do
+      test_schedule.save!
+    end
+    assert_includes "Current article status cannot be scheduled", test_schedule.errors.full_messages[0]
+  end
 end

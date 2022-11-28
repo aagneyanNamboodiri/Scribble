@@ -8,7 +8,7 @@ class DeleteScheduleServiceTest < ActionDispatch::IntegrationTest
     @user = create(:user, organization: @organization)
     @category = create(:category, user: @user)
     @category_2 = create(:category, user: @user)
-    @article = build(:article, user: @user, assigned_category: @category, status: "published")
+    @article = create(:article, user: @user, assigned_category: @category, status: "published")
     @pending_schedule = build(
       :article_status_schedule, article: @article, article_status: "draft")
     @time = Time.zone.now + 120

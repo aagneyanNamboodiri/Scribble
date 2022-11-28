@@ -12,6 +12,7 @@ class ArticleStatusSchedule < ApplicationRecord
   validate :article_status_change_should_be_different_from_the_last_pending_schedule, on: :create
   validate :completed_schedule_cannot_be_in_the_future
   validate :article_status_and_scheduled_time_are_immutable
+  validate :first_schedule_cannot_be_same_as_current_article_status
 
   private
 
@@ -44,13 +45,6 @@ class ArticleStatusSchedule < ApplicationRecord
       end
     end
 
-    def get_latest_schedule_for_an_article
-      ArticleStatusSchedule.where(
-        article_id: article_id,
-        schedule_status: :pending
-      ).order(scheduled_time: :desc).first
-    end
-
     def article_status_and_scheduled_time_are_immutable
       if scheduled_time_changed? && self.persisted?
         errors.add(:base, "Scheduled time cannot be changed")
@@ -58,5 +52,19 @@ class ArticleStatusSchedule < ApplicationRecord
       if article_status_changed? && self.persisted?
         errors.add(:base, "Article status cannot be changed")
       end
+    end
+
+    def first_schedule_cannot_be_same_as_current_article_status
+      if get_latest_schedule_for_an_article.nil? &&
+          Article.find(article_id).status == article_status
+        errors.add(:base, "Current article status cannot be scheduled")
+      end
+    end
+
+    def get_latest_schedule_for_an_article
+      ArticleStatusSchedule.where(
+        article_id: article_id,
+        schedule_status: :pending
+      ).order(scheduled_time: :desc).first
     end
 end
