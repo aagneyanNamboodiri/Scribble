@@ -4,6 +4,8 @@ import { DatePicker, Modal, Typography, Button } from "neetoui";
 
 import schedulesApi from "apis/Api/schedules";
 
+import { convertTimeToUTC } from "./utils";
+
 const SchedulerModal = ({
   setShowModal,
   showModal,
@@ -17,7 +19,7 @@ const SchedulerModal = ({
     const payload = {
       schedule: {
         article_status: statusToScheduleTo,
-        scheduled_time: time,
+        scheduled_time: convertTimeToUTC(time),
       },
       article_id: articleId,
     };

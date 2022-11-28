@@ -8,7 +8,7 @@ import article_versionsApi from "apis/Api/article_versions";
 import Card from "./Card";
 import Modal from "./Modal";
 
-const VersionList = ({ fetchData, article, categories }) => {
+const Versions = ({ fetchData, article, categories }) => {
   const [loading, setLoading] = useState(true);
   const [versions, setVersions] = useState([]);
   const [showVersionModal, setShowVersionModal] = useState(false);
@@ -75,4 +75,4 @@ const VersionList = ({ fetchData, article, categories }) => {
   );
 };
 
-export default VersionList;
+export default Versions;

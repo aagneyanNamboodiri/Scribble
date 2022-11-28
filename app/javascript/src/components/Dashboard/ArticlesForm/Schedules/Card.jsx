@@ -13,7 +13,7 @@ const Card = ({ schedule, refetch, schedulesCount, index }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const handleClick = id => {
-    if (schedulesCount > 1 && index !== 0) {
+    if (schedulesCount > 1 && index !== schedulesCount - 1) {
       setIsAlertOpen(true);
     } else handleDelete(id);
   };

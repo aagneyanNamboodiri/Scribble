@@ -8,6 +8,7 @@ import TooltipWrapper from "tooltipwrapper";
 
 import articlesApi from "apis/Api/articles";
 
+import Alert from "./Alert";
 import { INITIAL_ARTICLES_FORM_VALUES } from "./constants";
 import SchedulerModal from "./SchedulerModal";
 import {
@@ -28,15 +29,20 @@ const Form = ({
   const [status, setStatus] = useState(articleData?.status);
   const [noChangesMade, setNoChangesMade] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const statusToScheduleTo = getArticleSchedulingStatus({
-    schedules,
-    articleData,
-  });
+  const [showAlert, setShowAlert] = useState(false);
 
   const history = useHistory();
   const statusList = ["Save Draft", "Publish"];
 
-  const handleSubmit = async values => {
+  const handleSubmit = values => {
+    if (!(schedules === undefined) && schedules[0]?.article_status === status) {
+      setShowAlert(true);
+    } else {
+      submitValues(values);
+    }
+  };
+
+  const submitValues = async values => {
     try {
       const modifiedValues = await {
         ...values,
@@ -67,7 +73,7 @@ const Form = ({
       }
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, handleSubmit, isValid, dirty }) => (
+      {({ isSubmitting, handleSubmit, isValid, dirty, ...props }) => (
         <FormikForm
           className={
             isEdit
@@ -157,7 +163,10 @@ const Form = ({
               <div className="flex space-x-2">
                 <Button
                   label={
-                    statusToScheduleTo === "published"
+                    getArticleSchedulingStatus({
+                      schedules,
+                      articleData,
+                    }) === "published"
                       ? "Publish later"
                       : "Save to draft later"
                   }
@@ -169,7 +178,20 @@ const Form = ({
                     fetchSchedules={fetchSchedules}
                     setShowModal={setShowModal}
                     showModal={showModal}
-                    statusToScheduleTo={statusToScheduleTo}
+                    statusToScheduleTo={getArticleSchedulingStatus({
+                      schedules,
+                      articleData,
+                    })}
+                  />
+                )}
+                {showAlert && (
+                  <Alert
+                    setShowAlert={setShowAlert}
+                    showAlert={showAlert}
+                    status={status}
+                    submitValues={submitValues}
+                    time={schedules[0].scheduled_time}
+                    values={props.values}
                   />
                 )}
               </div>
