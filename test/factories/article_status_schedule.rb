@@ -5,6 +5,6 @@ FactoryBot.define do
     association :article, factory: :article
     schedule_status { "pending" }
     article_status { "draft" }
-    scheduled_time { Time.zone.now + (1 * 60) }
+    scheduled_time { Time.zone.now + 60 }
   end
 end

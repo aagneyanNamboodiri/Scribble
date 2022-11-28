@@ -19,9 +19,7 @@ class DeleteScheduleOnArticleUpdateService
       pending_article_schedules = article.article_status_schedules
         .where(schedule_status: :pending).order(scheduled_time: :asc)
       if pending_article_schedules.exists?
-        if !article.restored_from.nil? && pending_article_schedules.first.article_status == "draft"
-          pending_article_schedules.first.destroy!
-        elsif article.status != article_params[:status]
+        if article_params[:status] == pending_article_schedules.first.article_status
           pending_article_schedules.first.destroy!
         end
       end
