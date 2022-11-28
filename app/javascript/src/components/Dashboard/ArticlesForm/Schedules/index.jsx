@@ -23,14 +23,9 @@ const Schedules = ({
         />
       </div>
     ))}
-    {completed_schedules.map((schedule, idx) => (
+    {completed_schedules.map(schedule => (
       <div className="p-2" key={schedule.id}>
-        <Card
-          index={idx}
-          refetch={refetch}
-          schedule={schedule}
-          schedulesCount={pending_schedules.length}
-        />
+        <Card schedule={schedule} />
       </div>
     ))}
   </div>

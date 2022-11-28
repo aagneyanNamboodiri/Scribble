@@ -188,6 +188,7 @@ const Form = ({
                   <Alert
                     setShowAlert={setShowAlert}
                     showAlert={showAlert}
+                    status={status}
                     submitValues={submitValues}
                     time={schedules[0].scheduled_time}
                     values={props.values}

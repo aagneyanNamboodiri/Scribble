@@ -86,7 +86,7 @@ export const buildDeleteAlertMessage = ({ status }) => `Deleting this ${
 
 export const buildUpdateAlertMessage = ({ status, time }) =>
   `This update will remove the upcoming article ${
-    status === "draft" ? "prafting" : "publishing"
+    status === "draft" ? "drafting" : "publishing"
   } schedule which is scheduled at ${getHour(
     time
   )} are you sure you want to continue?`;
