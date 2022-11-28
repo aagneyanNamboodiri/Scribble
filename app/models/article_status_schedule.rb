@@ -7,11 +7,11 @@ class ArticleStatusSchedule < ApplicationRecord
   belongs_to :article
 
   validates :scheduled_time, presence: true
-  validate :scheduled_time_is_valid
   validate :scheduled_time_cannot_be_in_the_past
   validate :article_cannot_be_scheduled_earlier_than_any_existing_schedules, on: :create
   validate :article_status_change_should_be_different_from_the_last_pending_schedule, on: :create
   validate :completed_schedule_cannot_be_in_the_future
+  validate :article_status_and_scheduled_time_are_immutable
 
   private
 
@@ -20,14 +20,6 @@ class ArticleStatusSchedule < ApplicationRecord
           scheduled_time < Time.zone.now
         errors.add(:scheduled_time, "can't be in the past")
       end
-    end
-
-    def scheduled_time_is_valid
-      if scheduled_time.present?
-        Time.zone.parse(scheduled_time.to_s)
-      end
-    rescue ArgumentError
-      errors.add(:scheduled_time, "must be a valid date")
     end
 
     def article_cannot_be_scheduled_earlier_than_any_existing_schedules
@@ -47,7 +39,7 @@ class ArticleStatusSchedule < ApplicationRecord
     end
 
     def completed_schedule_cannot_be_in_the_future
-      if schedule_status == :done && scheduled_time > Time.zone.now
+      if schedule_status == "done" && scheduled_time > Time.zone.now
         errors.add(:base, "A schedule cannot be completed ahead of time.")
       end
     end
@@ -57,5 +49,14 @@ class ArticleStatusSchedule < ApplicationRecord
         article_id: article_id,
         schedule_status: :pending
       ).order(scheduled_time: :desc).first
+    end
+
+    def article_status_and_scheduled_time_are_immutable
+      if scheduled_time_changed? && self.persisted?
+        errors.add(:base, "Scheduled time cannot be changed")
+      end
+      if article_status_changed? && self.persisted?
+        errors.add(:base, "Article status cannot be changed")
+      end
     end
 end
