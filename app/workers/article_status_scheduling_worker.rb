@@ -5,6 +5,6 @@ class ArticleStatusSchedulingWorker
 
   def perform
     todo_notification_service = ArticleStatusSchedulingService.new
-    todo_notification_service.process
+    todo_notification_service.process!
   end
 end
