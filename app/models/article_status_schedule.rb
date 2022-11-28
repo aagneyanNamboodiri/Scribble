@@ -7,26 +7,20 @@ class ArticleStatusSchedule < ApplicationRecord
   belongs_to :article
 
   validates :scheduled_time, presence: true
-  validate :scheduled_time_is_valid, on: :create
-  validate :scheduled_time_cannot_be_in_the_past, on: :create
+  validate :scheduled_time_cannot_be_in_the_past
   validate :article_cannot_be_scheduled_earlier_than_any_existing_schedules, on: :create
   validate :article_status_change_should_be_different_from_the_last_pending_schedule, on: :create
+  validate :completed_schedule_cannot_be_in_the_future
+  validate :article_status_and_scheduled_time_are_immutable
+  validate :first_schedule_cannot_be_same_as_current_article_status
 
   private
 
     def scheduled_time_cannot_be_in_the_past
-      if scheduled_time.present? &&
+      if schedule_status == "pending" && scheduled_time.present? &&
           scheduled_time < Time.zone.now
         errors.add(:scheduled_time, "can't be in the past")
       end
-    end
-
-    def scheduled_time_is_valid
-      if scheduled_time.present?
-        Time.zone.parse(scheduled_time.to_s)
-      end
-    rescue ArgumentError
-      errors.add(:scheduled_time, "must be a valid date")
     end
 
     def article_cannot_be_scheduled_earlier_than_any_existing_schedules
@@ -42,6 +36,28 @@ class ArticleStatusSchedule < ApplicationRecord
       if !latest_schedule.nil? &&
         article_status == get_latest_schedule_for_an_article.article_status
         errors.add(:base, "This schedule already exists at a different time")
+      end
+    end
+
+    def completed_schedule_cannot_be_in_the_future
+      if schedule_status == "done" && scheduled_time > Time.zone.now
+        errors.add(:base, "A schedule cannot be completed ahead of time.")
+      end
+    end
+
+    def article_status_and_scheduled_time_are_immutable
+      if scheduled_time_changed? && self.persisted?
+        errors.add(:base, "Scheduled time cannot be changed")
+      end
+      if article_status_changed? && self.persisted?
+        errors.add(:base, "Article status cannot be changed")
+      end
+    end
+
+    def first_schedule_cannot_be_same_as_current_article_status
+      if get_latest_schedule_for_an_article.nil? &&
+          Article.find(article_id).status == article_status
+        errors.add(:base, "Current article status cannot be scheduled")
       end
     end
 

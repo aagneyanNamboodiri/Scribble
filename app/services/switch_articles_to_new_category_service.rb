@@ -7,9 +7,6 @@ class SwitchArticlesToNewCategoryService
     @current_user = current_user
     @article_ids = article_ids
     @to_category = to_category_id
-    if @current_user.articles.find(article_ids[0]).assigned_category_id == @to_category
-      raise ArgumentError.new(I18n.t("invalid_from_category"))
-    end
   end
 
   def process!
@@ -19,6 +16,10 @@ class SwitchArticlesToNewCategoryService
   private
 
     def switch_articles_to_new_category_service
+      if @current_user.articles.find(article_ids[0]).assigned_category_id == @to_category
+        raise ArgumentError.new(I18n.t("invalid_from_category"))
+      end
+
       article_ids.each do |article_id|
         article = current_user.articles.find(article_id)
         article.assigned_category_id = to_category
