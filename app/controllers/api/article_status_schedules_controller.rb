@@ -16,7 +16,7 @@ class Api::ArticleStatusSchedulesController < ApplicationController
   end
 
   def destroy
-    DeleteScheduleService.new(params[:id], current_user).process!
+    DeleteScheduleService.new(params[:id]).process!
     respond_with_success("The schedule has been deleted")
   end
 
