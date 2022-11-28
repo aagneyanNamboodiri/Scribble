@@ -21,7 +21,7 @@ class Api::ArticlesController < ApplicationController
   end
 
   def update
-    DeleteScheduleOnArticleUpdateService.new(article_params, @article.id).process
+    DeleteScheduleOnArticleUpdateService.new(article_params, @article.id).process!
     @article.update!(article_params)
     respond_with_success(t("successfully_updated", entity: "Article"))
   end
