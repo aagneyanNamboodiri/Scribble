@@ -45,7 +45,7 @@ class Api::ArticleStatusSchedulesControllerTest < ActionDispatch::IntegrationTes
     }, headers: headers
 
     assert_response :success
-    assert_equal "Article successfully scheduled to published", response_to_json(response)["notice"]
+    assert_equal t("successfully_scheduled", status: "published"), response_to_json(response)["notice"]
   end
 
   def test_deletes_schedule_with_valid_parameters
@@ -56,6 +56,6 @@ class Api::ArticleStatusSchedulesControllerTest < ActionDispatch::IntegrationTes
       delete api_article_status_schedule_path(article_schedule.id), headers: headers
     end
     assert_response :success
-    assert_equal "The schedule has been deleted", response_to_json(response)["notice"]
+    assert_equal t("successfully_destroyed", entity: "Schedule"), response_to_json(response)["notice"]
   end
 end
