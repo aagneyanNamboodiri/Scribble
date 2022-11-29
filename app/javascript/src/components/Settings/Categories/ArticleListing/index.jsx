@@ -90,8 +90,10 @@ const ArticleListing = ({ selectedCategory, categories, fetchCategories }) => {
           <div>
             <Select
               isSearchable
-              options={buildCategoryList(categories)}
               placeholder="Move to"
+              options={buildCategoryList(categories).filter(
+                ({ value }) => value !== selectedCategory.id
+              )}
               onChange={({ value }) => handleBulkUpdate(value)}
             />
           </div>
