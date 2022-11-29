@@ -97,3 +97,8 @@ export const convertTimeToUTC = time => {
 
   return dayjs(time, "DD/MM/YYYY HH");
 };
+
+export const getTooltipString = schedule =>
+  `Schedule to ${
+    schedule.article_status === "draft" ? "draft" : "publish"
+  } coming up at ${getHour(schedule.schedule_time)}`;

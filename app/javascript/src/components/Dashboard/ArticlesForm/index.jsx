@@ -99,7 +99,7 @@ const CreateAndEdit = () => {
         <div className="border-l h-screen w-1/4 flex-col">
           <div className="flex justify-between p-4">
             <Button
-              label="Version list"
+              label="Version history"
               onClick={() => setShowVersions(true)}
             />
             <Button label="Schedules" onClick={() => setShowVersions(false)} />
