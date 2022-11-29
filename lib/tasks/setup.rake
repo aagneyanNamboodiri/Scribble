@@ -7,7 +7,8 @@ end
 
 desc "Populates sample data without resetting the database first"
 task populate_sample_data: [:environment] do
-  create_sample_data!
+  # create_sample_data!
+  SeedData::CallSeeders.new.process!
   puts "sample data has been added."
 end
 
