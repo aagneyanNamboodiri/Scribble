@@ -16,7 +16,7 @@ class Redirection < ApplicationRecord
 
     def loop_checking
       if from_path == to_path
-        errors.add(:base, "From path cannot be the to path")
+        errors.add(:base, t("from_path_same_as_to_path"))
       end
       current_user = User.first
       all_from_paths = current_user.redirections.pluck(:from_path)
@@ -30,9 +30,7 @@ class Redirection < ApplicationRecord
         redirection_path += possible_from_path
 
         if possible_from_path == from_path
-          errors.add(
-            :base,
-            "This redirection forms a loop. Please change the redirection. Loop path : " + redirection_path)
+          errors.add(:base, t("redirection_loop_path") + redirection_path)
           break
         end
       end

@@ -41,6 +41,15 @@ en:
   login_successful: "Welcome to %{entity}"
   not_authorized: "Not Authorized"
   incorrect_credentials: "Incorrect credentials, try again."
+  successfully_scheduled: "Article successfully scheduled to %{status}"
+  schedule_cant_be_in_past: "Scheduled time can't be in the past"
+  select_time_after_latest_schedule: "Please select a time after the latest pending schedule"
+  duplicate_schedule: "This schedule already exists at a different time"
+  completed_schedule_cant_be_in_future: "A schedule cannot be completed ahead of time."
+  immutable: "%{entity} cannot be changed"
+  cant_queue_current_article_status: "Current article status cannot be scheduled"
+  redirection_loop_path: "This redirection forms a loop. Please change the redirection. Loop path : "
+  from_path_same_as_to_path: "From path cannot be the to path"
   Article:
     slug:
       immutable: "is immutable!"
