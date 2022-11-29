@@ -48,6 +48,8 @@ en:
   completed_schedule_cant_be_in_future: "A schedule cannot be completed ahead of time."
   immutable: "%{entity} cannot be changed"
   cant_queue_current_article_status: "Current article status cannot be scheduled"
+  redirection_loop_path: "This redirection forms a loop. Please change the redirection. Loop path : "
+  from_path_same_as_to_path: "From path cannot be the to path"
   Article:
     slug:
       immutable: "is immutable!"
