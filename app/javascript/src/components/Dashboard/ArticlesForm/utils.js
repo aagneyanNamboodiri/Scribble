@@ -97,3 +97,19 @@ export const convertTimeToUTC = time => {
 
   return dayjs(time, "DD/MM/YYYY HH");
 };
+
+export const getTooltipString = schedule =>
+  `Schedule to ${
+    schedule.article_status === "draft" ? "draft" : "publish"
+  } coming up at ${getHour(schedule.schedule_time)}`;
+
+export const isTimeInvalid = time => {
+  if (time === "") return true;
+  const currentTime = dayjs();
+  var customParseFormat = require("dayjs/plugin/customParseFormat");
+  dayjs.extend(customParseFormat);
+
+  const formattedTime = dayjs(time, "DD/MM/YYYY HH");
+
+  return currentTime >= formattedTime;
+};

@@ -11,6 +11,7 @@ import articlesApi from "apis/Api/articles";
 import Alert from "./Alert";
 import { INITIAL_ARTICLES_FORM_VALUES } from "./constants";
 import SchedulerModal from "./SchedulerModal";
+import ScheduleIndicator from "./Schedules/ScheduleIndicator";
 import {
   buildArticlesFormValidationSchema,
   buildInitialValuesForEditArticle,
@@ -172,6 +173,9 @@ const Form = ({
                   }
                   onClick={() => setShowModal(true)}
                 />
+                {schedules.length > 0 && (
+                  <ScheduleIndicator scheduleInfo={schedules[0]} />
+                )}
                 {showModal && (
                   <SchedulerModal
                     articleId={articleData.id}
