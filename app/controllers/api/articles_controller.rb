@@ -9,7 +9,7 @@ class Api::ArticlesController < ApplicationController
     all_articles = ArticleFilteringService.new(
       @categories_to_filter_with, @status_to_filter, @search_term,
       current_user).process
-    @articles = all_articles.page(@page).per(10)
+    @articles = all_articles.page(@page).per(Article::PAGE_LIMIT)
     @count = all_articles.count
   end
 
