@@ -25,9 +25,12 @@ const articles_of_category = id =>
 const bulk_articles_category_update = payload =>
   axios.put("api/articles/bulk_articles_category_update", payload);
 
+const article_counts = () => axios.get("api/articles/article_counts");
+
 const articlesApi = {
   list,
   create,
+  article_counts,
   show,
   update,
   destroy,

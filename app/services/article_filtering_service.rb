@@ -17,15 +17,15 @@ class ArticleFilteringService
   private
 
     def article_filtering_service
-      search_query_filtered_articles = current_user.articles.where(
+      filtered_articles = current_user.articles.where(
         "lower(title) like ?",
         "%#{search_term.downcase}%").order(updated_at: :desc)
-      articles = search_query_filtered_articles.select { |article|
-      status == "all" || article.status == status }
-      if categories_filter.length > 0
-        articles = articles.select { |article|
-          categories_filter.include? article.assigned_category.name }
+      if status != "all"
+        filtered_articles = filtered_articles.where(status: status)
       end
-      articles
+      if categories_filter.length > 0
+        filtered_articles = filtered_articles.where(assigned_category_id: categories_filter)
+      end
+      filtered_articles
     end
 end

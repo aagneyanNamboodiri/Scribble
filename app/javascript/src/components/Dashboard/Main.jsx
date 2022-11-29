@@ -25,23 +25,23 @@ const Main = () => {
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [articleStatusCounts, setArticleStatusCounts] = useState({});
+  const [articlesCount, setArticlesCount] = useState(0);
 
   const handleDelete = id => {
     setArticleIdToDelete(id);
     setShowDeleteAlert(true);
   };
-  const fetchArticles = async () => {
+
+  const fetchCounts = async () => {
     try {
       const {
-        data: { articles },
-      } = await articlesApi.list();
+        data: { all, draft, published },
+      } = await articlesApi.article_counts();
       setArticleStatusCounts({
-        all: articles.length,
-        published: articles.filter(article => article.status === "published")
-          .length,
-        draft: articles.filter(article => article.status === "draft").length,
+        all,
+        draft,
+        published,
       });
-      setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
     }
@@ -61,12 +61,14 @@ const Main = () => {
       selected_category_fiter: selectedCategoryFilter,
       search_query: searchQuery.toLowerCase(),
       article_status: articleStatus,
+      page: currentTablePage,
     };
     try {
       const {
-        data: { articles },
+        data: { articles, count },
       } = await articlesApi.list(payload);
       setFilteredArticles(articles);
+      setArticlesCount(count);
     } catch (error) {
       logger.error(error);
     }
@@ -74,16 +76,21 @@ const Main = () => {
 
   const fetchData = async () => {
     setLoading(true);
-    await Promise.all([fetchArticles(), fetchCategories()]);
+    await Promise.all([
+      fetchFilteredArticles(),
+      fetchCategories(),
+      fetchCounts(),
+    ]);
     setLoading(false);
   };
+
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
     fetchFilteredArticles();
-  }, [selectedCategoryFilter, articleStatus]);
+  }, [selectedCategoryFilter, articleStatus, currentTablePage]);
 
   useEffect(() => {
     const getData = setTimeout(() => fetchFilteredArticles(), 400);
@@ -133,9 +140,9 @@ const Main = () => {
         {articleStatusCounts.all > 0 && (
           <>
             <Typography className="font-semibold" style="h3">
-              {filteredArticles.length === 1
-                ? `${filteredArticles.length} Article`
-                : `${filteredArticles.length} Articles`}
+              {articlesCount === 1
+                ? `${articlesCount} Article`
+                : `${articlesCount} Articles`}
             </Typography>
             <Table
               columnData={filterColumnData(handleDelete, columnList)}
@@ -143,13 +150,14 @@ const Main = () => {
               defaultPageSize={10}
               handlePageChange={e => setCurrentTablePage(e)}
               rowData={filteredArticles}
+              totalCount={articlesCount}
             />
           </>
         )}
         {showDeleteAlert && (
           <DeleteAlert
             id={articleIdToDelete}
-            refetch={fetchArticles}
+            refetch={fetchFilteredArticles}
             onClose={() => setShowDeleteAlert(false)}
           />
         )}

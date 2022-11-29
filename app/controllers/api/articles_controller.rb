@@ -6,9 +6,11 @@ class Api::ArticlesController < ApplicationController
   before_action :load_category!, only: %i[articles_of_category]
 
   def index
-    @articles = ArticleFilteringService.new(
+    all_articles = ArticleFilteringService.new(
       @categories_to_filter_with, @status_to_filter, @search_term,
       current_user).process
+    @articles = all_articles.page(@page).per(Article::PAGE_LIMIT)
+    @count = all_articles.count
   end
 
   def create
@@ -46,12 +48,21 @@ class Api::ArticlesController < ApplicationController
     respond_with_success(t("moved_articles_to_another_category"))
   end
 
+  def article_counts
+    status_counts = current_user.articles.group(:status).distinct.count
+    @all_counts = {
+      **status_counts,
+      "all": status_counts.values.sum
+    }
+  end
+
   private
 
     def extract_search_params
       @search_term = params[:search_query] || ""
       @categories_to_filter_with = params[:selected_category_fiter] || []
       @status_to_filter = params[:article_status] || "all"
+      @page = params[:page]
     end
 
     def load_article!
