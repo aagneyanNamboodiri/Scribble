@@ -10,6 +10,7 @@ Rails.application.routes.draw do
           get :articles_of_category
         end
         put :bulk_articles_category_update, on: :collection
+        get :article_counts, on: :collection
       end
       resources :categories, except: %i[show new edit] do
         put :reorder, on: :member

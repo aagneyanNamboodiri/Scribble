@@ -41,7 +41,7 @@ en:
   login_successful: "Welcome to %{entity}"
   not_authorized: "Not Authorized"
   incorrect_credentials: "Incorrect credentials, try again."
-  task:
+  Article:
     slug:
       immutable: "is immutable!"
   activerecord:

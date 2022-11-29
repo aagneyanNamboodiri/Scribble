@@ -6,4 +6,4 @@ json.articles @articles do |article|
   json.category_name article.assigned_category.name
 end
 
-json.counts @counts
+json.count @count

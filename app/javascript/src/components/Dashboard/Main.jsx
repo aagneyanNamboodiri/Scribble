@@ -31,18 +31,17 @@ const Main = () => {
     setArticleIdToDelete(id);
     setShowDeleteAlert(true);
   };
-  const fetchArticles = async () => {
+
+  const fetchCounts = async () => {
     try {
       const {
-        data: { articles, counts },
-      } = await articlesApi.list();
+        data: { all, draft, published },
+      } = await articlesApi.article_counts();
       setArticleStatusCounts({
-        all: counts.all,
-        published: counts.published,
-        draft: counts.draft,
+        all,
+        draft,
+        published,
       });
-      setArticlesCount(counts.articles_count);
-      setFilteredArticles(articles);
     } catch (error) {
       logger.error(error);
     }
@@ -62,13 +61,14 @@ const Main = () => {
       selected_category_fiter: selectedCategoryFilter,
       search_query: searchQuery.toLowerCase(),
       article_status: articleStatus,
+      page: currentTablePage,
     };
     try {
       const {
-        data: { articles, counts },
+        data: { articles, count },
       } = await articlesApi.list(payload);
       setFilteredArticles(articles);
-      setArticlesCount(counts.articles_count);
+      setArticlesCount(count);
     } catch (error) {
       logger.error(error);
     }
@@ -76,16 +76,21 @@ const Main = () => {
 
   const fetchData = async () => {
     setLoading(true);
-    await Promise.all([fetchArticles(), fetchCategories()]);
+    await Promise.all([
+      fetchFilteredArticles(),
+      fetchCategories(),
+      fetchCounts(),
+    ]);
     setLoading(false);
   };
+
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
     fetchFilteredArticles();
-  }, [selectedCategoryFilter, articleStatus]);
+  }, [selectedCategoryFilter, articleStatus, currentTablePage]);
 
   useEffect(() => {
     const getData = setTimeout(() => fetchFilteredArticles(), 400);
@@ -145,13 +150,14 @@ const Main = () => {
               defaultPageSize={10}
               handlePageChange={e => setCurrentTablePage(e)}
               rowData={filteredArticles}
+              totalCount={articlesCount}
             />
           </>
         )}
         {showDeleteAlert && (
           <DeleteAlert
             id={articleIdToDelete}
-            refetch={fetchArticles}
+            refetch={fetchFilteredArticles}
             onClose={() => setShowDeleteAlert(false)}
           />
         )}
