@@ -5,9 +5,9 @@ class Public::ArticlesController < Public::BaseController
   before_action :get_published_articles, only: %i[index show]
 
   def index
-    @articles = @published_articles.where(
-      "lower(title) like ?",
-      "%#{params[:search_term].downcase}%").order(:position)
+    @articles = ArticleFilteringService.new(
+      [], "published", params[:search_term],
+      current_user).process.order(:position)
   end
 
   def show
