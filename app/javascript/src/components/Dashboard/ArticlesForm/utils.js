@@ -62,9 +62,13 @@ export const buildCategoryList = categories =>
     label: category.name,
   }));
 
-export const getArticleSchedulingStatus = ({ schedules, articleData }) => {
-  if (schedules.length) {
-    return schedules[schedules.length - 1]["article_status"] === "published"
+export const getArticleSchedulingStatus = ({
+  pendingSchedules,
+  articleData,
+}) => {
+  if (pendingSchedules.length) {
+    return pendingSchedules[pendingSchedules.length - 1]["article_status"] ===
+      "published"
       ? "draft"
       : "published";
   }

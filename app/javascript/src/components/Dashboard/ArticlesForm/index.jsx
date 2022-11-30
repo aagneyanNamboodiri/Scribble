@@ -93,7 +93,7 @@ const CreateAndEdit = () => {
         fetchSchedules={fetchSchedules}
         id={id}
         isEdit={!!id}
-        schedules={schedules.pending_schedules}
+        pendingSchedules={schedules.pending_schedules}
       />
       {id && (
         <div className="border-l h-screen w-1/4 flex-col">
