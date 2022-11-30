@@ -20,7 +20,6 @@ class Redirection < ApplicationRecord
       end
       current_user = User.first
       all_from_paths = current_user.redirections.pluck(:from_path)
-      all_to_paths = current_user.redirections.pluck(:to_path)
       possible_from_path = to_path
       redirection_path = from_path
       while all_from_paths.include?(possible_from_path) do

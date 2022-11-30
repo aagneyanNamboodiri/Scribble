@@ -6,13 +6,13 @@ class Api::ArticleVersionsController < Api::ArticlesController
 
   def index
     @versions_data = @article.versions.drop(1).reverse.map { |version|
-      load_article_data_per_version(version)
+      load_article_of_given_version(version)
     }
   end
 
   def show
     @article_by_version_id =
-      load_article_data_per_version(@version_by_id)
+      load_article_of_given_version(@version_by_id)
   end
 
   private
@@ -25,7 +25,7 @@ class Api::ArticleVersionsController < Api::ArticlesController
       @version_by_id = @article.versions.find(params[:id])
     end
 
-    def load_article_data_per_version(version)
+    def load_article_of_given_version(version)
       versioned_article = version.reify
       article_data = {
         id: version.id,

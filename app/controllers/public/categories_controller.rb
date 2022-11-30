@@ -5,6 +5,6 @@ class Public::CategoriesController < Public::BaseController
 
   def index
     all_categories = current_user.categories.order(position: :asc)
-    @categories = all_categories.select { |category| category.articles.published.count > 0 }
+    @categories = all_categories.joins(:articles).where("articles.status = 'published'").uniq
   end
 end

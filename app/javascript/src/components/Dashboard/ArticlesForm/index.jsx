@@ -110,6 +110,7 @@ const CreateAndEdit = () => {
               categories={categories}
               className="h-24"
               fetchData={fetchData}
+              schedules={schedules.pending_schedules}
             />
           ) : (
             <Schedules refetch={fetchSchedules} schedules={schedules} />

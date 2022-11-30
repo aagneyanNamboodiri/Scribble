@@ -22,6 +22,7 @@ const Modal = ({
   articleId,
   fetchData,
   categories,
+  showScheduleDeleteMessage,
 }) => {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState({});
@@ -120,23 +121,30 @@ const Modal = ({
           value={article.body}
         />
       </NeetoUIModal.Body>
-      <NeetoUIModal.Footer className="flex space-x-2">
-        <TooltipWrapper
-          content="Previous category doesnt exist. Please select new category from the list"
-          disabled={!selectedCategory}
-          position="bottom"
-        >
-          <Button
+      <NeetoUIModal.Footer className="flex-col space-y-2">
+        <div className="flex space-x-2">
+          <TooltipWrapper
+            content="Previous category doesnt exist. Please select new category from the list"
             disabled={!selectedCategory}
-            label="Restore version"
-            onClick={handleRestore}
+            position="bottom"
+          >
+            <Button
+              disabled={!selectedCategory}
+              label="Restore version"
+              onClick={handleRestore}
+            />
+          </TooltipWrapper>
+          <Button
+            label="Cancel"
+            style="text"
+            onClick={() => setShowVersionModal(false)}
           />
-        </TooltipWrapper>
-        <Button
-          label="Cancel"
-          style="text"
-          onClick={() => setShowVersionModal(false)}
-        />
+        </div>
+        {showScheduleDeleteMessage && (
+          <Typography className="text-red-400" style="body2">
+            Restoring article will delete the upcoming draft schedule!
+          </Typography>
+        )}
       </NeetoUIModal.Footer>
     </NeetoUIModal>
   );

@@ -2,15 +2,16 @@
 
 class Public::ArticlesController < Public::BaseController
   before_action :check_if_user_is_authorized
+  before_action :get_published_articles, only: %i[index show]
 
   def index
-    @articles = get_published_articles.where(
-      "lower(title) like ?",
-      "%#{params[:search_term].downcase}%").order(:position)
+    @articles = ArticleFilteringService.new(
+      [], "published", params[:search_term],
+      current_user).process.order(:position)
   end
 
   def show
-    @article = get_published_articles.find_by(slug: params[:slug])
+    @article = @published_articles.find_by(slug: params[:slug])
     if !@article
       respond_with_error(t("doesnt_exist", entity: "Article"))
     else
@@ -19,6 +20,6 @@ class Public::ArticlesController < Public::BaseController
   end
 
   def get_published_articles
-    published_articles = current_user.articles.all.where(status: "published")
+    @published_articles = current_user.articles.all.where(status: "published")
   end
 end

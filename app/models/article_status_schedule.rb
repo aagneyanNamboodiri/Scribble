@@ -34,7 +34,7 @@ class ArticleStatusSchedule < ApplicationRecord
     def article_status_change_should_be_different_from_the_last_pending_schedule
       latest_schedule = get_latest_schedule_for_an_article
       if !latest_schedule.nil? &&
-        article_status == get_latest_schedule_for_an_article.article_status
+        article_status == latest_schedule.article_status
         errors.add(:base, t("duplicate_schedule"))
       end
     end
