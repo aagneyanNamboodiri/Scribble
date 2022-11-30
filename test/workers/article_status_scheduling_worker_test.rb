@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class ArticleSchedulesWorkerTest < ActionDispatch::IntegrationTest
+class ArticleStatusSchedulingWorkerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
     @user = create(:user, organization: @organization)
