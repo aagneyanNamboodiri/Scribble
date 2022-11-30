@@ -8,7 +8,7 @@ import article_versionsApi from "apis/Api/article_versions";
 import Card from "./Card";
 import Modal from "./Modal";
 
-const Versions = ({ fetchData, article, categories }) => {
+const Versions = ({ fetchData, article, categories, schedules }) => {
   const [loading, setLoading] = useState(true);
   const [versions, setVersions] = useState([]);
   const [showVersionModal, setShowVersionModal] = useState(false);
@@ -67,6 +67,7 @@ const Versions = ({ fetchData, article, categories }) => {
           categories={categories}
           fetchData={fetchData}
           setShowVersionModal={setShowVersionModal}
+          showScheduleDeleteMessage={schedules[0]?.article_status === "draft"}
           showVersionModal={showVersionModal}
           versionId={versionId}
         />
