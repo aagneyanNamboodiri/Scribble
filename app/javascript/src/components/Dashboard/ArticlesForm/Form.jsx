@@ -24,7 +24,7 @@ const Form = ({
   isEdit,
   articleData,
   categories,
-  schedules,
+  pendingSchedules,
   fetchSchedules,
 }) => {
   const [status, setStatus] = useState(articleData?.status);
@@ -34,9 +34,13 @@ const Form = ({
 
   const history = useHistory();
   const statusList = ["Save Draft", "Publish"];
+  const categoryList = buildCategoryList(categories);
 
   const handleSubmit = values => {
-    if (!(schedules === undefined) && schedules[0]?.article_status === status) {
+    if (
+      !(pendingSchedules === undefined) &&
+      pendingSchedules[0]?.article_status === status
+    ) {
       setShowAlert(true);
     } else {
       submitValues(values);
@@ -62,7 +66,6 @@ const Form = ({
       logger.log(err);
     }
   };
-  const categoryList = buildCategoryList(categories);
 
   return (
     <Formik
@@ -165,7 +168,7 @@ const Form = ({
                 <Button
                   label={
                     getArticleSchedulingStatus({
-                      schedules,
+                      pendingSchedules,
                       articleData,
                     }) === "published"
                       ? "Publish later"
@@ -173,8 +176,8 @@ const Form = ({
                   }
                   onClick={() => setShowModal(true)}
                 />
-                {schedules.length > 0 && (
-                  <ScheduleIndicator scheduleInfo={schedules[0]} />
+                {pendingSchedules.length > 0 && (
+                  <ScheduleIndicator scheduleInfo={pendingSchedules[0]} />
                 )}
                 {showModal && (
                   <SchedulerModal
@@ -183,7 +186,7 @@ const Form = ({
                     setShowModal={setShowModal}
                     showModal={showModal}
                     statusToScheduleTo={getArticleSchedulingStatus({
-                      schedules,
+                      pendingSchedules,
                       articleData,
                     })}
                   />
@@ -194,7 +197,7 @@ const Form = ({
                     showAlert={showAlert}
                     status={status}
                     submitValues={submitValues}
-                    time={schedules[0].scheduled_time}
+                    time={pendingSchedules[0].scheduled_time}
                     values={props.values}
                   />
                 )}

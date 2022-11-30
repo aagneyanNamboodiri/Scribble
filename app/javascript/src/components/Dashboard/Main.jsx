@@ -37,11 +37,7 @@ const Main = () => {
       const {
         data: { all, draft, published },
       } = await articlesApi.article_counts();
-      setArticleStatusCounts({
-        all,
-        draft,
-        published,
-      });
+      setArticleStatusCounts({ all, draft, published });
     } catch (error) {
       logger.error(error);
     }
