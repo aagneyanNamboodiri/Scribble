@@ -13,7 +13,7 @@ class ArticleStatusChangingWorkerTest < ActionDispatch::IntegrationTest
     travel_to DateTime.parse(scheduled_date_and_time) + 120
   end
 
-  def test_article_schedules_worker_updates_the_article_status_at_scheduled_date_and_time
+  def test_worker_changes_article_status_and_schedule_status_of_given_schedule
     ArticleStatusChangingWorker.perform_async(@schedule.id)
     @article.reload
     @schedule.reload
