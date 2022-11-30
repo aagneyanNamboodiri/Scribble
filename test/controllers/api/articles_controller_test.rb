@@ -116,4 +116,22 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal category_two.id, article_two.assigned_category_id
     assert_equal category_two.id, article_three.assigned_category_id
   end
+
+  def test_gets_correct_counts
+    5.times do
+      @published_article = create(:article, user: @user, assigned_category: @category, status: "published")
+    end
+    3.times do
+      @draft_article = create(:article, user: @user, assigned_category: @category, status: "draft")
+    end
+    get article_counts_api_articles_path, headers: headers()
+    draft_count = @user.articles.draft.count
+    published_count = @user.articles.published.count
+    all_count = @user.articles.count
+    response_counts = response_to_json(response)
+
+    assert_equal draft_count, response_counts["draft"]
+    assert_equal published_count, response_counts["published"]
+    assert_equal all_count, response_counts["all"]
+  end
 end
