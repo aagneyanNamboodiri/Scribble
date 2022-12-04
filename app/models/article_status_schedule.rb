@@ -6,8 +6,7 @@ class ArticleStatusSchedule < ApplicationRecord
 
   belongs_to :article
 
-  validates :scheduled_time, presence: true
-  validate :scheduled_time_cannot_be_in_the_past
+  validates :scheduled_time, presence: true, schedule_time_future: true
   validate :article_cannot_be_scheduled_earlier_than_any_existing_schedules, on: :create
   validate :article_status_change_should_be_different_from_the_last_pending_schedule, on: :create
   validate :completed_schedule_cannot_be_in_the_future
@@ -15,13 +14,6 @@ class ArticleStatusSchedule < ApplicationRecord
   validate :first_schedule_cannot_be_same_as_current_article_status
 
   private
-
-    def scheduled_time_cannot_be_in_the_past
-      if schedule_status == "pending" && scheduled_time.present? &&
-          scheduled_time < Time.zone.now
-        errors.add(:base, t("schedule_cant_be_in_past"))
-      end
-    end
 
     def article_cannot_be_scheduled_earlier_than_any_existing_schedules
       latest_schedule = get_latest_schedule_for_an_article
