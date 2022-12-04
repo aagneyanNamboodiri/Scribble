@@ -9,15 +9,10 @@ class ArticleStatusSchedule < ApplicationRecord
   validates :scheduled_time, presence: true, pending_schedule_time_future: true
   validates :scheduled_time, latest_schedule: true, on: :create
   validates :article_status, latest_schedule: true, on: :create
+
   validate :article_status_and_scheduled_time_are_immutable
 
   private
-
-    def completed_schedule_cannot_be_in_the_future
-      if schedule_status == "done" && scheduled_time > Time.zone.now
-        record.errors.add(:base, t("completed_schedule_cant_be_in_future"))
-      end
-    end
 
     def article_status_and_scheduled_time_are_immutable
       if scheduled_time_changed? && self.persisted?
