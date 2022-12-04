@@ -7,7 +7,7 @@ class ArticleStatusSchedule < ApplicationRecord
   belongs_to :article
 
   validates :scheduled_time, presence: true, schedule_time_future: true
-  validate :article_cannot_be_scheduled_earlier_than_any_existing_schedules, on: :create
+  validates :scheduled_time, latest_schedule_time: true, on: :create
   validate :article_status_change_should_be_different_from_the_last_pending_schedule, on: :create
   validate :completed_schedule_cannot_be_in_the_future
   validate :article_status_and_scheduled_time_are_immutable

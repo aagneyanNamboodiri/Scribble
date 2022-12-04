@@ -2,10 +2,8 @@
 
 class ScheduleTimeFutureValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    byebug
-    if record.schedule_status == "pending" && record.scheduled_time.present? &&
-      record.scheduled_time < Time.zone.now
-      errors.add(:base, t("schedule_cant_be_in_past"))
+    if record.schedule_status == "pending" && value < Time.zone.now
+      record.errors.add(:base, I18n.t("schedule_cant_be_in_past"))
     end
   end
 end
