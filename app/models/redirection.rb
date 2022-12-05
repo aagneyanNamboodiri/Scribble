@@ -10,7 +10,6 @@ class Redirection < ApplicationRecord
   validates :from_path, uniqueness: true, format: VALID_PATH_REGEX, presence: true
   validates :to_path, format: VALID_PATH_REGEX, presence: true
   validate :loop_checking
-  validate :from_path_is_not_a_frontend_route
 
   private
 
@@ -32,15 +31,6 @@ class Redirection < ApplicationRecord
           errors.add(:base, t("redirection_loop_path") + redirection_path)
           break
         end
-      end
-    end
-
-    def from_path_is_not_a_frontend_route
-      frontend_routes = FrontendRoute.pluck(:route)
-      if frontend_routes.include?(from_path) || from_path.start_with?("settings?") || from_path.start_with?("public/")
-        errors.add(
-          :base,
-          t("invalid_from_path"))
       end
     end
 end

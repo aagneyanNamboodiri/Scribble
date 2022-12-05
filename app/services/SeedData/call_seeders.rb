@@ -14,7 +14,6 @@ module SeedData
       SeedData::SeedArticles.new.process!
       SeedData::SeedRedirections.new.process!
       SeedData::SeedVisits.new.process!
-      SeedData::SeedFrontendRoutes.new.process!
       SeedData::SeedArticleVersions.new.process!
     end
   end
