@@ -6,7 +6,8 @@ class ArticleStatusSchedule < ApplicationRecord
 
   belongs_to :article
 
-  validates :scheduled_time, presence: true, pending_schedule_time_future: true
+  validates :scheduled_time, presence: true
+  validates :scheduled_time, pending_schedule_time_future: true
   validates :scheduled_time, latest_schedule: true, on: :create
   validates :article_status, latest_schedule: true, on: :create
 
