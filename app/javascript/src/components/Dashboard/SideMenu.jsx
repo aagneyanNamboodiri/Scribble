@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Plus, Search } from "neetoicons";
 import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
+import { remove, append } from "ramda";
 
 import CategoryCreate from "./CategoryCreate";
 
@@ -24,10 +25,10 @@ const SideMenu = ({
     setIsSearchCollapsed(true);
     setCategorySearch("");
     if (indexOfCategory === -1) {
-      setSelectedCategoryFilter(prev => [...prev, categoryId]);
+      setSelectedCategoryFilter(append(categoryId, selectedCategoryFilter));
     } else {
-      setSelectedCategoryFilter(prev =>
-        prev.filter(prev_category => prev_category !== categoryId)
+      setSelectedCategoryFilter(
+        remove(indexOfCategory, 1, selectedCategoryFilter)
       );
     }
   };

@@ -1,17 +1,14 @@
 import React from "react";
 
 import { Dropdown, Checkbox } from "neetoui";
+import { assoc } from "ramda";
 
 const ColumnDropdown = ({ columnList, setColumnList }) => {
   const { Menu, MenuItem } = Dropdown;
   const columns = Object.keys(columnList);
 
-  const handleChange = item => {
-    setColumnList(prev => ({
-      ...prev,
-      [item]: !prev[item],
-    }));
-  };
+  const handleChange = item =>
+    setColumnList(prev => assoc(item, !prev[item], prev));
 
   return (
     <Dropdown

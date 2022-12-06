@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { PageLoader, Button } from "neetoui";
+import { isNil } from "ramda";
 import { useParams } from "react-router-dom";
 
 import articlesApi from "apis/Api/articles";
@@ -58,7 +59,7 @@ const CreateAndEdit = () => {
   const fetchData = async () => {
     setLoading(true);
     await fetchCategories();
-    if (typeof id !== "undefined") {
+    if (!isNil(id)) {
       await Promise.all([fetchArticle(), fetchSchedules()]);
     }
     setLoading(false);

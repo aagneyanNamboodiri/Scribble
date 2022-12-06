@@ -24,3 +24,7 @@ export const NEW_CATEGORY_FORM_VALIDATION_SCHEMA = yup.object().shape({
 export const NEW_CATEGORY_INITIAL_VALUE = {
   category: "",
 };
+
+export const ARTICLE_DELETE_PROMPT = "Delete this Article?";
+export const ARTICLE_DELETE_MESSAGE =
+  "Are you sure you want to continue? This cannot be undone.";

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Table } from "neetoui";
+import { assoc } from "ramda";
 
 import analyticsApi from "apis/Api/analytics";
 
@@ -18,7 +19,7 @@ const VisitCounterTable = ({ record }) => {
         const {
           data: { visit_count },
         } = await analyticsApi.show(record.id);
-        setVisits({ ...visits, [record.id]: visit_count });
+        setVisits(assoc(record.id, visit_count, visits));
       }
     } catch (error) {
       logger.error(error);

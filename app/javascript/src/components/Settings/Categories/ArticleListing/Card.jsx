@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Clock } from "neetoicons";
 import { Checkbox, Typography, Tag } from "neetoui";
+import { remove, append } from "ramda";
 import TooltipWrapper from "tooltipwrapper";
 
 import {
@@ -17,11 +18,9 @@ const Card = ({ article, provided, selectedArticles, setSelectedArticles }) => {
     setChecked(prev => !prev);
     const indexOfArticle = selectedArticles?.indexOf(article.id);
     if (indexOfArticle === -1) {
-      setSelectedArticles(prev => [...prev, article.id]);
+      setSelectedArticles(append(article.id, selectedArticles));
     } else {
-      setSelectedArticles(prev =>
-        prev.filter(prevArticleId => prevArticleId !== article.id)
-      );
+      setSelectedArticles(remove(indexOfArticle, 1, selectedArticles));
     }
   };
 
