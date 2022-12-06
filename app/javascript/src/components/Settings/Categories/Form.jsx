@@ -4,6 +4,7 @@ import { Formik, Form as FormikForm } from "formik";
 import Logger from "js-logger";
 import { Check, Close } from "neetoicons";
 import { Button, Input as FormikInput } from "neetoui/formik";
+import { isEmpty } from "ramda";
 import TooltipWrapper from "tooltipwrapper";
 
 import categoriesApi from "apis/Api/categories";
@@ -13,7 +14,7 @@ import { buildInitialValue, validationSchema } from "./constants";
 const Form = ({ category = {}, setAction, refetch, isEditing }) => {
   const handleSubmit = async name => {
     try {
-      Object.keys(category).length === 0
+      isEmpty(category)
         ? await categoriesApi.create(name)
         : await categoriesApi.update({ id: category.id, payload: name });
     } catch (err) {
