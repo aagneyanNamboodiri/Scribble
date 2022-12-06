@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { isEmpty } from "ramda";
 import * as yup from "yup";
 
 import { AT_LEAST_ONE_ALPHANUMERIC_REGEX } from "./constants";
@@ -77,7 +78,7 @@ export const getArticleSchedulingStatus = ({
 };
 
 export const buildDeleteAlertMessage = ({ article_status }) =>
-  `Deleting this ${article_status === "draft" ? "drafting" : "publishing"}s
+  `Deleting this ${article_status === "draft" ? "drafting" : "publishing"}
       schedule will delete the next ${
         article_status === "draft" ? "publishing" : "drafting"
       } schedule with it to prevent a
@@ -107,7 +108,7 @@ export const getTooltipString = schedule =>
   } coming up at ${getHour(schedule.schedule_time)}`;
 
 export const isTimeInvalid = time => {
-  if (time === "") return true;
+  if (isEmpty(time)) return true;
   const currentTime = dayjs();
   var customParseFormat = require("dayjs/plugin/customParseFormat");
   dayjs.extend(customParseFormat);

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import { Button, ActionDropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
+import { isEmpty, equals, mergeRight } from "ramda";
 import { useHistory } from "react-router-dom";
 import TooltipWrapper from "tooltipwrapper";
 
@@ -38,8 +39,8 @@ const Form = ({
 
   const handleSubmit = values => {
     if (
-      !(pendingSchedules === undefined) &&
-      pendingSchedules[0]?.article_status === status
+      !isEmpty(pendingSchedules) &&
+      equals(pendingSchedules[0].article_status, status)
     ) {
       setShowAlert(true);
     } else {
@@ -49,12 +50,11 @@ const Form = ({
 
   const submitValues = async values => {
     try {
-      const modifiedValues = await {
-        ...values,
+      const modifiedValues = mergeRight(values, {
         assigned_category_id: values.category.value,
         status,
         restored_from: null,
-      };
+      });
       isEdit
         ? await articlesApi.update({
             id,

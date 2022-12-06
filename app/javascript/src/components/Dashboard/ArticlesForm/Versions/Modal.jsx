@@ -8,6 +8,7 @@ import {
   Textarea,
   Select,
 } from "neetoui";
+import { mergeRight } from "ramda";
 import TooltipWrapper from "tooltipwrapper";
 
 import versionsApi from "apis/Api/article_versions";
@@ -49,12 +50,11 @@ const Modal = ({
   const handleRestore = async () => {
     try {
       setLoading(true);
-      const payload = {
-        ...article,
+      const payload = mergeRight(article, {
         status: "draft",
         assigned_category_id: selectedCategory,
         restored_from: versionId,
-      };
+      });
       await articlesApi.update({ id: articleId, payload });
     } catch (error) {
       logger.error(error);

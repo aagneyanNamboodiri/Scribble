@@ -4,12 +4,10 @@ import { Alert } from "neetoui";
 
 import articlesApi from "apis/Api/articles";
 
+import { ARTICLE_DELETE_MESSAGE, ARTICLE_DELETE_PROMPT } from "./constants";
+
 const DeleteAlert = ({ refetch, onClose, id }) => {
   const [deleting, setDeleting] = useState(false);
-
-  const deletePrompt = "Delete this Article?";
-  const deleteMessage =
-    "Are you sure you want to continue? This cannot be undone.";
 
   const handleDelete = async () => {
     try {
@@ -27,8 +25,8 @@ const DeleteAlert = ({ refetch, onClose, id }) => {
     <Alert
       isOpen
       isSubmitting={deleting}
-      message={deleteMessage}
-      title={deletePrompt}
+      message={ARTICLE_DELETE_MESSAGE}
+      title={ARTICLE_DELETE_PROMPT}
       onClose={onClose}
       onSubmit={handleDelete}
     />
