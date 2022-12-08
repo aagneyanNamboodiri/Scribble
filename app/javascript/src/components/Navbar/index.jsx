@@ -27,6 +27,11 @@ const Navbar = () => {
             name="Analytics"
             path="/analytics"
           />
+          <NavItem
+            iconClass="ri-file-download-fill"
+            name="Downloadddd"
+            path="/download"
+          />
         </div>
       </div>
       <div className="space-x-4">

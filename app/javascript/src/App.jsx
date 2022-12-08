@@ -14,6 +14,7 @@ import { initializeLogger } from "common/logger";
 import Analytics from "./components/Analytics";
 import PrivateRoute from "./components/Common/PrivateRoute";
 import Dashboard from "./components/Dashboard";
+import DownloadReport from "./components/DownloadReport";
 import ErrorPage from "./components/ErrorPage";
 import Eui from "./components/Eui";
 import Login from "./components/Eui/Login";
@@ -45,6 +46,7 @@ const App = ({ isLoggedIn }) => {
             <Route exact component={Settings} path="/settings" />
             <Route exact component={Login} path="/login" />
             <Route exact component={Analytics} path="/analytics" />
+            <Route exact component={DownloadReport} path="/download" />
             <PrivateRoute
               component={Eui}
               isLoggedIn={isLoggedIn}

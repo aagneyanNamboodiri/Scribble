@@ -3,7 +3,7 @@
 class ArticleReportsWorker
   include Sidekiq::Worker
 
-  def perform(user_id)
+  def perform(user_id, report_path)
     user = User.find(user_id)
     articles = user.articles.where(status: :published)
     content = ApplicationController.render(

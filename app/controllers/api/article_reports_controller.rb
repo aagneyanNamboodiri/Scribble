@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class Api::ArticeleReportsController < ApplicationController
+class Api::ArticleReportsController < ApplicationController
   def create
-    ArticleReportsWorker.perform_async(current_user.id)
+    ArticleReportsWorker.perform_async(current_user.id, report_path)
     respond_with_success(t("report_generation_in_progress"))
   end
 
