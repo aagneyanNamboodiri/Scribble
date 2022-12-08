@@ -50,6 +50,8 @@ en:
   cant_queue_current_article_status: "Current article status cannot be scheduled"
   redirection_loop_path: "This redirection forms a loop. Please change the redirection. Loop path : "
   from_path_same_as_to_path: "From path cannot be the to path"
+  report_generation_in_progress: "Report generation is in progress!"
+  not_found: "%{entity} not found. Please try again later."
   Article:
     slug:
       immutable: "is immutable!"

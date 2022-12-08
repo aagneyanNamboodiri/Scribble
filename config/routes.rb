@@ -9,8 +9,13 @@ Rails.application.routes.draw do
           put :reorder
           get :articles_of_category
         end
-        put :bulk_articles_category_update, on: :collection
-        get :article_counts, on: :collection
+        collection do
+          put :bulk_articles_category_update
+          get :article_counts
+          resource :article_reports, only: %i[create] do
+            get :download, on: :collection
+          end
+        end
       end
       resources :categories, except: %i[show new edit] do
         put :reorder, on: :member
