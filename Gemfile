@@ -65,6 +65,10 @@ gem "responders"
 gem "sidekiq", "<7"
 # For periodic sidekiq jobs
 gem "sidekiq-cron"
+# PDF generation gem
+gem "wicked_pdf"
+# wicked_pdf uses the following binary
+gem "wkhtmltopdf-binary"
 
 group :development, :test do
     # Rails integration for factory_bot, a replacement for fixtures
