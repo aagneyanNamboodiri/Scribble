@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :articles
   has_many :redirections
   has_many :categories
+  has_one_attached :report
 
   validates :name, presence: true, uniqueness: true, length: { maximum: MAX_USERNAME_LENGTH }
 end
