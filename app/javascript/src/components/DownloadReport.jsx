@@ -26,8 +26,8 @@ const DownloadReport = () => {
 
   const downloadPdf = async () => {
     try {
-      const data = await article_reportsApi.download();
-      saveAs({ blob: data.data, fileName: "scribble_articles_report.pdf" });
+      const { data } = await article_reportsApi.download();
+      saveAs({ blob: data, fileName: "scribble_articles_report.pdf" });
     } catch (error) {
       logger.error(error);
     } finally {
@@ -39,7 +39,7 @@ const DownloadReport = () => {
     generatePdf();
     setTimeout(() => {
       downloadPdf();
-    }, 5000);
+    }, 3000);
   }, []);
 
   const message = isLoading

@@ -15,7 +15,7 @@ class Api::ArticleReportsController < ApplicationController
         disposition: "attachment"
       )
     else
-      respond_with_error(t("not_found", entity: "report"), :not_found)
+      respond_with_error(t("not_found", entity: "Report"), :not_found)
     end
   end
 

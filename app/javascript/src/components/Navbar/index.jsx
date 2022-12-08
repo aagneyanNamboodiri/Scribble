@@ -29,7 +29,7 @@ const Navbar = () => {
           />
           <NavItem
             iconClass="ri-file-download-fill"
-            name="Downloadddd"
+            name="Download report"
             path="/download"
           />
         </div>
