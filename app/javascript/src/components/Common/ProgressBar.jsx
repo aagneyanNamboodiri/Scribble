@@ -7,7 +7,7 @@ const ProgressBar = ({ progress }) => (
   <div className="relative h-5 w-full overflow-hidden rounded-full bg-gray-200">
     <motion.div
       animate={{ width: `${progress}%` }}
-      className="text-2xs flex h-5 animate-pulse items-center justify-center rounded-full bg-indigo-300 font-medium leading-none"
+      className="text-2xs flex h-5 animate-pulse items-center justify-center rounded-full bg-indigo-500 font-medium leading-none"
       initial={{ width: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
