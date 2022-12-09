@@ -52,6 +52,11 @@ en:
   from_path_same_as_to_path: "From path cannot be the to path"
   report_generation_in_progress: "Report generation is in progress!"
   not_found: "%{entity} not found. Please try again later."
+  report:
+    render: "Rendering the report"
+    generate: "Generating the PDF report"
+    upload: "Uploading to server"
+    attach: "Attaching the report to the user"
   Article:
     slug:
       immutable: "is immutable!"
