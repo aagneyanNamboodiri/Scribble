@@ -3,7 +3,6 @@
 class Api::ArticleReportsController < ApplicationController
   def create
     ArticleReportsWorker.perform_async(current_user.id)
-    respond_with_success(t("report_generation_in_progress"))
   end
 
   def download

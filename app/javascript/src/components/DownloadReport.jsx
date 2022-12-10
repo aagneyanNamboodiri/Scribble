@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 
+import FileSaver from "file-saver";
+import { Button } from "neetoui";
+
 import article_reportsApi from "apis/Api/article_reports";
+import createConsumer from "channels/consumer";
+import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel";
+import ProgressBar from "components/Common/ProgressBar";
+
+import Navbar from "./Navbar";
 
 const DownloadReport = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState("");
+
+  const consumer = createConsumer();
 
   const generatePdf = async () => {
     try {
@@ -13,21 +25,10 @@ const DownloadReport = () => {
     }
   };
 
-  const saveAs = ({ blob, fileName }) => {
-    const objectUrl = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = objectUrl;
-    link.setAttribute("download", fileName);
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
-    setTimeout(() => window.URL.revokeObjectURL(objectUrl), 150);
-  };
-
   const downloadPdf = async () => {
     try {
       const { data } = await article_reportsApi.download();
-      saveAs({ blob: data, fileName: "scribble_articles_report.pdf" });
+      FileSaver.saveAs(data, "scribble-report.pdf");
     } catch (error) {
       logger.error(error);
     } finally {
@@ -36,17 +37,42 @@ const DownloadReport = () => {
   };
 
   useEffect(() => {
-    generatePdf();
-    setTimeout(() => {
-      downloadPdf();
-    }, 3000);
+    subscribeToReportDownloadChannel({
+      consumer,
+      setMessage,
+      setProgress,
+      generatePdf,
+    });
+
+    return () => {
+      consumer.disconnect();
+    };
   }, []);
 
-  const message = isLoading
-    ? "Report is being generated..."
-    : "Report downloaded!";
+  useEffect(() => {
+    if (progress === 100) {
+      setIsLoading(false);
+      setMessage("Report is ready to be downloaded");
+    }
+  }, [progress]);
 
-  return <h1>{message}</h1>;
+  return (
+    <div>
+      <Navbar />
+      <div className="flex justify-center">
+        <div className="mt-20 grid w-1/2 place-items-center justify-center space-y-5 px-16 py-20">
+          <h1>{message}</h1>
+          <ProgressBar progress={progress} />
+          <Button
+            disabled={isLoading}
+            label={isLoading ? "Please wait" : "Download"}
+            loading={isLoading}
+            onClick={downloadPdf}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default DownloadReport;
