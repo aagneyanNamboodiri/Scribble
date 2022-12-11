@@ -1,3 +1,18 @@
-<div class="mb-4 font-bold">Your articles:</div>
- <p>List of articles here</p>
+<h1 class="mb-4 font-bold">Your analytics report: </h1>
+<p>Generated on : <%= Time.zone.now.to_formatted_s(:long_ordinal) %> </p>
+<div class="p-4 mb-8 bg-white neeto-ui-shadow-s rounded">
+  <table>
+    <tr>
+      <th>Article title</th>
+      <th>Category</th>
+      <th>Visit count</th>
+    </tr>
+    <% @articles.each do |article| %>
+    <tr>
+      <td><%= article.title %></td>
+      <td><%= Category.find(article.assigned_category_id).name %></td>
+      <td style="margin-left:4"><%= article.article_visits.count %></td>
+    </tr>
+    <% end %>
+  </table>
 </div>
