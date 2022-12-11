@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { QueryClient, QueryClientProvider } from "react-query";
 import {
   Route,
   Switch,
@@ -22,6 +23,8 @@ import Settings from "./components/Settings";
 import { ArticleStatusProvider } from "./contexts/articleStatus";
 import { OrganizationProvider } from "./contexts/organization";
 
+const queryClient = new QueryClient();
+
 const App = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
 
@@ -38,25 +41,27 @@ const App = ({ isLoggedIn }) => {
   return (
     <OrganizationProvider>
       <ArticleStatusProvider>
-        <Router>
-          <ToastContainer />
-          <Switch>
-            <Redirect exact from="/" to="/articles" />
-            <Route component={Dashboard} path="/articles" />
-            <Route exact component={Settings} path="/settings" />
-            <Route exact component={Login} path="/login" />
-            <Route exact component={Analytics} path="/analytics" />
-            <Route exact component={DownloadReport} path="/download" />
-            <PrivateRoute
-              component={Eui}
-              isLoggedIn={isLoggedIn}
-              path={["/public", "/public/:slug"]}
-              redirectRoute="/login"
-            />
-            <Route component={Eui} path="/public" />
-            <Route component={ErrorPage} path="/" />
-          </Switch>
-        </Router>
+        <QueryClientProvider client={queryClient}>
+          <Router>
+            <ToastContainer />
+            <Switch>
+              <Redirect exact from="/" to="/articles" />
+              <Route component={Dashboard} path="/articles" />
+              <Route exact component={Settings} path="/settings" />
+              <Route exact component={Login} path="/login" />
+              <Route exact component={Analytics} path="/analytics" />
+              <Route exact component={DownloadReport} path="/download" />
+              <PrivateRoute
+                component={Eui}
+                isLoggedIn={isLoggedIn}
+                path={["/public", "/public/:slug"]}
+                redirectRoute="/login"
+              />
+              <Route component={Eui} path="/public" />
+              <Route component={ErrorPage} path="/" />
+            </Switch>
+          </Router>
+        </QueryClientProvider>
       </ArticleStatusProvider>
     </OrganizationProvider>
   );
