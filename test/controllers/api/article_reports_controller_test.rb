@@ -25,4 +25,11 @@ class Api::ArticleReportsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "application/pdf", response.content_type
   end
+
+  def test_raises_error_if_user_has_no_report_attached
+    get download_api_article_reports_path, headers: headers
+    assert_response :not_found
+    error = response_to_json(response)["error"]
+    assert_equal t("not_found", entity: "report"), error
+  end
 end
