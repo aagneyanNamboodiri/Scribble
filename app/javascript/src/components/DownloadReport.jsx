@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { Typography } from "@bigbinary/neetoui";
 import FileSaver from "file-saver";
-import { Button } from "neetoui";
+import { Button, Typography } from "neetoui";
 import { useQuery } from "react-query";
 
 import article_reportsApi from "apis/Api/article_reports";
