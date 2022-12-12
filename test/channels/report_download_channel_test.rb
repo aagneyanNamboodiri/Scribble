@@ -6,12 +6,19 @@ class ReportDownloadChannelTest < ActionCable::Channel::TestCase
   def setup
     @organization = create(:organization, is_password: false)
     @user = create(:user, organization: @organization)
+    @pubsub_token = @user.id
   end
 
   def test_subscribed
-    subscribe
+    subscribe pubsub_token: @pubsub_token
+
     assert subscription.confirmed?
-    assert_has_stream @user.id
+    assert_has_stream @pubsub_token
     unsubscribe
+  end
+
+  def test_does_not_subscribe_without_pubsub_token
+    subscribe pubsub_token: nil
+    assert_no_streams
   end
 end

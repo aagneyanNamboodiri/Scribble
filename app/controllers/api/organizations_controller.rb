@@ -4,7 +4,7 @@ class Api::OrganizationsController < ApplicationController
   before_action :load_organization, only: %i[show update]
 
   def show
-    render
+    @user = current_user
   end
 
   def update

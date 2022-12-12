@@ -18,6 +18,7 @@ const OrganizationProvider = ({ children }) => {
         siteName: data.site_name,
         isPassword: data.is_password,
       });
+      localStorage.setItem("userId", data.user);
     } catch (error) {
       logger.error(error);
     } finally {

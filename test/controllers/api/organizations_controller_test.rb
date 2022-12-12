@@ -5,6 +5,7 @@ require "test_helper"
 class OrganizationsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization, is_password: true, password: "admin1", password_confirmation: "admin1")
+    @user = create(:user, organization: @organization)
   end
 
   def test_listing_organization

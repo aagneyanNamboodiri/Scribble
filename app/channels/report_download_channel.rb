@@ -2,7 +2,7 @@
 
 class ReportDownloadChannel < ApplicationCable::Channel
   def subscribed
-    stream_from User.first.id
+    stream_from params[:pubsub_token] if params[:pubsub_token].present?
   end
 
   def unsubscribed
