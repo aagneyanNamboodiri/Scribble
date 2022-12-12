@@ -8,7 +8,6 @@ const OrganizationProvider = ({ children }) => {
   const [initialState, setInitialState] = useState({
     siteName: "",
     isPassword: "",
-    adminId: "",
   });
   const [loading, setLoading] = useState(true);
   const fetchOrganization = async () => {
