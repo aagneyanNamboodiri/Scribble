@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ExternalLink } from "neetoicons";
+import { ExternalLink, Download } from "neetoicons";
 import { Button } from "neetoui";
 
 import { useArticleStatusState } from "contexts/articleStatus";
@@ -27,15 +27,16 @@ const Navbar = () => {
             name="Analytics"
             path="/analytics"
           />
-          <NavItem
-            iconClass="ri-file-download-fill"
-            name="Download report"
-            path="/download"
-          />
         </div>
       </div>
-      <div className="space-x-4">
+      <div className="flex space-x-4">
         {status && <ArticleStatusTag status={status} />}
+        <Button
+          icon={() => <Download size={17} />}
+          iconPosition="left"
+          label="Download report"
+          to="/download"
+        />
         <Button
           icon={() => <ExternalLink size={17} />}
           label="Preview"
