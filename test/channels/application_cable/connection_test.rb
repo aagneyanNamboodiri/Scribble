@@ -3,11 +3,15 @@
 require "test_helper"
 
 class ApplicationCable::ConnectionTest < ActionCable::Connection::TestCase
-  # test "connects with cookies" do
-  #   cookies.signed[:user_id] = 42
-  #
-  #   connect
-  #
-  #   assert_equal connection.user_id, "42"
-  # end
+  include FactoryBot::Syntax::Methods
+
+  def setup
+    @organization = create(:organization, is_password: false)
+    @user = create(:user, organization: @organization)
+  end
+
+  def test_connection_success
+    connect params: {}
+    assert_equal connection.current_user, @user
+  end
 end

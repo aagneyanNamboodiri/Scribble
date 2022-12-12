@@ -8,8 +8,9 @@ class Api::ArticleReportsController < ApplicationController
   def download
     unless current_user.report.attached?
       respond_with_error(t("not_found", entity: "report"), :not_found)
+    else
+      send_data current_user.report.download, filename: pdf_file_name, content_type: "application/pdf"
     end
-    send_data current_user.report.download, filename: pdf_file_name, content_type: "application/pdf"
   end
 
   private
