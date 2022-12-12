@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import FileSaver from "file-saver";
 import { Button } from "neetoui";
+import { useQuery } from "react-query";
 
 import article_reportsApi from "apis/Api/article_reports";
 import createConsumer from "channels/consumer";
@@ -16,6 +17,12 @@ const DownloadReport = () => {
   const [message, setMessage] = useState("");
 
   const consumer = createConsumer();
+
+  const { refetch, isLoading: isDownloading } = useQuery(
+    "downloading_report",
+    () => downloadPdf(),
+    { refetchOnWindowFocus: false, enabled: false }
+  );
 
   const generatePdf = async () => {
     try {
@@ -64,10 +71,10 @@ const DownloadReport = () => {
           <h1>{message}</h1>
           <ProgressBar progress={progress} />
           <Button
-            disabled={isLoading}
+            disabled={isLoading || isDownloading}
             label={isLoading ? "Please wait" : "Download"}
-            loading={isLoading}
-            onClick={downloadPdf}
+            loading={isLoading || isDownloading}
+            onClick={refetch}
           />
         </div>
       </div>
