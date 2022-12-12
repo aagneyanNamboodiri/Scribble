@@ -27,17 +27,14 @@ class Api::AnalyticsControllerTest < ActionDispatch::IntegrationTest
 
     post api_login_path, params: { password: "admin1" },
       headers: headers
-    get public_article_path(slug_to_get), headers: headers
-    assert_response :success
-
-    get public_article_path(slug_to_get), headers: headers
-    assert_response :success
-
-    get public_article_path(slug_to_get), headers: headers
-    assert_response :success
+    5.times do
+      get public_article_path(slug_to_get), headers: headers
+      assert_response :success
+    end
 
     get api_analytic_path(@article.id), headers: headers
     assert_response :success
+
     visit_count = response_to_json(response)["visit_count"]
     assert_equal @article.article_visits.count, visit_count[Time.zone.now.strftime("%Y-%m-%d")]
   end
