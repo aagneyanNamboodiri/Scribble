@@ -4,4 +4,4 @@ json.extract! @organization,
   :site_name,
   :is_password
 
-json.admin @admin.id
+json.user @user.id
