@@ -4,9 +4,11 @@ export const subscribeToReportDownloadChannel = ({
   setProgress,
   generatePdf,
 }) => {
+  const userId = localStorage.getItem("adminId");
   const reportDownloadSubscription = consumer.subscriptions.create(
     {
       channel: "ReportDownloadChannel",
+      pubsub_token: userId,
     },
     {
       connected() {

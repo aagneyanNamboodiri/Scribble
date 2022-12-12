@@ -8,6 +8,7 @@ const OrganizationProvider = ({ children }) => {
   const [initialState, setInitialState] = useState({
     siteName: "",
     isPassword: "",
+    adminId: "",
   });
   const [loading, setLoading] = useState(true);
   const fetchOrganization = async () => {
@@ -18,6 +19,7 @@ const OrganizationProvider = ({ children }) => {
         siteName: data.site_name,
         isPassword: data.is_password,
       });
+      localStorage.setItem("adminId", data.admin);
     } catch (error) {
       logger.error(error);
     } finally {
