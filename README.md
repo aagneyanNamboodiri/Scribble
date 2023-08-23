@@ -1,24 +1,5 @@
-# README
+# Scribble
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A personal blogging application where users can manage blogs, categories, custom redirections and more.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Scribble also has a password based security for the end user interface and the admin panel.
